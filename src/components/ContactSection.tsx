@@ -64,8 +64,8 @@ const ContactSection = () => {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
               className="bg-white rounded-lg overflow-hidden border border-border shadow-sm"
             >
-              <div className="h-48 overflow-hidden">
-                <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-top" />
+              <div className="h-64 overflow-hidden">
+                <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-[center_30%]" />
               </div>
               <div className="p-6">
                 <div className="w-10 h-1 bg-ff-blue rounded-full mb-4" />

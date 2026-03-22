@@ -110,7 +110,7 @@ const ServicesSection = () => {
             één keten.
           </motion.p>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <motion.div className="grid md:grid-cols-3 gap-6" variants={fadeUp}>
             {pillars.map((pillar, i) => (
               <motion.div
                 key={i}
@@ -149,7 +149,7 @@ const ServicesSection = () => {
                 </ul>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 

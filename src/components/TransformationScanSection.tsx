@@ -9,6 +9,8 @@ const fadeUp = {
 };
 
 const deliverables = [
+  "Service design",
+  "Organisational design",
   "Strategisch vertrekpunt",
   "Rollenkaart huidig vs. gewenst",
   "Competentiematrix",

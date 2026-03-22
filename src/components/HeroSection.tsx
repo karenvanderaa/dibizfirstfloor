@@ -73,9 +73,10 @@ const HeroSection = () => {
             </a>
             <a
               href="/dri"
-              className="text-white underline underline-offset-4 font-medium hover:text-ff-mint transition-colors duration-200 py-3.5"
+              className="inline-flex items-center gap-2 bg-ff-mint text-ff-dark font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-md"
             >
               Doe de Delivery Readiness Index
+              <span aria-hidden="true">→</span>
             </a>
           </motion.div>
         </motion.div>

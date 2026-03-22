@@ -149,7 +149,7 @@ const ServicesSection = () => {
                 </ul>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 

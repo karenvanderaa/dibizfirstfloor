@@ -153,8 +153,7 @@ const ServicesSection = () => {
 
       {/* Full-width quote band with photo */}
       <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="bg-ff-blue mt-16"
       >

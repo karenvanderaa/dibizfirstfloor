@@ -57,7 +57,7 @@ const ProblemSection = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
+          viewport={{ once: true, margin: "200px 0px" }}
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.p

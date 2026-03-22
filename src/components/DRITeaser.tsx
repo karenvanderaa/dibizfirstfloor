@@ -14,7 +14,7 @@ const DRITeaser = () => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
+          viewport={{ once: true, margin: "200px 0px" }}
           transition={{ staggerChildren: 0.08 }}
         >
           <div className="grid md:grid-cols-2 gap-10 items-center">

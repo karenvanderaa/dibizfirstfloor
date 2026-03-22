@@ -354,7 +354,7 @@ const DRISection = () => {
     y5 += 6 + ellenText.length * 4.5 + 8;
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    doc.text("Karen Van den Berghe — First Floor", margin, y5);
+    doc.text("Karen Van der Aa — First Floor", margin, y5);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     const karenText = doc.splitTextToSize(

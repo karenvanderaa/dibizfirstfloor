@@ -72,7 +72,7 @@ const HeroSection = () => {
               Plan een vrijblijvend gesprek
             </a>
             <a
-              href="#dri"
+              href="/dri"
               className="text-white underline underline-offset-4 font-medium hover:text-ff-mint transition-colors duration-200 py-3.5"
             >
               Doe de Delivery Readiness Index

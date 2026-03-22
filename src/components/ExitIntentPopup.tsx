@@ -58,7 +58,7 @@ const ExitIntentPopup = () => {
         </p>
         <div className="flex items-center gap-4">
           <a
-            href="#dri"
+            href="/dri"
             onClick={handleClose}
             className="bg-ff-blue text-white font-heading font-semibold px-5 py-2.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm"
           >

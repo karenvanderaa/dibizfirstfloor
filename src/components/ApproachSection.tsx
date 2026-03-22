@@ -9,6 +9,7 @@ const steps = [
   {
     num: "01",
     title: "Opstart · Diagnose & richting",
+    color: "ff-blue",
     items: [
       "Value & service design (Dibiz)",
       "Organisatieanalyse (First Floor)",
@@ -19,6 +20,7 @@ const steps = [
   {
     num: "02",
     title: "Traject · Uitvoering & verandering",
+    color: "ff-mint",
     items: [
       "Servicedesign uitwerken",
       "Organisatiestructuur herdenken",
@@ -29,6 +31,7 @@ const steps = [
   {
     num: "03",
     title: "Verankeren · Borging & zelfstandigheid",
+    color: "ff-blue",
     items: [
       "Adoptie- en competentietrack",
       "Nieuwe werkwijzen borgen",
@@ -38,9 +41,19 @@ const steps = [
   },
 ];
 
+const colorMap: Record<string, string> = {
+  "ff-blue": "text-ff-blue",
+  "ff-mint": "text-ff-mint",
+};
+
+const dotColorMap: Record<string, string> = {
+  "ff-blue": "bg-ff-blue",
+  "ff-mint": "bg-ff-mint",
+};
+
 const ApproachSection = () => {
   return (
-    <section className="bg-ff-light py-20 md:py-28">
+    <section className="bg-ff-light-mint py-20 md:py-28">
       <div className="container">
         <motion.div
           initial="hidden"
@@ -58,13 +71,14 @@ const ApproachSection = () => {
                 key={i}
                 variants={fadeUp}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
+                className="bg-white rounded-lg p-6 shadow-sm"
               >
-                <span className="font-heading font-bold text-3xl text-ff-blue">{step.num}</span>
+                <span className={`font-heading font-bold text-3xl ${colorMap[step.color]}`}>{step.num}</span>
                 <h3 className="font-heading font-semibold text-foreground mt-2 mb-4">{step.title}</h3>
                 <ul className="space-y-2">
                   {step.items.map((item, j) => (
                     <li key={j} className="flex items-start gap-2 text-muted-foreground text-sm">
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-muted-foreground shrink-0" />
+                      <span className={`mt-1.5 w-1 h-1 rounded-full ${dotColorMap[step.color]} shrink-0`} />
                       {item}
                     </li>
                   ))}

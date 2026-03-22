@@ -112,7 +112,7 @@ const ContactSection = () => {
                 href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-ff-blue underline underline-offset-4 hover:text-ff-mint transition-colors"
+                className="inline-flex items-center gap-2 bg-ff-blue text-white font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-md"
               >
                 Plan meteen een gesprek in →
               </a>

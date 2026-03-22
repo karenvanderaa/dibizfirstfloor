@@ -18,24 +18,23 @@ const checkItems = [
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-ff-blue pt-28 pb-20 md:pb-28 overflow-hidden">
-      {/* Subtle accent shape */}
-      <div
-        className="absolute -right-32 -bottom-32 w-[500px] h-[500px] rounded-full opacity-10"
-        style={{ background: "hsl(var(--ff-mint))" }}
-      />
+    <section className="relative bg-white pt-28 pb-16 md:pb-24 overflow-hidden">
+      {/* Decorative shapes */}
+      <div className="absolute top-20 right-[10%] w-16 h-16 rounded-full opacity-60" style={{ background: "hsl(var(--ff-amber))" }} />
+      <div className="absolute bottom-12 left-[15%] w-10 h-10 rounded-full opacity-50" style={{ background: "hsl(var(--ff-mint))" }} />
 
       <div className="container relative">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — copy */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-4 items-center">
+          {/* Left — copy (5 cols) */}
           <motion.div
             initial="hidden"
             animate="visible"
             transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
+            className="lg:col-span-5"
           >
             {/* Pills */}
             <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="flex gap-2 mb-8">
-              <span className="bg-white/20 text-white font-heading font-semibold text-sm px-4 py-1.5 rounded-md backdrop-blur-sm">
+              <span className="bg-ff-blue text-white font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
                 First Floor
               </span>
               <span className="bg-ff-mint text-ff-dark font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
@@ -47,91 +46,122 @@ const HeroSection = () => {
             <motion.h1
               variants={fadeUp}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="text-white font-heading font-bold text-3xl md:text-5xl lg:text-[3.5rem] leading-[1.1] mb-6"
+              className="text-foreground font-heading font-bold text-3xl md:text-4xl lg:text-[2.75rem] leading-[1.1] mb-5"
             >
               Nieuwe diensten die landen.
               <br />
               Een organisatie die ze{" "}
-              <strong className="font-bold">kan waarmaken.</strong>
+              <span className="text-ff-blue">kan waarmaken.</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
               variants={fadeUp}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="text-white/80 text-lg md:text-xl leading-relaxed mb-8 max-w-xl"
+              className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
               Wij designen organisaties zodat ze de waarde leveren die ze beloven
               — van servicedesign tot de mensen die het waarmaken.
             </motion.p>
 
-            {/* Checklist */}
-            <motion.ul
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-3 mb-10"
-            >
-              {checkItems.map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-white/90">
-                  <span className="mt-1 w-5 h-5 rounded-full bg-ff-mint/90 flex items-center justify-center shrink-0">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2.5 6L5 8.5L9.5 4" stroke="hsl(var(--ff-dark))" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </span>
-                  <span className="text-sm md:text-base">{item}</span>
-                </li>
-              ))}
-            </motion.ul>
-
             {/* CTAs */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col sm:flex-row items-start gap-4"
+              className="flex flex-col sm:flex-row items-start gap-3 mb-10"
             >
               <a
                 href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white text-ff-blue font-heading font-semibold px-7 py-3.5 rounded-md hover:bg-white/90 active:scale-[0.97] transition-all duration-150 shadow-lg"
+                className="bg-ff-blue text-white font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-lg shadow-ff-blue/25"
               >
-                Plan een vrijblijvend gesprek
+                Plan een vrijblijvend gesprek →
               </a>
               <a
                 href="/dri"
-                className="inline-flex items-center gap-2 bg-ff-mint text-ff-dark font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-md"
+                className="inline-flex items-center gap-2 bg-ff-mint text-ff-dark font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
               >
-                Doe de Delivery Readiness Index
-                <span aria-hidden="true">→</span>
+                Doe de DRI scan
               </a>
             </motion.div>
           </motion.div>
 
-          {/* Right — photos */}
+          {/* Center — photos (4 cols) */}
           <motion.div
-            initial={{ opacity: 0, x: 24, filter: "blur(6px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden lg:flex items-end justify-center gap-4 relative"
+            className="hidden lg:flex lg:col-span-4 items-end justify-center relative h-[420px]"
           >
-            {/* Ellen */}
-            <div className="relative">
-              <div className="w-52 h-64 rounded-lg overflow-hidden shadow-xl ring-4 ring-white/20">
+            {/* Pink/warm bg shape behind Ellen */}
+            <div
+              className="absolute left-2 top-8 w-56 h-80 rounded-[2rem]"
+              style={{ background: "hsl(var(--ff-warm) / 0.2)" }}
+            />
+            {/* Blue bg shape behind Karen */}
+            <div
+              className="absolute right-0 top-0 w-56 h-80 rounded-[2rem]"
+              style={{ background: "hsl(var(--ff-light-blue))" }}
+            />
+
+            {/* Ellen photo */}
+            <div className="relative z-10 mr-[-16px]">
+              <div className="w-48 h-[340px] rounded-[1.5rem] overflow-hidden shadow-xl">
                 <img src={ellenImg} alt="Ellen Poppe — Dibiz" className="w-full h-full object-cover object-top" />
               </div>
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-ff-mint text-ff-dark font-heading font-semibold text-xs px-3 py-1 rounded-md shadow whitespace-nowrap">
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-ff-mint text-ff-dark font-heading font-semibold text-xs px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
                 Ellen · Dibiz
               </div>
             </div>
-            {/* Karen */}
-            <div className="relative -mb-4">
-              <div className="w-52 h-72 rounded-lg overflow-hidden shadow-xl ring-4 ring-white/20">
+
+            {/* Karen photo */}
+            <div className="relative z-10 -mt-8">
+              <div className="w-48 h-[370px] rounded-[1.5rem] overflow-hidden shadow-xl">
                 <img src={karenImg} alt="Karen Van der Aa — First Floor" className="w-full h-full object-cover object-top" />
               </div>
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-ff-blue border-2 border-white/30 text-white font-heading font-semibold text-xs px-3 py-1 rounded-md shadow whitespace-nowrap">
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-ff-blue text-white font-heading font-semibold text-xs px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
                 Karen · First Floor
               </div>
             </div>
+
+            {/* Decorative dot */}
+            <div className="absolute -bottom-2 left-0 w-8 h-8 rounded-full" style={{ background: "hsl(var(--ff-amber))" }} />
+          </motion.div>
+
+          {/* Right — checklist (3 cols) */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            transition={{ staggerChildren: 0.1, delayChildren: 0.5 }}
+            className="lg:col-span-3"
+          >
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-ff-light rounded-lg p-6"
+            >
+              <p className="font-heading font-semibold text-foreground text-sm mb-4 tracking-wide uppercase" style={{ color: "hsl(var(--ff-mint))" }}>
+                Wat je krijgt
+              </p>
+              <ul className="space-y-3.5">
+                {checkItems.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    variants={fadeUp}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: "hsl(var(--ff-mint))" }}>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2.5 6L5 8.5L9.5 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                    <span className="text-foreground text-sm leading-snug">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
           </motion.div>
         </div>
       </div>

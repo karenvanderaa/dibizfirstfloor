@@ -71,8 +71,8 @@ const ContactSection = () => {
           </div>
 
           <div className="bg-white rounded-lg overflow-hidden border border-border shadow-sm">
-            <div className="h-64 overflow-hidden">
-              <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-[center_30%]" />
+            <div className="h-72 md:h-80 overflow-hidden">
+              <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-top" />
             </div>
             <div className="p-6">
               <div className="w-10 h-1 bg-ff-blue rounded-full mb-4" />

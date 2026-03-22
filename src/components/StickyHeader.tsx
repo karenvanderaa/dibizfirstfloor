@@ -18,9 +18,9 @@ const StickyHeader = () => {
       }`}
     >
       <div className="container flex items-center justify-between h-14">
-        <span className="font-heading font-bold text-foreground text-sm tracking-tight">
+        <a href="/" className="font-heading font-bold text-foreground text-sm tracking-tight hover:text-ff-blue transition-colors duration-150">
           First Floor × Dibiz
-        </span>
+        </a>
         <div className="flex items-center gap-3">
           <a
             href="/dri"

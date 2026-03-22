@@ -136,7 +136,7 @@ const HeroSection = () => {
               <img
                 src={karenSoloImg}
                 alt="Karen Van der Aa"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-[center_25%]"
               />
             </div>
 

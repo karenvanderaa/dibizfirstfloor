@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import ellenKarenLaptopImg from "@/assets/ellen-karen-laptop.jpg";
 import ellenImg from "@/assets/ellen.jpeg";
 
+
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
 const fadeUp = {

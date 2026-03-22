@@ -6,19 +6,73 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, filter: "blur(0px)" },
 };
 
-const dibizItems = [
-  "Value & service design",
-  "Business transformatie in kaart brengen",
-  "Projectorganisatie en -oplevering",
-  "Change management en adoptie",
+const pillars = [
+  {
+    icon: "🎯",
+    title: "Service Design",
+    color: "ff-mint",
+    painQuestion:
+      "Sluiten uw diensten nog aan bij wat de markt vraagt? Of verkoopt u wat u altijd al deed?",
+    description:
+      "Wij ontwerpen diensten die vertrekken vanuit klantwaarde — onderscheidend, uitvoerbaar en schaalbaar. Van value proposition tot go-to-market.",
+    items: [
+      "Value & service design",
+      "Business model validatie",
+      "Propositie-architectuur",
+      "Go-to-market strategie",
+    ],
+  },
+  {
+    icon: "🏗️",
+    title: "Organisatie Design",
+    color: "ff-blue",
+    painQuestion:
+      "Is uw structuur ingericht op uw ambitie — of op hoe het altijd al was?",
+    description:
+      "Structuur is een strategische variabele. Wij hertekenen rollen, beslislijnen en competenties zodat ze uw strategie versterken in plaats van vertragen.",
+    items: [
+      "Organisatiestructuur hertekenen",
+      "Rollen & competentiematrix",
+      "Decision rights & governance",
+      "Capability architecture",
+    ],
+  },
+  {
+    icon: "🔄",
+    title: "Change & Verankering",
+    color: "ff-mint",
+    painQuestion:
+      "Verdwijnt de verandering zodra het project stopt? Valt iedereen terug op de oude manier?",
+    description:
+      "Verandering is geen project maar een operationele constante. Wij bouwen absorptiecapaciteit, adoptie en leiderschap in zodat transformatie blijft.",
+    items: [
+      "Change management & adoptie",
+      "Transformatie-governance",
+      "Leiderschapsontwikkeling",
+      "Resultaatmeting & borging",
+    ],
+  },
 ];
 
-const ffItems = [
-  "Organisatiestructuur hertekenen",
-  "Rollen & competenties in kaart brengen",
-  "Competentie-ontwikkeling begeleiden",
-  "Reward, performance & skill-integratie",
-];
+const colorMap: Record<string, string> = {
+  "ff-blue": "text-ff-blue",
+  "ff-mint": "text-ff-mint",
+};
+
+const bgMap: Record<string, string> = {
+  "ff-blue": "bg-ff-light-blue border-ff-blue/20",
+  "ff-mint": "bg-ff-light-mint border-ff-mint/20",
+};
+
+const dotMap: Record<string, string> = {
+  "ff-blue": "bg-ff-blue",
+  "ff-mint": "bg-ff-mint",
+};
+
+const borderTopMap: Record<string, string> = {
+  "ff-blue": "border-ff-blue",
+  "ff-mint": "border-ff-mint",
+};
 
 const ServicesSection = () => {
   return (
@@ -30,46 +84,71 @@ const ServicesSection = () => {
           viewport={{ once: true, amount: 0.05 }}
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">
+          <motion.p
+            variants={fadeUp}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="section-label mb-4"
+          >
             WAT WE SAMEN DOEN
           </motion.p>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Dibiz card */}
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-ff-light-mint rounded-lg p-8 border-t-4 border-ff-mint"
-            >
-              <h3 className="font-heading font-bold text-lg text-foreground mb-1">Dibiz</h3>
-              <p className="text-sm text-ff-mint font-medium mb-5">Service & Business Transformatie</p>
-              <ul className="space-y-2.5">
-                {dibizItems.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2 text-foreground">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-mint shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+          <motion.h2
+            variants={fadeUp}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 max-w-2xl"
+          >
+            Drie pijlers, één geïntegreerd traject.
+          </motion.h2>
 
-            {/* First Floor card */}
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-              className="bg-ff-light rounded-lg p-8 border-t-4 border-ff-blue"
-            >
-              <h3 className="font-heading font-bold text-lg text-foreground mb-1">First Floor</h3>
-              <p className="text-sm text-ff-blue font-medium mb-5">Organisatie & Competentie</p>
-              <ul className="space-y-2.5">
-                {ffItems.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2 text-foreground">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-blue shrink-0" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+          <motion.p
+            variants={fadeUp}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-muted-foreground mb-12 max-w-xl leading-relaxed"
+          >
+            Organisatievitaliteit ontstaat wanneer strategie, structuur, mensen
+            en veranderkracht op elkaar zijn afgestemd. Geen losse projecten —
+            één keten.
+          </motion.p>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {pillars.map((pillar, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                transition={{
+                  duration: 0.6,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: i * 0.08,
+                }}
+                className={`rounded-lg p-7 border ${bgMap[pillar.color]} border-t-4 ${borderTopMap[pillar.color]}`}
+              >
+                <span className="text-2xl mb-3 block">{pillar.icon}</span>
+                <h3
+                  className={`font-heading font-bold text-lg mb-2 ${colorMap[pillar.color]}`}
+                >
+                  {pillar.title}
+                </h3>
+                <p className="text-foreground/70 text-sm italic mb-4 leading-relaxed">
+                  "{pillar.painQuestion}"
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                  {pillar.description}
+                </p>
+                <ul className="space-y-2">
+                  {pillar.items.map((item, j) => (
+                    <li
+                      key={j}
+                      className="flex items-start gap-2 text-foreground text-sm"
+                    >
+                      <span
+                        className={`mt-1.5 w-1.5 h-1.5 rounded-full ${dotMap[pillar.color]} shrink-0`}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
@@ -86,13 +165,15 @@ const ServicesSection = () => {
           <div className="md:col-span-3 py-14 px-8 md:px-16 flex items-center">
             <div className="max-w-xl">
               <p className="text-white text-lg md:text-xl leading-relaxed mb-4">
-                "Één doorlopend traject — van servicedesign tot organisatiedesign. Geen gap
-                tussen wat beloofd wordt en wat geleverd wordt. Geen verandering die na het
-                project verdwijnt."
+                "Strategie zonder structurele coherentie loopt vast.
+                Structuur zonder competentiediepte creëert bottlenecks.
+                HR zonder strategische integratie blijft reactief."
               </p>
               <p className="text-white text-lg md:text-xl">
-                Wij noemen dat geen consultancy. Wij noemen dat{" "}
-                <strong className="font-bold text-ff-mint">fixen.</strong>
+                Wij bouwen de brug.{" "}
+                <strong className="font-bold text-ff-mint">
+                  Van ambitie tot uitvoering.
+                </strong>
               </p>
             </div>
           </div>

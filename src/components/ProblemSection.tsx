@@ -16,15 +16,15 @@ const angles: ProblemAngle[] = [
     quote: "Je lanceert nieuwe diensten, maar intern loopt het vast.",
     cards: [
       {
-        title: "De propositie klopt op papier — de uitvoering niet.",
-        desc: "Teams missen richting en de competenties zijn er niet.",
+        title: "Strategische ambitie botst op capability reality.",
+        desc: "De propositie klopt op papier — maar teams missen richting, rollen en competenties om te leveren.",
       },
       {
         title: "Na de lancering valt iedereen terug",
-        desc: "op de oude manier van werken. De verandering verdwijnt.",
+        desc: "op de oude manier van werken. Zonder verankering verdwijnt de verandering.",
       },
       {
-        title: "Nieuwe diensten en organisatieverandering worden nooit samen opgepakt.",
+        title: "Service design en organisatieverandering worden nooit samen opgepakt.",
         desc: "Tot nu.",
       },
     ],
@@ -37,12 +37,12 @@ const angles: ProblemAngle[] = [
         desc: "Wat vijf jaar geleden onderscheidend was, is vandaag commodity.",
       },
       {
-        title: "Je voelt de druk van AI en digitalisering, maar weet niet waar te beginnen.",
-        desc: "De technologie rent, de organisatie wandelt.",
+        title: "AI en digitalisering versnellen, maar de organisatie wandelt.",
+        desc: "Structurele inertie vertraagt beslissnelheid. Legacy-hiërarchieën remmen flow.",
       },
       {
-        title: "Nieuw talent trekt naar concurrenten die sneller transformeren.",
-        desc: "Zonder vernieuwde propositie verlies je niet alleen klanten, maar ook mensen.",
+        title: "Nieuw talent trekt naar organisaties die sneller transformeren.",
+        desc: "Zonder vernieuwde propositie en organisatievitaliteit verliest u niet alleen klanten, maar ook mensen.",
       },
     ],
   },
@@ -60,13 +60,21 @@ const ProblemSection = () => {
           viewport={{ once: true, amount: 0.05 }}
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">
+          <motion.p
+            variants={fadeUp}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="section-label mb-10"
+          >
             HERKEN JE DIT?
           </motion.p>
 
           <div className="grid md:grid-cols-2 gap-12 md:gap-16">
             {/* Left — clickable quotes */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }} className="flex flex-col gap-4">
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col gap-4"
+            >
               {angles.map((angle, i) => (
                 <button
                   key={i}
@@ -103,9 +111,17 @@ const ProblemSection = () => {
                     <div
                       key={i}
                       className="border border-border rounded-lg p-5 shadow-sm"
-                      style={{ borderLeftWidth: 3, borderLeftColor: activeAngle === 0 ? "hsl(var(--ff-blue))" : "hsl(var(--ff-mint))" }}
+                      style={{
+                        borderLeftWidth: 3,
+                        borderLeftColor:
+                          activeAngle === 0
+                            ? "hsl(var(--ff-blue))"
+                            : "hsl(var(--ff-mint))",
+                      }}
                     >
-                      <p className="font-heading font-semibold text-foreground mb-1">{c.title}</p>
+                      <p className="font-heading font-semibold text-foreground mb-1">
+                        {c.title}
+                      </p>
                       <p className="text-muted-foreground text-sm">{c.desc}</p>
                     </div>
                   ))}
@@ -114,8 +130,14 @@ const ProblemSection = () => {
             </div>
           </div>
 
-          <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <span className="text-muted-foreground text-lg font-heading font-medium">Herkenbaar?</span>
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+          >
+            <span className="text-muted-foreground text-lg font-heading font-medium">
+              Herkenbaar?
+            </span>
             <a
               href="/dri"
               className="inline-flex items-center gap-2 bg-ff-blue text-white font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-md"

@@ -127,7 +127,7 @@ const HeroSection = () => {
               <img
                 src={ellenKarenImg}
                 alt="Karen Van der Aa en Ellen Poppe"
-                className="w-full h-[420px] object-cover object-top"
+                className="w-full h-[420px] object-cover object-[center_25%]"
               />
             </div>
 
@@ -136,7 +136,7 @@ const HeroSection = () => {
               <img
                 src={karenSoloImg}
                 alt="Karen Van der Aa"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-[center_25%]"
               />
             </div>
 

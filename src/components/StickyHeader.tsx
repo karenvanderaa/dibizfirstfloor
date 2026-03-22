@@ -21,14 +21,22 @@ const StickyHeader = () => {
         <span className="font-heading font-bold text-foreground text-sm tracking-tight">
           First Floor × Dibiz
         </span>
-        <a
-          href={CALENDLY_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-ff-blue text-white font-heading font-semibold text-sm px-5 py-2 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
-        >
-          Plan een gesprek
-        </a>
+        <div className="flex items-center gap-3">
+          <a
+            href="/dri"
+            className="hidden sm:inline-flex items-center bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-4 py-2 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150"
+          >
+            Gratis DRI scan
+          </a>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-ff-blue text-white font-heading font-semibold text-sm px-5 py-2 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
+          >
+            Plan een gesprek
+          </a>
+        </div>
       </div>
     </header>
   );

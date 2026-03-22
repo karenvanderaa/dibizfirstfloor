@@ -34,7 +34,7 @@ const borderTopMap: Record<string, string> = { "ff-blue": "border-ff-blue", "ff-
 
 const ServicesSection = () => {
   return (
-    <section className="bg-background py-24 md:py-36">
+    <section id="diensten" className="bg-background py-24 md:py-36 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-4">WAT WE SAMEN DOEN</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 max-w-2xl">

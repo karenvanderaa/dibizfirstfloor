@@ -13,7 +13,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="bg-ff-light py-24 md:py-36">
+    <section id="contact" className="bg-ff-light py-24 md:py-36 scroll-mt-16">
       <div className="container">
         {/* Personal CTA band */}
         <div className="bg-ff-blue rounded-xl p-8 md:p-12 mb-16">

@@ -35,11 +35,14 @@
     --radius: 0.5rem;
 
     /* Custom tokens */
-    --ff-dark: 240 20% 13%;
+    --ff-dark: 233 25% 18%;
     --ff-blue: 228 100% 60%;
     --ff-mint: 168 41% 57%;
     --ff-light: 204 33% 95%;
     --ff-light-mint: 168 30% 95%;
+    --ff-light-blue: 228 60% 96%;
+    --ff-warm: 350 80% 72%;
+    --ff-amber: 36 90% 58%;
     --ff-white: 0 0% 100%;
 
     --sidebar-background: 0 0% 98%;

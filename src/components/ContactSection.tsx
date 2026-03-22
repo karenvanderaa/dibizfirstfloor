@@ -17,7 +17,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="bg-ff-dark py-20 md:py-28">
+    <section className="bg-ff-blue py-20 md:py-28">
       <div className="container">
         <motion.div
           initial="hidden"
@@ -25,7 +25,7 @@ const ContactSection = () => {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label-mint mb-10">
+          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="text-xs font-heading font-semibold tracking-[0.2em] uppercase text-white/60 mb-10">
             WIE WIJ ZIJN
           </motion.p>
 
@@ -33,7 +33,7 @@ const ContactSection = () => {
             <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
               <h3 className="font-heading font-bold text-white text-lg">Ellen Poppe</h3>
               <p className="text-ff-mint text-sm mb-3">Dibiz — Service & Business Transformatie</p>
-              <p className="text-gray-400 text-sm leading-relaxed mb-3">
+              <p className="text-white/70 text-sm leading-relaxed mb-3">
                 Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken — voor
                 klanten én voor de mensen die ze leveren.
               </p>
@@ -44,12 +44,12 @@ const ContactSection = () => {
 
             <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}>
               <h3 className="font-heading font-bold text-white text-lg">Karen Van den Berghe</h3>
-              <p className="text-ff-blue text-sm mb-3">First Floor — Organisatie & Competentie</p>
-              <p className="text-gray-400 text-sm leading-relaxed mb-3">
+              <p className="text-white/60 text-sm mb-3">First Floor — Organisatie & Competentie</p>
+              <p className="text-white/70 text-sm leading-relaxed mb-3">
                 Bouwt de organisatie die de ambitie kan waarmaken — structuur, rollen, competenties en leiderschap
                 afgestemd op de diensten die de organisatie wil leveren.
               </p>
-              <a href="mailto:karen.vanderaa@firstfloortalent.be" className="text-white text-sm hover:text-ff-blue transition-colors">
+              <a href="mailto:karen.vanderaa@firstfloortalent.be" className="text-white text-sm hover:text-ff-mint transition-colors">
                 📧 karen.vanderaa@firstfloortalent.be
               </a>
             </motion.div>
@@ -60,7 +60,7 @@ const ContactSection = () => {
             {submitted ? (
               <div className="bg-white/10 rounded-lg p-8">
                 <p className="text-white font-heading font-semibold mb-2">Bericht ontvangen.</p>
-                <p className="text-gray-400 text-sm">We nemen binnen 48 uur contact op.</p>
+                <p className="text-white/60 text-sm">We nemen binnen 48 uur contact op.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -68,35 +68,35 @@ const ContactSection = () => {
                   type="text"
                   placeholder="Naam"
                   required
-                  className="w-full bg-white/10 text-white placeholder:text-gray-500 border border-white/10 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint"
+                  className="w-full bg-white/10 text-white placeholder:text-white/40 border border-white/15 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint"
                 />
                 <input
                   type="text"
                   placeholder="Organisatie"
                   required
-                  className="w-full bg-white/10 text-white placeholder:text-gray-500 border border-white/10 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint"
+                  className="w-full bg-white/10 text-white placeholder:text-white/40 border border-white/15 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint"
                 />
                 <input
                   type="email"
                   placeholder="E-mail"
                   required
-                  className="w-full bg-white/10 text-white placeholder:text-gray-500 border border-white/10 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint"
+                  className="w-full bg-white/10 text-white placeholder:text-white/40 border border-white/15 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint"
                 />
                 <textarea
                   placeholder="Bericht (optioneel)"
                   rows={3}
-                  className="w-full bg-white/10 text-white placeholder:text-gray-500 border border-white/10 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint resize-none"
+                  className="w-full bg-white/10 text-white placeholder:text-white/40 border border-white/15 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint resize-none"
                 />
                 <button
                   type="submit"
-                  className="bg-ff-mint text-ff-dark font-heading font-semibold px-7 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
+                  className="bg-white text-ff-blue font-heading font-semibold px-7 py-3 rounded-md hover:bg-white/90 active:scale-[0.97] transition-all duration-150"
                 >
                   Stuur ons een bericht
                 </button>
               </form>
             )}
 
-            <p className="text-gray-500 text-sm mt-6">
+            <p className="text-white/50 text-sm mt-6">
               Of liever direct?{" "}
               <a
                 href={CALENDLY_URL}

@@ -13,12 +13,12 @@ const StickyHeader = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-ff-dark transition-shadow duration-300 ${
-        scrolled ? "shadow-lg shadow-black/20" : ""
+      className={`fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-300 ${
+        scrolled ? "shadow-md" : "border-b border-border"
       }`}
     >
       <div className="container flex items-center justify-between h-14">
-        <span className="font-heading font-bold text-white text-sm tracking-tight">
+        <span className="font-heading font-bold text-foreground text-sm tracking-tight">
           First Floor × Dibiz
         </span>
         <a

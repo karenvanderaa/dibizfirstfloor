@@ -20,7 +20,6 @@ const ExitIntentPopup = () => {
       }
     };
 
-    // Also show after 60s inactivity
     timer = setTimeout(() => {
       if (!sessionStorage.getItem("exit-popup-shown")) {
         setShow(true);
@@ -39,21 +38,21 @@ const ExitIntentPopup = () => {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
       onClick={handleClose}
     >
       <div
-        className="bg-ff-dark rounded-lg p-8 max-w-md mx-4 relative"
+        className="bg-white rounded-lg p-8 max-w-md mx-4 relative shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-white transition-colors text-xl leading-none"
+          className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors text-xl leading-none"
         >
           ×
         </button>
-        <h3 className="font-heading font-bold text-white text-xl mb-3">Nog niet zeker?</h3>
-        <p className="text-gray-400 text-sm leading-relaxed mb-6">
+        <h3 className="font-heading font-bold text-foreground text-xl mb-3">Nog niet zeker?</h3>
+        <p className="text-muted-foreground text-sm leading-relaxed mb-6">
           Doe de Delivery Readiness Index — 10 vragen, geen registratie, direct resultaat + downloadbaar rapport.
         </p>
         <div className="flex items-center gap-4">
@@ -64,7 +63,7 @@ const ExitIntentPopup = () => {
           >
             Start de DRI
           </a>
-          <button onClick={handleClose} className="text-gray-500 hover:text-white text-sm transition-colors">
+          <button onClick={handleClose} className="text-muted-foreground hover:text-foreground text-sm transition-colors">
             Nee bedankt
           </button>
         </div>

@@ -58,7 +58,7 @@ const TransformationScanSection = () => {
                 volgende 12 maanden.
               </motion.p>
 
-              {/* Two lens cards — differentiated colors */}
+              {/* Two lens cards */}
               <motion.div
                 variants={fadeUp}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -92,22 +92,22 @@ const TransformationScanSection = () => {
               </motion.div>
             </div>
 
-            {/* Right — price card */}
+            {/* Right — price card, blue bg */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-2 flex"
             >
-              <div className="bg-ff-dark rounded-lg p-8 flex flex-col justify-center w-full">
-                <p className="text-muted-foreground text-sm mb-1">Vanaf</p>
+              <div className="bg-ff-blue rounded-lg p-8 flex flex-col justify-center w-full">
+                <p className="text-white/70 text-sm mb-1">Vanaf</p>
                 <p className="text-white font-heading font-bold text-4xl md:text-5xl mb-2">€18.500</p>
                 <p className="text-ff-mint font-medium mb-1">4–5 weken</p>
-                <p className="text-muted-foreground text-sm mb-8">5 concrete deliverables</p>
+                <p className="text-white/60 text-sm mb-8">5 concrete deliverables</p>
                 <a
                   href={CALENDLY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-ff-blue text-white font-heading font-semibold text-center px-6 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
+                  className="bg-white text-ff-blue font-heading font-semibold text-center px-6 py-3.5 rounded-md hover:bg-white/90 active:scale-[0.97] transition-all duration-150"
                 >
                   Vraag een vrijblijvende intake aan
                 </a>

@@ -9,12 +9,12 @@ const fadeUp = {
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-ff-dark pt-28 pb-20 md:pb-28 overflow-hidden">
-      {/* Vertical gradient line — blue to mint */}
+    <section className="relative bg-ff-blue pt-28 pb-20 md:pb-28 overflow-hidden">
+      {/* Vertical gradient line */}
       <div
-        className="absolute left-6 md:left-12 top-20 bottom-0 w-1.5 rounded-full"
+        className="absolute left-6 md:left-12 top-20 bottom-0 w-1.5 rounded-full opacity-30"
         style={{
-          background: "linear-gradient(180deg, hsl(var(--ff-blue)), hsl(var(--ff-mint)))",
+          background: "linear-gradient(180deg, #fff, hsl(var(--ff-mint)))",
         }}
       />
 
@@ -27,7 +27,7 @@ const HeroSection = () => {
         >
           {/* Pills */}
           <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="flex gap-2 mb-8">
-            <span className="bg-ff-blue text-white font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
+            <span className="bg-white/20 text-white font-heading font-semibold text-sm px-4 py-1.5 rounded-md backdrop-blur-sm">
               First Floor
             </span>
             <span className="bg-ff-mint text-ff-dark font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
@@ -51,7 +51,7 @@ const HeroSection = () => {
           <motion.p
             variants={fadeUp}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
+            className="text-white/75 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
           >
             Wij designen organisaties zodat ze de waarde leveren die ze beloven
             — van servicedesign tot de mensen die het waarmaken.
@@ -67,7 +67,7 @@ const HeroSection = () => {
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-ff-blue text-white font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
+              className="bg-white text-ff-blue font-heading font-semibold px-7 py-3.5 rounded-md hover:bg-white/90 active:scale-[0.97] transition-all duration-150"
             >
               Plan een vrijblijvend gesprek
             </a>

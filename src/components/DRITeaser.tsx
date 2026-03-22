@@ -12,7 +12,7 @@ const DRITeaser = () => {
     <section id="dri" className="bg-ff-light py-20 md:py-28 scroll-mt-16">
       <div className="container">
         <motion.div
-          initial="visible"
+          initial="visible" animate="visible"
           transition={{ staggerChildren: 0.08 }}
         >
           <div className="grid md:grid-cols-2 gap-10 items-center">

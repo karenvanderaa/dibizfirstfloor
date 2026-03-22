@@ -33,7 +33,7 @@ const USPSection = () => {
     <section className="bg-ff-light py-20 md:py-28">
       <div className="container">
         <motion.div
-          initial="visible"
+          initial="visible" animate="visible"
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.p

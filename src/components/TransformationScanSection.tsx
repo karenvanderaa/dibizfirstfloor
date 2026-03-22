@@ -23,7 +23,7 @@ const TransformationScanSection = () => {
     <section className="bg-background py-20 md:py-28">
       <div className="container">
         <motion.div
-          initial="visible"
+          initial="visible" animate="visible"
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">

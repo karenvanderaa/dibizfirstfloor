@@ -33,9 +33,7 @@ const USPSection = () => {
     <section className="bg-ff-light py-20 md:py-28">
       <div className="container">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "200px 0px" }}
+          initial="visible"
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.p

@@ -79,9 +79,7 @@ const ServicesSection = () => {
     <section className="bg-background py-20 md:py-28">
       <div className="container">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "200px 0px" }}
+          initial="visible"
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.p
@@ -157,7 +155,6 @@ const ServicesSection = () => {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "200px 0px" }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="bg-ff-blue mt-16"
       >

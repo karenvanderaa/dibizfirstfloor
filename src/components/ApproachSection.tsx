@@ -57,9 +57,7 @@ const ApproachSection = () => {
     <section className="bg-ff-light-mint py-20 md:py-28">
       <div className="container">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "200px 0px" }}
+          initial="visible"
           transition={{ staggerChildren: 0.1 }}
         >
           <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">

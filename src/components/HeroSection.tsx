@@ -19,7 +19,7 @@ const checkItems = [
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-white pt-28 pb-8 md:pb-16 overflow-hidden">
+    <section className="relative bg-white pt-32 pb-16 md:pb-24 overflow-hidden">
       {/* Decorative shapes */}
       <div className="absolute top-24 right-[8%] w-14 h-14 rounded-full opacity-50" style={{ background: "hsl(var(--ff-amber))" }} />
       <div className="absolute bottom-20 left-[12%] w-8 h-8 rounded-full opacity-40" style={{ background: "hsl(var(--ff-warm))" }} />

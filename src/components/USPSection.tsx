@@ -23,7 +23,7 @@ const usps = [
 
 const USPSection = () => {
   return (
-    <section className="bg-ff-light py-20 md:py-28">
+    <section className="bg-ff-light py-20 md:py-32">
       <div className="container">
         <p className="section-label mb-4">WAAROM MET ONS</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 max-w-lg">

@@ -47,7 +47,7 @@ const ProblemSection = () => {
   const [activeAngle, setActiveAngle] = useState(0);
 
   return (
-    <section className="bg-background py-20 md:py-28">
+    <section className="bg-background py-20 md:py-32">
       <div className="container">
         <p className="section-label mb-10">HERKEN JE DIT?</p>
 

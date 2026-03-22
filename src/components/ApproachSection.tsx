@@ -26,7 +26,7 @@ const dotColorMap: Record<string, string> = { "ff-blue": "bg-ff-blue", "ff-mint"
 
 const ApproachSection = () => {
   return (
-    <section className="bg-ff-light-mint py-20 md:py-28">
+    <section className="bg-ff-light-mint py-24 md:py-36">
       <div className="container">
         <p className="section-label mb-10">HOE HET WERKT</p>
 

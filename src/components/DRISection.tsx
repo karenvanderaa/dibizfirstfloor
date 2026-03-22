@@ -212,7 +212,7 @@ const DRISection = () => {
     doc.setTextColor("#888888");
     doc.text(dateStr, w / 2, 115, { align: "center" });
     drawColorBand(130, info.color, `${info.label} — ${yesCount}/${totalQuestions}`);
-    doc.setTextColor("#04c9ff");
+    doc.setTextColor("#5ec6b8");
     doc.setFontSize(11);
     doc.setFont("helvetica", "italic");
     doc.text("Levert uw organisatie de waarde die u belooft?", w / 2, 160, { align: "center" });

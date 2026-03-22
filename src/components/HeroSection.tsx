@@ -10,11 +10,11 @@ const fadeUp = {
 const HeroSection = () => {
   return (
     <section className="relative bg-ff-dark pt-28 pb-20 md:pb-28 overflow-hidden">
-      {/* Vertical gradient line */}
+      {/* Vertical gradient line — blue to mint */}
       <div
         className="absolute left-6 md:left-12 top-20 bottom-0 w-1.5 rounded-full"
         style={{
-          background: "linear-gradient(180deg, hsl(228 100% 60%), hsl(193 100% 51%))",
+          background: "linear-gradient(180deg, hsl(var(--ff-blue)), hsl(var(--ff-mint)))",
         }}
       />
 
@@ -30,7 +30,7 @@ const HeroSection = () => {
             <span className="bg-ff-blue text-white font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
               First Floor
             </span>
-            <span className="bg-ff-cyan text-ff-dark font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
+            <span className="bg-ff-mint text-ff-dark font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
               × Dibiz
             </span>
           </motion.div>
@@ -73,7 +73,7 @@ const HeroSection = () => {
             </a>
             <a
               href="#dri"
-              className="text-white underline underline-offset-4 font-medium hover:text-ff-cyan transition-colors duration-200 py-3.5"
+              className="text-white underline underline-offset-4 font-medium hover:text-ff-mint transition-colors duration-200 py-3.5"
             >
               Doe de Delivery Readiness Index
             </a>

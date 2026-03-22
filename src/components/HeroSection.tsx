@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import ellenKarenImg from "@/assets/ellen-karen-duo.jpg";
-import karenSoloImg from "@/assets/karen-solo.jpg";
+import karenEventImg from "@/assets/karen-event.jpeg";
+import ellenImg from "@/assets/ellen.jpeg";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 

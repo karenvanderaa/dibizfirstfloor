@@ -64,7 +64,7 @@ const ProblemSection = () => {
             className="mt-12 text-muted-foreground"
           >
             Herkenbaar?{" "}
-            <a href="#dri" className="text-primary underline underline-offset-4 hover:text-ff-cyan transition-colors">
+            <a href="#dri" className="text-primary underline underline-offset-4 hover:text-ff-mint transition-colors">
               Doe de Delivery Readiness Index en ontdek waar het wringt →
             </a>
           </motion.p>

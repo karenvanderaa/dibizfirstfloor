@@ -81,8 +81,8 @@ const ContactSection = () => {
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 Bouwt de organisatie die de ambitie kan waarmaken — structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.
               </p>
-              <a href="mailto:karen.vanderaa@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
-                📧 karen.vanderaa@firstfloortalent.be
+              <a href="mailto:karen@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
+                📧 karen@firstfloortalent.be
               </a>
             </div>
           </div>

@@ -85,8 +85,8 @@
     @apply text-xs font-heading font-semibold tracking-[0.2em] uppercase text-primary;
   }
 
-  .section-label-cyan {
+  .section-label-mint {
     @apply text-xs font-heading font-semibold tracking-[0.2em] uppercase;
-    color: hsl(var(--ff-cyan));
+    color: hsl(var(--ff-mint));
   }
 }

@@ -38,8 +38,8 @@ const ContactSection = () => {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="bg-white rounded-lg overflow-hidden border border-border shadow-sm"
             >
-              <div className="h-48 overflow-hidden">
-                <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-top" />
+              <div className="h-64 overflow-hidden">
+                <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-[center_30%]" />
               </div>
               <div className="p-6">
                 <div className="w-10 h-1 bg-ff-mint rounded-full mb-4" />

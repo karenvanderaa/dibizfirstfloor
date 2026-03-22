@@ -10,6 +10,8 @@ const fadeUp = {
 };
 
 const checkItems = [
+  "Diensten die écht aansluiten bij klant én markt",
+  "Een organisatie die ingericht is om te leveren",
   "Eén resultaatsgerichte keten van marketready services én een interne organisatie on point",
   "Verandering die blijft — niet verdwijnt na oplevering",
 ];

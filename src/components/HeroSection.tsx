@@ -134,8 +134,8 @@ const HeroSection = () => {
             {/* Floating small photo */}
             <div className="absolute -bottom-8 -left-8 z-20 w-36 h-44 rounded-xl overflow-hidden shadow-xl ring-4 ring-white">
               <img
-                src={karenSoloImg}
-                alt="Karen Van der Aa"
+                src={ellenImg}
+                alt="Ellen Poppe"
                 className="w-full h-full object-cover object-[center_25%]"
               />
             </div>

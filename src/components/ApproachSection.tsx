@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import teamConversationImg from "@/assets/team-conversation.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
@@ -64,6 +65,38 @@ const ApproachSection = () => {
           <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">
             HOE HET WERKT
           </motion.p>
+
+          {/* Photo + intro */}
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-xl overflow-hidden shadow-lg h-56 md:h-auto"
+            >
+              <img
+                src={teamConversationImg}
+                alt="Team in gesprek"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center"
+            >
+              <div>
+                <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-4">
+                  Eén geïntegreerd traject,<br />
+                  <span className="text-ff-mint">drie heldere fases.</span>
+                </h2>
+                <p className="text-muted-foreground leading-relaxed max-w-md">
+                  Geen losse projecten die langs elkaar heen werken.
+                  Service design en organisatieontwikkeling lopen van dag één samen —
+                  zodat de verandering ook écht landt.
+                </p>
+              </div>
+            </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {steps.map((step, i) => (

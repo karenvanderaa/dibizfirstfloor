@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import teamMeetingImg from "@/assets/team-meeting.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
@@ -34,7 +35,7 @@ const ServicesSection = () => {
           </motion.p>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Dibiz card — mint accent */}
+            {/* Dibiz card */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -52,7 +53,7 @@ const ServicesSection = () => {
               </ul>
             </motion.div>
 
-            {/* First Floor card — blue accent */}
+            {/* First Floor card */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
@@ -73,24 +74,35 @@ const ServicesSection = () => {
         </motion.div>
       </div>
 
-      {/* Full-width quote band — mint bg instead of dark */}
+      {/* Full-width quote band with photo */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-ff-mint mt-16 py-14"
+        className="bg-ff-blue mt-16"
       >
-        <div className="container max-w-3xl text-center">
-          <p className="text-white text-lg md:text-xl leading-relaxed mb-4">
-            "Één doorlopend traject — van servicedesign tot organisatiedesign. Geen gap
-            tussen wat beloofd wordt en wat geleverd wordt. Geen verandering die na het
-            project verdwijnt."
-          </p>
-          <p className="text-white text-lg md:text-xl">
-            Wij noemen dat geen consultancy. Wij noemen dat{" "}
-            <strong className="font-bold text-ff-dark">fixen.</strong>
-          </p>
+        <div className="grid md:grid-cols-5">
+          <div className="md:col-span-3 py-14 px-8 md:px-16 flex items-center">
+            <div className="max-w-xl">
+              <p className="text-white text-lg md:text-xl leading-relaxed mb-4">
+                "Één doorlopend traject — van servicedesign tot organisatiedesign. Geen gap
+                tussen wat beloofd wordt en wat geleverd wordt. Geen verandering die na het
+                project verdwijnt."
+              </p>
+              <p className="text-white text-lg md:text-xl">
+                Wij noemen dat geen consultancy. Wij noemen dat{" "}
+                <strong className="font-bold text-ff-mint">fixen.</strong>
+              </p>
+            </div>
+          </div>
+          <div className="md:col-span-2 h-64 md:h-auto">
+            <img
+              src={teamMeetingImg}
+              alt="Team in overleg"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </motion.div>
     </section>

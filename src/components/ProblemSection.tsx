@@ -73,7 +73,7 @@ const ProblemSection = () => {
                   onClick={() => setActiveAngle(i)}
                   className={`text-left rounded-lg p-5 transition-all duration-300 active:scale-[0.98] ${
                     activeAngle === i
-                      ? "bg-ff-dark text-white shadow-lg"
+                      ? "bg-ff-blue text-white shadow-lg"
                       : "bg-ff-light text-foreground hover:bg-ff-light-mint border border-border"
                   }`}
                 >

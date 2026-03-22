@@ -73,13 +73,13 @@ const ServicesSection = () => {
         </motion.div>
       </div>
 
-      {/* Full-width dark quote band */}
+      {/* Full-width quote band — mint bg instead of dark */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-ff-dark mt-16 py-14"
+        className="bg-ff-mint mt-16 py-14"
       >
         <div className="container max-w-3xl text-center">
           <p className="text-white text-lg md:text-xl leading-relaxed mb-4">
@@ -89,7 +89,7 @@ const ServicesSection = () => {
           </p>
           <p className="text-white text-lg md:text-xl">
             Wij noemen dat geen consultancy. Wij noemen dat{" "}
-            <strong className="font-bold text-ff-mint">fixen.</strong>
+            <strong className="font-bold text-ff-dark">fixen.</strong>
           </p>
         </div>
       </motion.div>

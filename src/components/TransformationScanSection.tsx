@@ -26,9 +26,9 @@ const TransformationScanSection = () => {
           initial="visible" animate="visible"
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">
+          <p } className="section-label mb-10">
             DE EERSTE STAP
-          </motion.p>
+          </p>
 
           <div className="grid lg:grid-cols-2 gap-10 mb-10">
             {/* Left — text */}
@@ -41,28 +41,22 @@ const TransformationScanSection = () => {
                 De Transformatie Scan
               </motion.h2>
 
-              <motion.p
-                variants={fadeUp}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              <p }
                 className="text-lg italic text-foreground mb-6 max-w-xl"
               >
                 Klopt uw organisatie bij uw ambitie — en kunnen uw diensten de waarde leveren die u belooft?
-              </motion.p>
+              </p>
 
-              <motion.p
-                variants={fadeUp}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              <p }
                 className="text-muted-foreground mb-8 max-w-xl leading-relaxed"
               >
                 In 4–5 weken brengen wij in kaart of uw diensten de waarde leveren die u belooft, en of uw organisatie
                 ingericht is om dat waar te maken. Geen rapport dat in een lade verdwijnt — een concrete roadmap voor de
                 volgende 12 maanden.
-              </motion.p>
+              </p>
 
               {/* Two lens cards */}
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              <div}
                 className="grid sm:grid-cols-2 gap-4 mb-8"
               >
                 <div className="bg-ff-light-mint rounded-lg p-5 border border-ff-mint/20">
@@ -77,10 +71,10 @@ const TransformationScanSection = () => {
                     Klopt de organisatie bij de ambitie? Hebben de juiste mensen de juiste rollen en competenties?
                   </p>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Deliverables */}
-              <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="flex flex-wrap gap-2">
+              <div} className="flex flex-wrap gap-2">
                 {deliverables.map((d, i) => (
                   <span
                     key={i}
@@ -89,14 +83,12 @@ const TransformationScanSection = () => {
                     {d}
                   </span>
                 ))}
-              </motion.div>
+              </div>
             </div>
 
             {/* Right — photo + price card */}
             <div className="flex flex-col gap-6">
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              <div}
                 className="rounded-xl overflow-hidden shadow-lg h-52 md:h-60"
               >
                 <img
@@ -104,11 +96,9 @@ const TransformationScanSection = () => {
                   alt="Teamgesprek in de hal"
                   className="w-full h-full object-cover"
                 />
-              </motion.div>
+              </div>
 
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              <div}
               >
                 <div className="bg-ff-mint rounded-lg p-8 flex flex-col justify-center w-full">
                   <p className="text-white/70 text-sm mb-1">Vanaf</p>
@@ -124,10 +114,10 @@ const TransformationScanSection = () => {
                     Vraag een vrijblijvende intake aan
                   </a>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

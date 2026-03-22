@@ -17,9 +17,7 @@ const DRITeaser = () => {
         >
           <div className="grid md:grid-cols-2 gap-10 items-center">
             {/* Photo side */}
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            <div}
               className="relative"
             >
               <div className="absolute -top-4 -left-4 w-full h-full rounded-xl" style={{ background: "hsl(var(--ff-blue) / 0.08)" }} />
@@ -31,13 +29,13 @@ const DRITeaser = () => {
                 />
               </div>
               <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-full" style={{ background: "hsl(var(--ff-amber))" }} />
-            </motion.div>
+            </div>
 
             {/* Text side */}
             <div>
-              <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-4">
+              <p } className="section-label mb-4">
                 DELIVERY READINESS INDEX™
-              </motion.p>
+              </p>
 
               <motion.h2
                 variants={fadeUp}
@@ -47,18 +45,16 @@ const DRITeaser = () => {
                 Levert uw organisatie de waarde die u belooft?
               </motion.h2>
 
-              <motion.p
-                variants={fadeUp}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              <p }
                 className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md"
               >
                 Twee derde van alle transformatietrajecten mislukt — niet door een slechte strategie, maar omdat de
                 organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
                 <br /><br />
                 Beantwoord 10 vragen en ontdek waar het wringt. Inclusief downloadbaar rapport.
-              </motion.p>
+              </p>
 
-              <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+              <div}>
                 <Link
                   to="/dri"
                   className="inline-flex items-center gap-2 bg-ff-blue text-white font-heading font-semibold px-8 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-lg shadow-ff-blue/20"
@@ -66,10 +62,10 @@ const DRITeaser = () => {
                   Start de Delivery Readiness Index
                   <span aria-hidden="true">→</span>
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

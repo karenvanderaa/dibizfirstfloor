@@ -26,9 +26,7 @@ const ContactSection = () => {
           transition={{ staggerChildren: 0.1 }}
         >
           {/* Personal CTA band */}
-          <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          <div}
             className="bg-ff-blue rounded-xl p-8 md:p-12 mb-16"
           >
             <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -73,22 +71,18 @@ const ContactSection = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Who we are cards */}
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <p }
             className="section-label mb-10"
           >
             WIE WIJ ZIJN
-          </motion.p>
+          </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {/* Ellen */}
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            <div}
               className="bg-white rounded-lg overflow-hidden border border-border shadow-sm"
             >
               <div className="h-64 overflow-hidden">
@@ -118,16 +112,10 @@ const ContactSection = () => {
                   📧 ellen@dibiz.be
                 </a>
               </div>
-            </motion.div>
+            </div>
 
             {/* Karen */}
-            <motion.div
-              variants={fadeUp}
-              transition={{
-                duration: 0.6,
-                ease: [0.16, 1, 0.3, 1],
-                delay: 0.08,
-              }}
+            <div}
               className="bg-white rounded-lg overflow-hidden border border-border shadow-sm"
             >
               <div className="h-64 overflow-hidden">
@@ -157,13 +145,11 @@ const ContactSection = () => {
                   📧 karen.vanderaa@firstfloortalent.be
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Contact form */}
-          <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          <div}
             className="max-w-lg"
           >
             <h3 className="font-heading font-bold text-foreground text-xl mb-6">
@@ -211,8 +197,8 @@ const ContactSection = () => {
                 </button>
               </form>
             )}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

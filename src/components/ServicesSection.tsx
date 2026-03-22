@@ -82,13 +82,11 @@ const ServicesSection = () => {
           initial="visible" animate="visible"
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <p }
             className="section-label mb-4"
           >
             WAT WE SAMEN DOEN
-          </motion.p>
+          </p>
 
           <motion.h2
             variants={fadeUp}
@@ -98,15 +96,13 @@ const ServicesSection = () => {
             Drie pijlers, één geïntegreerd traject.
           </motion.h2>
 
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <p }
             className="text-muted-foreground mb-12 max-w-xl leading-relaxed"
           >
             Organisatievitaliteit ontstaat wanneer strategie, structuur, mensen
             en veranderkracht op elkaar zijn afgestemd. Geen losse projecten —
             één keten.
-          </motion.p>
+          </p>
 
           <motion.div className="grid md:grid-cols-3 gap-6" variants={fadeUp}>
             {pillars.map((pillar, i) => (
@@ -145,10 +141,10 @@ const ServicesSection = () => {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* Full-width quote band with photo */}
@@ -181,7 +177,7 @@ const ServicesSection = () => {
             />
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

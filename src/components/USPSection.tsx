@@ -36,13 +36,11 @@ const USPSection = () => {
           initial="visible" animate="visible"
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          <p }
             className="section-label mb-4"
           >
             WAAROM MET ONS
-          </motion.p>
+          </p>
 
           <motion.h2
             variants={fadeUp}
@@ -72,10 +70,10 @@ const USPSection = () => {
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {usp.desc}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

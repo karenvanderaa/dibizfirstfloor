@@ -60,15 +60,13 @@ const ApproachSection = () => {
           initial="visible" animate="visible"
           transition={{ staggerChildren: 0.1 }}
         >
-          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-10">
+          <p } className="section-label mb-10">
             HOE HET WERKT
-          </motion.p>
+          </p>
 
           {/* Photo + intro */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            <div}
               className="rounded-xl overflow-hidden shadow-lg h-56 md:h-auto"
             >
               <img
@@ -76,10 +74,8 @@ const ApproachSection = () => {
                 alt="Team in gesprek"
                 className="w-full h-full object-cover"
               />
-            </motion.div>
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            </div>
+            <div}
               className="flex items-center"
             >
               <div>
@@ -93,7 +89,7 @@ const ApproachSection = () => {
                   zodat de verandering ook écht landt.
                 </p>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -114,10 +110,10 @@ const ApproachSection = () => {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

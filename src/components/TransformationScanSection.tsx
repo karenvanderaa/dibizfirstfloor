@@ -9,6 +9,8 @@ const fadeUp = {
 };
 
 const deliverables = [
+  "Service design",
+  "Organisational design",
   "Strategisch vertrekpunt",
   "Rollenkaart huidig vs. gewenst",
   "Competentiematrix",
@@ -114,7 +116,7 @@ const TransformationScanSection = () => {
                   <p className="text-white/70 text-sm mb-1">Vanaf</p>
                   <p className="text-white font-heading font-bold text-4xl md:text-5xl mb-2">€18.500</p>
                   <p className="text-ff-dark font-medium mb-1">4–5 weken</p>
-                  <p className="text-white/70 text-sm mb-8">5 concrete deliverables</p>
+                  <p className="text-white/70 text-sm mb-8">7 concrete deliverables</p>
                   <a
                     href={CALENDLY_URL}
                     target="_blank"

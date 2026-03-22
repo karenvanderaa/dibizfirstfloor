@@ -68,13 +68,10 @@ const ServicesSection = () => {
       <div className="bg-ff-blue mt-16">
         <div className="grid md:grid-cols-5">
           <div className="md:col-span-3 py-14 px-8 md:px-16 flex items-center">
-            <div className="max-w-xl">
-              <p className="text-white text-lg md:text-xl leading-relaxed mb-4">
-                "Strategie zonder structurele coherentie loopt vast. Structuur zonder competentiediepte creëert bottlenecks. HR zonder strategische integratie blijft reactief."
-              </p>
-              <p className="text-white text-lg md:text-xl">
-                Wij bouwen de brug.{" "}
-                <strong className="font-bold text-ff-mint">Van ambitie tot uitvoering.</strong>
+            <div className="max-w-2xl">
+              <p className="text-white text-lg md:text-xl leading-relaxed">
+                Één doorlopend traject — van servicedesign tot organisatiedesign. Geen gap tussen wat beloofd wordt en wat geleverd wordt. Geen verandering die na het project verdwijnt.{" "}
+                <strong className="font-bold text-ff-mint">Wij noemen dat geen consultancy. Wij noemen dat fixen.</strong>
               </p>
             </div>
           </div>

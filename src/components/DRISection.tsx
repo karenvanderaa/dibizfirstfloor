@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import jsPDF from "jspdf";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
@@ -62,10 +64,39 @@ const totalQuestions = clusters.reduce((a, c) => a + c.questions.length, 0);
 
 type Answer = boolean | null;
 
+const scoreTexts = {
+  strong: {
+    label: "DRI: Sterk",
+    color: "#22c55e",
+    text: "Uw organisatie lijkt goed afgestemd op uw ambitie. De meeste signalen die wijzen op een kloof tussen dienstverlening en organisatiecapaciteit zijn bij u afwezig. Gezonde organisaties presteren gemiddeld 3× beter dan organisaties met structurele gaps — en ze blijven dat doen door continu te meten en bij te sturen. (McKinsey OHI, 2024)",
+    cta: "Bevestig uw sterktes met een vrijblijvend gesprek",
+  },
+  pressure: {
+    label: "DRI: Onder druk",
+    color: "#f59e0b",
+    text: "Er zijn duidelijke signalen dat uw organisatie en uw ambitie niet volledig op elkaar zijn afgestemd. Dit is het moment om te handelen — niet omdat het crisis is, maar omdat de kloof op dit punt nog beheersbaar is. Twee derde van alle transformatietrajecten faalt niet door een slechte strategie, maar omdat de organisatie er niet structureel op is ingericht. (McKinsey, 2023) De Transformatie Scan brengt in 4–5 weken in kaart waar de kloof zit en hoe u die aanpakt.",
+    cta: "Vraag de Transformatie Scan aan",
+  },
+  critical: {
+    label: "DRI: Kritisch",
+    color: "#ef4444",
+    text: "Uw organisatie loopt structureel achter op haar ambities. Organisaties die meer dan 18 maanden in dit patroon zitten mislopen gemiddeld 23% van hun groeipotentieel door talent dat vertrekt, initiatieven die niet landen en klanten die de kloof beginnen te voelen. (WEF Future of Jobs, 2025) Elke maand telt.",
+    cta: "Plan een gesprek — wij bellen u terug",
+  },
+};
+
 const DRISection = () => {
   const [answers, setAnswers] = useState<Answer[]>(Array(totalQuestions).fill(null));
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
+
+  // Lead gate state
+  const [leadName, setLeadName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadOrg, setLeadOrg] = useState("");
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [leadLoading, setLeadLoading] = useState(false);
+
   const [emailSent, setEmailSent] = useState(false);
 
   const allAnswered = answers.every((a) => a !== null);
@@ -100,26 +131,48 @@ const DRISection = () => {
     return "#ef4444";
   };
 
-  const scoreTexts = {
-    strong: {
-      label: "DRI: Sterk",
-      color: "#22c55e",
-      text: "Uw organisatie lijkt goed afgestemd op uw ambitie. De meeste signalen die wijzen op een kloof tussen dienstverlening en organisatiecapaciteit zijn bij u afwezig. Gezonde organisaties presteren gemiddeld 3× beter dan organisaties met structurele gaps — en ze blijven dat doen door continu te meten en bij te sturen. (McKinsey OHI, 2024)",
-      cta: "Bevestig uw sterktes met een vrijblijvend gesprek",
-    },
-    pressure: {
-      label: "DRI: Onder druk",
-      color: "#f59e0b",
-      text: "Er zijn duidelijke signalen dat uw organisatie en uw ambitie niet volledig op elkaar zijn afgestemd. Dit is het moment om te handelen — niet omdat het crisis is, maar omdat de kloof op dit punt nog beheersbaar is. Twee derde van alle transformatietrajecten faalt niet door een slechte strategie, maar omdat de organisatie er niet structureel op is ingericht. (McKinsey, 2023) De Transformatie Scan brengt in 4–5 weken in kaart waar de kloof zit en hoe u die aanpakt.",
-      cta: "Vraag de Transformatie Scan aan",
-    },
-    critical: {
-      label: "DRI: Kritisch",
-      color: "#ef4444",
-      text: "Uw organisatie loopt structureel achter op haar ambities. Organisaties die meer dan 18 maanden in dit patroon zitten mislopen gemiddeld 23% van hun groeipotentieel door talent dat vertrekt, initiatieven die niet landen en klanten die de kloof beginnen te voelen. (WEF Future of Jobs, 2025) Elke maand telt.",
-      cta: "Plan een gesprek — wij bellen u terug",
-    },
+  const handleLeadSubmit = async () => {
+    if (!leadName.trim() || !leadEmail.trim() || !leadOrg.trim()) {
+      toast({ title: "Vul alle velden in", variant: "destructive" });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(leadEmail)) {
+      toast({ title: "Ongeldig e-mailadres", variant: "destructive" });
+      return;
+    }
+
+    setLeadLoading(true);
+
+    try {
+      const level = getScoreLevel();
+      const info = scoreTexts[level];
+
+      const { error } = await supabase.functions.invoke("add-to-brevo", {
+        body: {
+          email: leadEmail.trim(),
+          firstName: leadName.trim(),
+          organisatie: leadOrg.trim(),
+          score: yesCount,
+          scoreLabel: info.label,
+        },
+      });
+
+      if (error) {
+        console.error("Brevo error:", error);
+        // Still show results even if Brevo fails
+      }
+    } catch (err) {
+      console.error("Lead submit error:", err);
+    }
+
+    setLeadSubmitted(true);
+    setOrgName(leadOrg);
+    setLeadLoading(false);
   };
+
+  const showResults = allAnswered && leadSubmitted;
 
   const generatePDF = () => {
     const doc = new jsPDF("p", "mm", "a4");
@@ -130,7 +183,6 @@ const DRISection = () => {
     const info = scoreTexts[level];
     const dateStr = new Date().toLocaleDateString("nl-BE");
 
-    // Helper
     const drawColorBand = (y: number, color: string, text: string) => {
       doc.setFillColor(color);
       doc.roundedRect(margin, y, contentW, 10, 2, 2, "F");
@@ -143,30 +195,23 @@ const DRISection = () => {
     // PAGE 1 — Cover
     doc.setFillColor("#1a1a2e");
     doc.rect(0, 0, w, doc.internal.pageSize.getHeight(), "F");
-
     doc.setTextColor("#315eff");
     doc.setFont("helvetica", "bold");
     doc.setFontSize(22);
     doc.text("First Floor × Dibiz", w / 2, 50, { align: "center" });
-
     doc.setTextColor("#ffffff");
     doc.setFontSize(18);
     doc.text("Delivery Readiness Index™", w / 2, 70, { align: "center" });
     doc.setFontSize(13);
     doc.text("Uw persoonlijk rapport", w / 2, 80, { align: "center" });
-
     if (orgName) {
       doc.setFontSize(14);
       doc.text(orgName, w / 2, 100, { align: "center" });
     }
-
     doc.setFontSize(11);
     doc.setTextColor("#888888");
     doc.text(dateStr, w / 2, 115, { align: "center" });
-
-    // Score badge
     drawColorBand(130, info.color, `${info.label} — ${yesCount}/${totalQuestions}`);
-
     doc.setTextColor("#04c9ff");
     doc.setFontSize(11);
     doc.setFont("helvetica", "italic");
@@ -178,15 +223,12 @@ const DRISection = () => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("Uw score & toelichting", margin, 30);
-
     drawColorBand(38, info.color, info.label);
-
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor("#333333");
     const splitText = doc.splitTextToSize(info.text, contentW);
     doc.text(splitText, margin, 60);
-
     let y2 = 60 + splitText.length * 5 + 10;
     doc.setFont("helvetica", "italic");
     doc.setFontSize(9);
@@ -203,24 +245,16 @@ const DRISection = () => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("Uw antwoorden per cluster", margin, 30);
-
     let y3 = 42;
     let qIdx = 0;
     clusters.forEach((cluster, ci) => {
-      if (y3 > 250) {
-        doc.addPage();
-        y3 = 30;
-      }
-
+      if (y3 > 250) { doc.addPage(); y3 = 30; }
       const cScore = clusterScores[ci];
       const barColor = getClusterColor(cScore);
-
       doc.setFont("helvetica", "bold");
       doc.setFontSize(11);
       doc.setTextColor("#1a1a2e");
       doc.text(cluster.name, margin, y3);
-
-      // Small bar
       doc.setFillColor("#e5e7eb");
       doc.roundedRect(margin + 100, y3 - 3, 40, 5, 1, 1, "F");
       const barW = (cScore / cluster.questions.length) * 40;
@@ -228,9 +262,7 @@ const DRISection = () => {
         doc.setFillColor(barColor);
         doc.roundedRect(margin + 100, y3 - 3, barW, 5, 1, 1, "F");
       }
-
       y3 += 8;
-
       cluster.questions.forEach((q) => {
         const isYes = answers[qIdx] === true;
         doc.setFont("helvetica", isYes ? "bold" : "normal");
@@ -242,7 +274,6 @@ const DRISection = () => {
         y3 += lines.length * 4.5 + 3;
         qIdx++;
       });
-
       if (cScore > 0) {
         doc.setFont("helvetica", "italic");
         doc.setFontSize(8.5);
@@ -251,7 +282,6 @@ const DRISection = () => {
         doc.text(interp, margin + 4, y3);
         y3 += interp.length * 4 + 4;
       }
-
       y3 += 6;
     });
 
@@ -261,7 +291,6 @@ const DRISection = () => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("Wat nu?", margin, 30);
-
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor("#333333");
@@ -270,7 +299,6 @@ const DRISection = () => {
       contentW
     );
     doc.text(nextStepIntro, margin, 42);
-
     let y4 = 42 + nextStepIntro.length * 5 + 10;
     const deliverables = [
       "Strategisch vertrekpunt",
@@ -281,17 +309,12 @@ const DRISection = () => {
     ];
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    deliverables.forEach((d) => {
-      doc.text(`• ${d}`, margin + 4, y4);
-      y4 += 6;
-    });
-
+    deliverables.forEach((d) => { doc.text(`• ${d}`, margin + 4, y4); y4 += 6; });
     y4 += 6;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor("#315eff");
     doc.text("Vanaf €18.500 — 4–5 weken — 5 concrete deliverables", margin, y4);
-
     y4 += 12;
     doc.setTextColor("#1a1a2e");
     doc.setFont("helvetica", "bold");
@@ -299,7 +322,6 @@ const DRISection = () => {
     doc.setFont("helvetica", "normal");
     doc.setTextColor("#315eff");
     doc.text(CALENDLY_URL, margin, y4 + 6);
-
     y4 += 16;
     doc.setTextColor("#666666");
     doc.setFontSize(9);
@@ -311,7 +333,6 @@ const DRISection = () => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("Over FF × Dibiz", margin, 30);
-
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor("#333333");
@@ -320,7 +341,6 @@ const DRISection = () => {
       contentW
     );
     doc.text(aboutText, margin, 42);
-
     let y5 = 42 + aboutText.length * 5 + 12;
     doc.setFont("helvetica", "bold");
     doc.text("Ellen Poppe — Dibiz", margin, y5);
@@ -331,7 +351,6 @@ const DRISection = () => {
       contentW
     );
     doc.text(ellenText, margin, y5 + 6);
-
     y5 += 6 + ellenText.length * 4.5 + 8;
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
@@ -343,7 +362,6 @@ const DRISection = () => {
       contentW
     );
     doc.text(karenText, margin, y5 + 6);
-
     y5 += 6 + karenText.length * 4.5 + 16;
     doc.setFontSize(8);
     doc.setTextColor("#888888");
@@ -383,7 +401,7 @@ const DRISection = () => {
             Twee derde van alle transformatietrajecten mislukt — niet door een slechte strategie, maar omdat de
             organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
             <br />
-            Beantwoord 10 vragen eerlijk. Geen registratie nodig. Resultaat en downloadbaar rapport verschijnen direct.
+            Beantwoord 10 vragen eerlijk. Resultaat en downloadbaar rapport verschijnen direct na het invullen van uw gegevens.
           </motion.p>
 
           {/* Questions */}
@@ -430,8 +448,62 @@ const DRISection = () => {
             </motion.div>
           ))}
 
-          {/* Results */}
-          {allAnswered && (
+          {/* Lead capture gate — shown when all questions answered but not yet submitted */}
+          {allAnswered && !leadSubmitted && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-12 bg-background rounded-lg p-8 border border-border shadow-md"
+            >
+              <div className="text-center mb-6">
+                <p className="font-heading font-bold text-lg text-foreground mb-2">
+                  Uw resultaat is klaar
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Vul uw gegevens in om uw persoonlijke DRI-score en downloadbaar rapport te ontvangen.
+                </p>
+              </div>
+
+              <div className="space-y-3 max-w-md mx-auto">
+                <input
+                  type="text"
+                  placeholder="Uw naam *"
+                  value={leadName}
+                  onChange={(e) => setLeadName(e.target.value)}
+                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
+                />
+                <input
+                  type="email"
+                  placeholder="Uw e-mailadres *"
+                  value={leadEmail}
+                  onChange={(e) => setLeadEmail(e.target.value)}
+                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
+                />
+                <input
+                  type="text"
+                  placeholder="Organisatie *"
+                  value={leadOrg}
+                  onChange={(e) => setLeadOrg(e.target.value)}
+                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
+                />
+                <button
+                  onClick={handleLeadSubmit}
+                  disabled={leadLoading}
+                  className="w-full bg-ff-blue text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm disabled:opacity-60"
+                >
+                  {leadLoading ? "Even geduld..." : "Bekijk mijn resultaat"}
+                </button>
+              </div>
+
+              <p className="text-xs text-muted-foreground text-center mt-4">
+                Uw gegevens worden enkel gebruikt om u uw rapport te bezorgen en eventueel op te volgen. Geen spam.
+              </p>
+            </motion.div>
+          )}
+
+          {/* Results — only after lead gate */}
+          {showResults && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -494,45 +566,12 @@ const DRISection = () => {
               {/* PDF Download */}
               <div className="bg-background rounded-lg p-6 border border-border">
                 <p className="font-heading font-semibold text-foreground mb-4">Download uw DRI-rapport (PDF)</p>
-                <input
-                  type="text"
-                  placeholder="Naam organisatie (optioneel)"
-                  value={orgName}
-                  onChange={(e) => setOrgName(e.target.value)}
-                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                />
                 <button
                   onClick={generatePDF}
                   className="bg-ff-dark text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-125 active:scale-[0.97] transition-all duration-150 text-sm w-full"
                 >
                   Download PDF
                 </button>
-
-                {/* Email lead */}
-                <div className="mt-6 pt-5 border-t border-border">
-                  <p className="text-muted-foreground text-sm mb-3">Ontvang uw rapport ook per mail</p>
-                  {emailSent ? (
-                    <p className="text-sm text-foreground">We sturen u uw rapport toe. Tot binnenkort.</p>
-                  ) : (
-                    <div className="flex gap-2">
-                      <input
-                        type="email"
-                        placeholder="uw@email.be"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="flex-1 border border-border rounded-md px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                      />
-                      <button
-                        onClick={() => {
-                          if (email) setEmailSent(true);
-                        }}
-                        className="bg-ff-blue text-white font-heading font-semibold px-5 py-2.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm"
-                      >
-                        Verstuur
-                      </button>
-                    </div>
-                  )}
-                </div>
               </div>
             </motion.div>
           )}

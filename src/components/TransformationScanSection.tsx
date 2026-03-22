@@ -58,15 +58,15 @@ const TransformationScanSection = () => {
                 volgende 12 maanden.
               </motion.p>
 
-              {/* Two lens cards */}
+              {/* Two lens cards — differentiated colors */}
               <motion.div
                 variants={fadeUp}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="grid sm:grid-cols-2 gap-4 mb-8"
               >
-                <div className="bg-ff-blue text-white rounded-lg p-5">
+                <div className="bg-ff-mint text-ff-dark rounded-lg p-5">
                   <p className="font-heading font-semibold text-sm mb-2">Dibiz-lens</p>
-                  <p className="text-sm leading-relaxed opacity-90">
+                  <p className="text-sm leading-relaxed opacity-80">
                     Kloppen de diensten bij wat de markt vraagt? Zijn ze onderscheidend, uitvoerbaar en schaalbaar?
                   </p>
                 </div>
@@ -92,7 +92,7 @@ const TransformationScanSection = () => {
               </motion.div>
             </div>
 
-            {/* Right — price card, 2 cols */}
+            {/* Right — price card */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -101,7 +101,7 @@ const TransformationScanSection = () => {
               <div className="bg-ff-dark rounded-lg p-8 flex flex-col justify-center w-full">
                 <p className="text-muted-foreground text-sm mb-1">Vanaf</p>
                 <p className="text-white font-heading font-bold text-4xl md:text-5xl mb-2">€18.500</p>
-                <p className="text-ff-cyan font-medium mb-1">4–5 weken</p>
+                <p className="text-ff-mint font-medium mb-1">4–5 weken</p>
                 <p className="text-muted-foreground text-sm mb-8">5 concrete deliverables</p>
                 <a
                   href={CALENDLY_URL}

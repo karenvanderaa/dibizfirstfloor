@@ -53,8 +53,9 @@ export default {
         },
         "ff-dark": "hsl(var(--ff-dark))",
         "ff-blue": "hsl(var(--ff-blue))",
-        "ff-cyan": "hsl(var(--ff-cyan))",
+        "ff-mint": "hsl(var(--ff-mint))",
         "ff-light": "hsl(var(--ff-light))",
+        "ff-light-mint": "hsl(var(--ff-light-mint))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

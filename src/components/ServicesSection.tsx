@@ -34,30 +34,32 @@ const ServicesSection = () => {
           </motion.p>
 
           <div className="grid md:grid-cols-2 gap-6">
+            {/* Dibiz card — mint accent */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-ff-light rounded-lg p-8"
+              className="bg-ff-light-mint rounded-lg p-8 border-t-4 border-ff-mint"
             >
               <h3 className="font-heading font-bold text-lg text-foreground mb-1">Dibiz</h3>
-              <p className="text-sm text-muted-foreground mb-5">Service & Business Transformatie</p>
+              <p className="text-sm text-ff-mint font-medium mb-5">Service & Business Transformatie</p>
               <ul className="space-y-2.5">
                 {dibizItems.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-foreground">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-cyan shrink-0" />
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-mint shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
             </motion.div>
 
+            {/* First Floor card — blue accent */}
             <motion.div
               variants={fadeUp}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.08 }}
-              className="bg-ff-light rounded-lg p-8"
+              className="bg-ff-light rounded-lg p-8 border-t-4 border-ff-blue"
             >
               <h3 className="font-heading font-bold text-lg text-foreground mb-1">First Floor</h3>
-              <p className="text-sm text-muted-foreground mb-5">Organisatie & Competentie</p>
+              <p className="text-sm text-ff-blue font-medium mb-5">Organisatie & Competentie</p>
               <ul className="space-y-2.5">
                 {ffItems.map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-foreground">
@@ -87,7 +89,7 @@ const ServicesSection = () => {
           </p>
           <p className="text-white text-lg md:text-xl">
             Wij noemen dat geen consultancy. Wij noemen dat{" "}
-            <strong className="font-bold text-ff-cyan">fixen.</strong>
+            <strong className="font-bold text-ff-mint">fixen.</strong>
           </p>
         </div>
       </motion.div>

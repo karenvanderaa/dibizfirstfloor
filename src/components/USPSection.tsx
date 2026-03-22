@@ -1,10 +1,3 @@
-import { motion } from "framer-motion";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-};
-
 const usps = [
   {
     icon: "📐",
@@ -32,52 +25,20 @@ const USPSection = () => {
   return (
     <section className="bg-ff-light py-20 md:py-28">
       <div className="container">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
-          transition={{ staggerChildren: 0.1 }}
-        >
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="section-label mb-4"
-          >
-            WAAROM MET ONS
-          </motion.p>
+        <p className="section-label mb-4">WAAROM MET ONS</p>
+        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 max-w-lg">
+          Geen blabla. <span className="text-ff-mint">Wel impact.</span>
+        </h2>
 
-          <motion.h2
-            variants={fadeUp}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 max-w-lg"
-          >
-            Geen blabla.{" "}
-            <span className="text-ff-mint">Wel impact.</span>
-          </motion.h2>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {usps.map((usp, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                transition={{
-                  duration: 0.6,
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: i * 0.06,
-                }}
-                className="bg-white rounded-lg p-6 shadow-sm border border-border hover:shadow-md transition-shadow duration-300"
-              >
-                <span className="text-2xl mb-3 block">{usp.icon}</span>
-                <h3 className="font-heading font-semibold text-foreground mb-2">
-                  {usp.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {usp.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <div className="grid sm:grid-cols-2 gap-6">
+          {usps.map((usp, i) => (
+            <div key={i} className="bg-white rounded-lg p-6 shadow-sm border border-border hover:shadow-md transition-shadow duration-300">
+              <span className="text-2xl mb-3 block">{usp.icon}</span>
+              <h3 className="font-heading font-semibold text-foreground mb-2">{usp.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{usp.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

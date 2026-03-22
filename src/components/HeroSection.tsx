@@ -125,8 +125,8 @@ const HeroSection = () => {
             {/* Main photo — duo */}
             <div className="relative z-10 rounded-[1.5rem] overflow-hidden shadow-2xl">
               <img
-                src={ellenKarenImg}
-                alt="Karen Van der Aa en Ellen Poppe"
+                src={karenEventImg}
+                alt="Karen Van der Aa"
                 className="w-full h-[420px] object-cover object-[center_25%]"
               />
             </div>

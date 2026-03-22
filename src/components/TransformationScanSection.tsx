@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import teamHallwayImg from "@/assets/team-hallway.jpg";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
@@ -29,9 +30,9 @@ const TransformationScanSection = () => {
             DE EERSTE STAP
           </motion.p>
 
-          <div className="grid lg:grid-cols-5 gap-10">
-            {/* Left — 3 cols */}
-            <div className="lg:col-span-3">
+          <div className="grid lg:grid-cols-2 gap-10 mb-10">
+            {/* Left — text */}
+            <div>
               <motion.h2
                 variants={fadeUp}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -73,8 +74,7 @@ const TransformationScanSection = () => {
                 <div className="bg-ff-light-blue rounded-lg p-5 border border-ff-blue/20">
                   <p className="font-heading font-semibold text-sm text-ff-blue mb-2">First Floor-lens</p>
                   <p className="text-sm leading-relaxed text-foreground">
-                    Klopt de organisatie bij de ambitie? Hebben de juiste mensen de juiste rollen en competenties om te
-                    leveren?
+                    Klopt de organisatie bij de ambitie? Hebben de juiste mensen de juiste rollen en competenties?
                   </p>
                 </div>
               </motion.div>
@@ -92,27 +92,40 @@ const TransformationScanSection = () => {
               </motion.div>
             </div>
 
-            {/* Right — price card, mint bg */}
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-2 flex"
-            >
-              <div className="bg-ff-mint rounded-lg p-8 flex flex-col justify-center w-full">
-                <p className="text-white/70 text-sm mb-1">Vanaf</p>
-                <p className="text-white font-heading font-bold text-4xl md:text-5xl mb-2">€18.500</p>
-                <p className="text-ff-dark font-medium mb-1">4–5 weken</p>
-                <p className="text-white/70 text-sm mb-8">5 concrete deliverables</p>
-                <a
-                  href={CALENDLY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-ff-mint font-heading font-semibold text-center px-6 py-3.5 rounded-md hover:bg-white/90 active:scale-[0.97] transition-all duration-150"
-                >
-                  Vraag een vrijblijvende intake aan
-                </a>
-              </div>
-            </motion.div>
+            {/* Right — photo + price card */}
+            <div className="flex flex-col gap-6">
+              <motion.div
+                variants={fadeUp}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="rounded-xl overflow-hidden shadow-lg h-52 md:h-60"
+              >
+                <img
+                  src={teamHallwayImg}
+                  alt="Teamgesprek in de hal"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              <motion.div
+                variants={fadeUp}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="bg-ff-mint rounded-lg p-8 flex flex-col justify-center w-full">
+                  <p className="text-white/70 text-sm mb-1">Vanaf</p>
+                  <p className="text-white font-heading font-bold text-4xl md:text-5xl mb-2">€18.500</p>
+                  <p className="text-ff-dark font-medium mb-1">4–5 weken</p>
+                  <p className="text-white/70 text-sm mb-8">5 concrete deliverables</p>
+                  <a
+                    href={CALENDLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white text-ff-mint font-heading font-semibold text-center px-6 py-3.5 rounded-md hover:bg-white/90 active:scale-[0.97] transition-all duration-150"
+                  >
+                    Vraag een vrijblijvende intake aan
+                  </a>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

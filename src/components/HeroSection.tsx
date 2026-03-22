@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import ellenKarenImg from "@/assets/ellen-karen-duo.jpg";
-import karenSoloImg from "@/assets/karen-solo.jpg";
+import karenEventImg from "@/assets/karen-event.jpeg";
+import ellenImg from "@/assets/ellen.jpeg";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
@@ -125,8 +125,8 @@ const HeroSection = () => {
             {/* Main photo — duo */}
             <div className="relative z-10 rounded-[1.5rem] overflow-hidden shadow-2xl">
               <img
-                src={ellenKarenImg}
-                alt="Karen Van der Aa en Ellen Poppe"
+                src={karenEventImg}
+                alt="Karen Van der Aa"
                 className="w-full h-[420px] object-cover object-[center_25%]"
               />
             </div>
@@ -134,8 +134,8 @@ const HeroSection = () => {
             {/* Floating small photo */}
             <div className="absolute -bottom-8 -left-8 z-20 w-36 h-44 rounded-xl overflow-hidden shadow-xl ring-4 ring-white">
               <img
-                src={karenSoloImg}
-                alt="Karen Van der Aa"
+                src={ellenImg}
+                alt="Ellen Poppe"
                 className="w-full h-full object-cover object-[center_25%]"
               />
             </div>

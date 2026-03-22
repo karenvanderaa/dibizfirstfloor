@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import karenEventImg from "@/assets/karen-event.jpeg";
+import ellenKarenLaptopImg from "@/assets/ellen-karen-laptop.jpg";
 import ellenImg from "@/assets/ellen.jpeg";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";

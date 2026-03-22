@@ -114,16 +114,16 @@ const ProblemSection = () => {
             </div>
           </div>
 
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-12 text-muted-foreground"
-          >
-            Herkenbaar?{" "}
-            <a href="/dri" className="text-primary underline underline-offset-4 hover:text-ff-mint transition-colors">
-              Doe de Delivery Readiness Index en ontdek waar het wringt →
+          <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <span className="text-muted-foreground text-lg font-heading font-medium">Herkenbaar?</span>
+            <a
+              href="/dri"
+              className="inline-flex items-center gap-2 bg-ff-blue text-white font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-md"
+            >
+              Doe de Delivery Readiness Index
+              <span aria-hidden="true">→</span>
             </a>
-          </motion.p>
+          </motion.div>
         </motion.div>
       </div>
     </section>

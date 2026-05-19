@@ -115,7 +115,7 @@ const KleurlogicaSection = () => {
                     <span className="leading-snug">
                       {item.label}
                       {item.note && (
-                        <span className="block text-xs opacity-75 italic">— {item.note}</span>
+                        <span className="block text-xs opacity-75 italic">{item.note}</span>
                       )}
                     </span>
                   </li>

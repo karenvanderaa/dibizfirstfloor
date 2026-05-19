@@ -22,7 +22,7 @@ const DRITeaser = () => {
               Levert uw organisatie de waarde die u belooft?
             </h2>
             <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md">
-              Twee derde van alle transformatietrajecten mislukt — niet door een slechte strategie, maar omdat de
+              Twee derde van alle transformatietrajecten mislukt, niet door een slechte strategie, maar omdat de
               organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
               <br /><br />
               Beantwoord 10 vragen en ontdek waar het wringt. Inclusief downloadbaar rapport.

@@ -16,10 +16,10 @@ const TeamSection = () => {
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-14 leading-snug max-w-2xl">
           Wij verkopen geen mensen.
           <br />
-          <span className="text-ff-mint">Wij verkopen expertise — op maat en holistisch.</span>
+          <span className="text-ff-mint">Wij verkopen expertise, op maat en holistisch.</span>
         </h2>
 
-        {/* Laag 1 — Leads */}
+        {/* Laag 1, Leads */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           <div className="bg-white rounded-lg overflow-hidden border border-border shadow-sm">
             <div className="h-72 md:h-80 overflow-hidden">
@@ -30,7 +30,7 @@ const TeamSection = () => {
               <h3 className="font-heading font-bold text-foreground text-lg">Ellen Poppe</h3>
               <p className="text-ff-mint text-sm font-medium mb-3">Lead Service & business design</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken — voor klanten én voor de mensen die ze leveren.
+                Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken, voor klanten én voor de mensen die ze leveren.
               </p>
               <a href="mailto:ellen@dibiz.be" className="inline-flex items-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150">
                 📧 ellen@dibiz.be
@@ -47,7 +47,7 @@ const TeamSection = () => {
               <h3 className="font-heading font-bold text-foreground text-lg">Karen Van der Aa</h3>
               <p className="text-ff-blue text-sm font-medium mb-3">Lead Organisatie & mensen</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Bouwt de organisatie die de ambitie kan waarmaken — structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.
+                Bouwt de organisatie die de ambitie kan waarmaken, structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.
               </p>
               <a href="mailto:karen@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
                 📧 karen@firstfloortalent.be
@@ -56,8 +56,8 @@ const TeamSection = () => {
           </div>
         </div>
 
-        {/* Laag 2 — Kernteam */}
-        <p className="section-label mb-6">KERNTEAM — STRUCTUREEL BETROKKEN</p>
+        {/* Laag 2, Kernteam */}
+        <p className="section-label mb-6">KERNTEAM, STRUCTUREEL BETROKKEN</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
           {coreTeam.map((m, i) => (
             <div key={i} className="bg-white rounded-lg p-5 border border-border shadow-sm flex items-start gap-4">
@@ -72,11 +72,11 @@ const TeamSection = () => {
           ))}
         </div>
 
-        {/* Laag 3 — Netwerk */}
-        <p className="section-label mb-4">UITGEBREID NETWERK — INGESCHAKELD PER BEHOEFTE</p>
+        {/* Laag 3, Netwerk */}
+        <p className="section-label mb-4">UITGEBREID NETWERK, INGESCHAKELD PER BEHOEFTE</p>
         <div className="bg-ff-light-mint border border-ff-mint/20 rounded-lg p-6 md:p-7">
           <p className="text-foreground leading-relaxed">
-            Voor specifieke vraagstukken — pricing, juridisch, sectorspecifiek, data-engineering, AI-implementatie — schakelen we partners uit ons netwerk in. Dat is hoe een echt expertenteam werkt: schaalbaar, maar met behoud van de relationele lead bij Karen en Ellen.
+            Voor specifieke vraagstukken, pricing, juridisch, sectorspecifiek, data-engineering, AI-implementatie, schakelen we partners uit ons netwerk in. Dat is hoe een echt expertenteam werkt: schaalbaar, maar met behoud van de relationele lead bij Karen en Ellen.
           </p>
         </div>
       </div>

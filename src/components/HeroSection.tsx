@@ -11,10 +11,10 @@ const fadeUp = {
 };
 
 const checkItems = [
-  "Diensten die écht aansluiten bij klant én markt",
+  "Marktaanbod dat aansluit bij klant én markt",
   "Een organisatie die ingericht is om te leveren",
-  "Eén resultaatsgerichte keten van marketready services én een interne organisatie on point",
-  "Verandering die blijft — niet verdwijnt na oplevering",
+  "Eén doorlopende keten van marktaanbod tot realisatie",
+  "Verandering die blijft, niet verdwijnt na oplevering",
 ];
 
 const HeroSection = () => {
@@ -48,9 +48,9 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-foreground font-heading font-bold text-3xl md:text-4xl lg:text-[2.75rem] leading-[1.1] mb-5"
             >
-              Nieuwe diensten die landen.
+              Een aanbod dat landt.
               <br />
-              Een organisatie die ze{" "}
+              Een organisatie die het{" "}
               <span className="text-ff-blue">kan waarmaken.</span>
             </motion.h1>
 
@@ -60,8 +60,7 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
-              Wij designen organisaties zodat ze de waarde leveren die ze beloven
-              — van servicedesign tot de mensen die het waarmaken.
+              Wij ontwerpen marktaanbod en organisatie als één geheel — zodat u kunt waarmaken wat u belooft.
             </motion.p>
 
             {/* Checklist */}

@@ -1,17 +1,9 @@
-import { useState } from "react";
 import ellenImg from "@/assets/ellen.jpeg";
 import karenImg from "@/assets/karen.png";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
 const ContactSection = () => {
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
     <section id="contact" className="bg-ff-light py-24 md:py-36 scroll-mt-16">
       <div className="container">
@@ -26,7 +18,7 @@ const ContactSection = () => {
                 Plan een gesprek met<br />Karen & Ellen
               </h2>
               <p className="text-white/80 leading-relaxed mb-6 max-w-md">
-                Geen verkooppraatje. Een open gesprek over waar het wringt en wat er mogelijk is. Binnen 30 minuten weet u of we kunnen helpen.
+                Een vrijblijvende kennismaking. Geen verkooppraatje. Een open gesprek over waar het wringt en wat er mogelijk is. Binnen 30 minuten weet u of we kunnen helpen.
               </p>
               <a
                 href={CALENDLY_URL}
@@ -49,64 +41,55 @@ const ContactSection = () => {
           </div>
         </div>
 
-        {/* Who we are cards */}
-        <p className="section-label mb-10">WIE WIJ ZIJN</p>
+        {/* Direct contact CTAs */}
+        <h3 className="font-heading font-bold text-foreground text-2xl md:text-3xl mb-10">
+          Of contacteer ons direct
+        </h3>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-white rounded-lg overflow-hidden border border-border shadow-sm">
-            <div className="h-72 md:h-80 overflow-hidden">
-              <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-top" />
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-lg p-6 border border-border shadow-sm flex flex-col">
+            <div className="w-12 h-12 rounded-lg bg-ff-mint/10 text-ff-mint flex items-center justify-center mb-4 text-xl" aria-hidden="true">
+              ✓
             </div>
-            <div className="p-6">
-              <div className="w-10 h-1 bg-ff-mint rounded-full mb-4" />
-              <h3 className="font-heading font-bold text-foreground text-lg">Ellen Poppe</h3>
-              <p className="text-ff-mint text-sm font-medium mb-3">Dibiz — Service & Business Transformatie</p>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken — voor klanten én voor de mensen die ze leveren.
-              </p>
-              <a href="mailto:ellen@dibiz.be" className="inline-flex items-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150">
-                📧 ellen@dibiz.be
-              </a>
-            </div>
+            <h4 className="font-heading font-bold text-foreground text-lg mb-1">Doe de DRI scan</h4>
+            <p className="text-muted-foreground text-sm mb-5">In 5 minuten — gratis</p>
+            <a
+              href="/dri"
+              className="mt-auto inline-flex items-center justify-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-3 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150"
+            >
+              Start de DRI <span aria-hidden="true">→</span>
+            </a>
           </div>
 
-          <div className="bg-white rounded-lg overflow-hidden border border-border shadow-sm">
-            <div className="h-72 md:h-80 overflow-hidden">
-              <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-top" />
+          <div className="bg-white rounded-lg p-6 border border-border shadow-sm flex flex-col">
+            <div className="w-12 h-12 rounded-lg bg-ff-blue/10 text-ff-blue flex items-center justify-center mb-4 text-xl" aria-hidden="true">
+              ◷
             </div>
-            <div className="p-6">
-              <div className="w-10 h-1 bg-ff-blue rounded-full mb-4" />
-              <h3 className="font-heading font-bold text-foreground text-lg">Karen Van der Aa</h3>
-              <p className="text-ff-blue text-sm font-medium mb-3">First Floor — Organisatie & Performance</p>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Bouwt de organisatie die de ambitie kan waarmaken — structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.
-              </p>
-              <a href="mailto:karen@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
-                📧 karen@firstfloortalent.be
-              </a>
-            </div>
+            <h4 className="font-heading font-bold text-foreground text-lg mb-1">Plan een werksessie</h4>
+            <p className="text-muted-foreground text-sm mb-5">Halve dag — €2.500</p>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-auto inline-flex items-center justify-center gap-2 bg-ff-blue text-white font-heading font-semibold text-sm px-5 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
+            >
+              Boek een werksessie <span aria-hidden="true">→</span>
+            </a>
           </div>
-        </div>
 
-        {/* Contact form */}
-        <div className="max-w-lg">
-          <h3 className="font-heading font-bold text-foreground text-xl mb-6">Of stuur ons een bericht</h3>
-          {submitted ? (
-            <div className="bg-white rounded-lg p-8 border border-border">
-              <p className="text-foreground font-heading font-semibold mb-2">Bericht ontvangen.</p>
-              <p className="text-muted-foreground text-sm">We nemen binnen 48 uur contact op.</p>
+          <div className="bg-white rounded-lg p-6 border border-border shadow-sm flex flex-col">
+            <div className="w-12 h-12 rounded-lg bg-ff-blue/10 text-ff-blue flex items-center justify-center mb-4 text-xl" aria-hidden="true">
+              ✉
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input type="text" placeholder="Naam" required className="w-full bg-white text-foreground placeholder:text-muted-foreground border border-border rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint" />
-              <input type="text" placeholder="Organisatie" required className="w-full bg-white text-foreground placeholder:text-muted-foreground border border-border rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint" />
-              <input type="email" placeholder="E-mail" required className="w-full bg-white text-foreground placeholder:text-muted-foreground border border-border rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint" />
-              <textarea placeholder="Bericht (optioneel)" rows={3} className="w-full bg-white text-foreground placeholder:text-muted-foreground border border-border rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ff-mint resize-none" />
-              <button type="submit" className="bg-ff-mint text-white font-heading font-semibold px-7 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150">
-                Stuur ons een bericht
-              </button>
-            </form>
-          )}
+            <h4 className="font-heading font-bold text-foreground text-lg mb-1">Stuur ons een bericht</h4>
+            <p className="text-muted-foreground text-sm mb-5">Voor alles wat niet in een formulier past</p>
+            <a
+              href="mailto:karen@firstfloortalent.be"
+              className="mt-auto inline-flex items-center justify-center gap-2 bg-ff-light text-foreground font-heading font-semibold text-sm px-5 py-3 rounded-md hover:bg-ff-light-mint active:scale-[0.97] transition-all duration-150 border border-border break-all"
+            >
+              karen@firstfloortalent.be
+            </a>
+          </div>
         </div>
       </div>
     </section>

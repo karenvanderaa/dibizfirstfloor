@@ -24,10 +24,10 @@ const TransformationScanSection = () => {
               De Transformatie Scan
             </h2>
             <p className="text-lg italic text-foreground mb-6 max-w-xl">
-              Klopt uw organisatie bij uw ambitie — en kunnen uw diensten de waarde leveren die u belooft?
+              Klopt uw aanbod bij wat de markt vraagt — en is uw organisatie ingericht om dat ook waar te maken?
             </p>
             <p className="text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              In 4–5 weken brengen wij in kaart of uw diensten de waarde leveren die u belooft, en of uw organisatie
+              In 4–5 weken brengen wij in kaart of uw aanbod de waarde levert die u belooft, en of uw organisatie
               ingericht is om dat waar te maken. Geen rapport dat in een lade verdwijnt — een concrete roadmap voor de
               volgende 12 maanden.
             </p>
@@ -36,7 +36,7 @@ const TransformationScanSection = () => {
               <div className="bg-ff-light-mint rounded-lg p-5 border border-ff-mint/20">
                 <p className="font-heading font-semibold text-sm text-ff-mint mb-2">Dibiz-lens</p>
                 <p className="text-sm leading-relaxed text-foreground">
-                  Kloppen de diensten bij wat de markt vraagt? Zijn ze onderscheidend, uitvoerbaar en schaalbaar?
+                  Klopt uw aanbod bij wat de markt vraagt? Is het onderscheidend, uitvoerbaar en schaalbaar?
                 </p>
               </div>
               <div className="bg-ff-light-blue rounded-lg p-5 border border-ff-blue/20">

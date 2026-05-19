@@ -1,111 +1,123 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface ProblemAngle {
-  quote: string;
+interface Tab {
+  key: "aanbod" | "organisatie";
+  label: string;
+  title: string;
+  accent: "ff-blue" | "ff-mint";
   cards: { title: string; desc: string }[];
 }
 
-const angles: ProblemAngle[] = [
+const tabs: Tab[] = [
   {
-    quote: "Je lanceert nieuwe diensten, maar intern loopt het vast.",
+    key: "aanbod",
+    label: "Mijn aanbod",
+    title: "Uw aanbod klopt niet meer.",
+    accent: "ff-blue",
     cards: [
       {
-        title: "Strategische ambitie botst op capability reality.",
-        desc: "De propositie klopt op papier — maar teams missen richting, rollen en competenties om te leveren.",
+        title: "Wat onderscheidend was, is commodity.",
+        desc: "AI versnelt. Klanten verwachten meer. Het aanbod evolueert niet mee.",
       },
       {
-        title: "Na de lancering valt iedereen terug",
-        desc: "op de oude manier van werken. Zonder verankering verdwijnt de verandering.",
+        title: "Klanten zien de meerwaarde niet helder.",
+        desc: "Sales kan het niet uitleggen. Wat verkocht wordt sluit niet aan op wat geleverd wordt.",
       },
       {
-        title: "Service design en organisatieverandering worden nooit samen opgepakt.",
-        desc: "Tot nu.",
+        title: "Pricing klopt niet meer.",
+        desc: "Tarieven zijn intern bepaald. Margebewaking moeilijk. Scope-discussies zijn norm.",
+      },
+      {
+        title: "Lanceren lukt, landen niet.",
+        desc: "Een nieuwe dienst staat in het portfolio. Intern volgt de organisatie niet.",
       },
     ],
   },
   {
-    quote: "De wereld verandert razendsnel, jouw markt ook. Je diensten vragen herpositionering.",
+    key: "organisatie",
+    label: "Mijn organisatie",
+    title: "Uw strategie staat. Uw organisatie volgt niet.",
+    accent: "ff-mint",
     cards: [
       {
-        title: "Klanten verwachten meer — maar je aanbod evolueert niet mee.",
-        desc: "Wat vijf jaar geleden onderscheidend was, is vandaag commodity.",
+        title: "Structuren ingericht voor wat u vroeger was.",
+        desc: "Vestigingen als eilanden. Beslissingen blijven hangen.",
       },
       {
-        title: "AI en digitalisering versnellen, maar de organisatie wandelt.",
-        desc: "Structurele inertie vertraagt beslissnelheid. Legacy-hiërarchieën remmen flow.",
+        title: "Rollen kloppen niet meer.",
+        desc: "Mensen doen werk dat de organisatie niet meer nodig heeft. Of niet doen wat ze zou moeten.",
       },
       {
-        title: "Nieuw talent trekt naar organisaties die sneller transformeren.",
-        desc: "Zonder vernieuwde propositie en organisatievitaliteit verliest u niet alleen klanten, maar ook mensen.",
+        title: "Leiderschap zonder de juiste hefbomen.",
+        desc: "Directie wil transformeren. Middenkader trekt de oude lijn door.",
+      },
+      {
+        title: "Na elke verandering: terugval naar het oude.",
+        desc: "Adoption blijft beperkt. De winst van het project verdwijnt.",
       },
     ],
   },
 ];
 
 const ProblemSection = () => {
-  const [activeAngle, setActiveAngle] = useState(0);
+  const [active, setActive] = useState<Tab["key"]>("aanbod");
+  const current = tabs.find((t) => t.key === active)!;
+  const accentColor = current.accent === "ff-blue" ? "hsl(var(--ff-blue))" : "hsl(var(--ff-mint))";
 
   return (
     <section id="probleem" className="bg-background py-20 md:py-32 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-10">HERKEN JE DIT?</p>
 
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-          <div className="flex flex-col gap-4">
-            {angles.map((angle, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveAngle(i)}
-                className={`text-left rounded-lg p-5 transition-all duration-300 active:scale-[0.98] ${
-                  activeAngle === i
-                    ? "bg-ff-blue text-white shadow-lg"
-                    : "bg-ff-light text-foreground hover:bg-ff-light-mint border border-border"
-                }`}
-              >
-                <p
-                  className={`text-lg md:text-xl font-heading font-semibold leading-snug italic ${
-                    activeAngle === i ? "text-white" : "text-foreground"
-                  }`}
-                >
-                  "{angle.quote}"
-                </p>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-5 min-h-[280px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeAngle}
-                initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col gap-5"
-              >
-                {angles[activeAngle].cards.map((c, i) => (
-                  <div
-                    key={i}
-                    className="border border-border rounded-lg p-5 shadow-sm"
-                    style={{
-                      borderLeftWidth: 3,
-                      borderLeftColor:
-                        activeAngle === 0
-                          ? "hsl(var(--ff-blue))"
-                          : "hsl(var(--ff-mint))",
-                    }}
-                  >
-                    <p className="font-heading font-semibold text-foreground mb-1">
-                      {c.title}
-                    </p>
-                    <p className="text-muted-foreground text-sm">{c.desc}</p>
-                  </div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          </div>
+        {/* Tabs */}
+        <div className="inline-flex bg-ff-light rounded-lg p-1 mb-10 border border-border">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setActive(t.key)}
+              className={`px-5 py-2.5 rounded-md font-heading font-semibold text-sm transition-all duration-200 ${
+                active === t.key
+                  ? "bg-white text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current.key}
+            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 max-w-2xl leading-snug">
+              {current.title}
+            </h2>
+
+            <div className="grid sm:grid-cols-2 gap-5">
+              {current.cards.map((c, i) => (
+                <div
+                  key={i}
+                  className="border border-border rounded-lg p-5 shadow-sm bg-white"
+                  style={{
+                    borderLeftWidth: 3,
+                    borderLeftColor: accentColor,
+                  }}
+                >
+                  <p className="font-heading font-semibold text-foreground mb-1">
+                    {c.title}
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{c.desc}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         <div className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <span className="text-muted-foreground text-lg font-heading font-medium">

@@ -16,7 +16,7 @@ const TeamSection = () => {
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 leading-snug max-w-2xl">
           Wij verkopen geen mensen.
           <br />
-          <span className="text-ff-mint">Wij verkopen expertise, op maat en holistisch.</span>
+          <span className="text-ff-mint">Wij verkopen expertise voor digitale transformatie, op maat en holistisch.</span>
         </h2>
 
         {/* Laag 1: Leads */}

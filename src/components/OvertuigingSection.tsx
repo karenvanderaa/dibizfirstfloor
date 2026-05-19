@@ -23,7 +23,7 @@ const OvertuigingSection = () => {
         <p className="section-label mb-6">ONZE OVERTUIGING</p>
 
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 max-w-3xl leading-snug">
-          Geen generalisten. Wel specialisten die elkaar versterken.
+          Digitale transformatie vraagt geen generalisten. Wel specialisten die elkaar versterken.
         </h2>
 
         <div className="max-w-2xl mb-14">
@@ -31,7 +31,7 @@ const OvertuigingSection = () => {
             Marktaanbod en organisatie zijn nooit los van elkaar te ontwerpen.
           </p>
           <p className="text-ff-mint text-lg md:text-xl italic leading-relaxed">
-            Daarom werken wij ook nooit los van elkaar.
+            Want digitaal aanbod en digitale organisatie ontwerp je nooit los van elkaar.
           </p>
         </div>
 

@@ -4,9 +4,9 @@ const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
 const navLinks = [
   { label: "Probleem", href: "#probleem" },
-  { label: "Aanpak", href: "#diensten" },
-  { label: "Hoe het werkt", href: "#approach" },
+  { label: "Aanpak", href: "#aanpak" },
   { label: "Transformatie Scan", href: "#scan" },
+  { label: "Team", href: "#team" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -49,7 +49,7 @@ const StickyHeader = () => {
             href="/dri"
             className="hidden sm:inline-flex items-center bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-4 py-2 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150"
           >
-            Gratis DRI scan
+            Doe de DRI scan
           </a>
           <a
             href={CALENDLY_URL}

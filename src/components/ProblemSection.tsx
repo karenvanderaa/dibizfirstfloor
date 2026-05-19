@@ -13,7 +13,7 @@ const tabs: Tab[] = [
   {
     key: "aanbod",
     label: "Mijn aanbod",
-    title: "Uw digitaal aanbod klopt niet meer.",
+    title: "Mijn aanbod klopt niet meer. Met mijn (digitale) structuur.",
     accent: "ff-blue",
     cards: [
       {
@@ -21,16 +21,16 @@ const tabs: Tab[] = [
         desc: "AI commoditiseert wat gisteren nog uniek was. Uw aanbod evolueert niet mee.",
       },
       {
-        title: "Klanten zien de digitale meerwaarde niet helder.",
-        desc: "Sales kan het niet uitleggen. Wat digitaal beloofd wordt, sluit niet aan op wat geleverd wordt.",
+        title: "Klanten zien de meerwaarde niet helder.",
+        desc: "Sales kan het niet uitleggen. Wat beloofd wordt, sluit niet aan op wat geleverd wordt.",
       },
       {
         title: "Pricing past niet bij een digitaal model.",
         desc: "Tarieven zijn gebouwd op uren, niet op waarde of data. Margebewaking ontbreekt.",
       },
       {
-        title: "Digitale diensten lanceren lukt, landen niet.",
-        desc: "De nieuwe digitale dienst staat in het portfolio. Intern volgt de organisatie niet.",
+        title: "Innovatie of nieuwe diensten lanceren lukt, ze laten landen niet.",
+        desc: "De nieuwe dienst staat in het portfolio. Intern volgt de organisatie niet.",
       },
     ],
   },

@@ -68,7 +68,10 @@ const ProblemSection = () => {
   return (
     <section id="probleem" className="bg-background py-14 md:py-24 scroll-mt-16">
       <div className="container">
-        <p className="section-label mb-10">HERKEN JE DIT?</p>
+        <p className="section-label mb-3">HERKEN JE DIT?</p>
+        <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-10 max-w-2xl">
+          De digitale transformatie loopt vast. In uw aanbod of in uw organisatie. Vaak in allebei.
+        </p>
 
         {/* Tabs */}
         <div className="inline-flex bg-ff-light rounded-lg p-1 mb-10 border border-border">

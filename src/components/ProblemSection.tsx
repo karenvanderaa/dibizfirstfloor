@@ -98,7 +98,7 @@ const ProblemSection = () => {
             exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 max-w-2xl leading-snug">
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 leading-snug">
               {current.title}
             </h2>
 

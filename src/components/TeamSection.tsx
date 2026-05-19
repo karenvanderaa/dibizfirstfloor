@@ -22,12 +22,12 @@ const TeamSection = () => {
         {/* Laag 1: Leads */}
         <div className="grid md:grid-cols-2 gap-8 mb-14">
           <div className="bg-white rounded-lg overflow-hidden border border-border shadow-sm">
-            <div className="h-80 md:h-96 overflow-hidden bg-ff-light">
+            <div className="aspect-[4/3] overflow-hidden bg-ff-light">
               <img
                 src={ellenImg}
                 alt="Ellen Poppe"
                 className="w-full h-full object-cover"
-                style={{ objectPosition: "center 18%" }}
+                style={{ objectPosition: "55% 32%" }}
               />
             </div>
             <div className="p-6">

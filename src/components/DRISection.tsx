@@ -20,14 +20,14 @@ const clusters: Cluster[] = [
   {
     name: "Diensten & Marktpositie",
     questions: [
-      "Onze nieuwe of vernieuwde diensten leveren niet het rendement dat we verwachtten — ondanks een propositie die op papier sterk is.",
+      "Onze nieuwe of vernieuwde diensten leveren niet het rendement dat we verwachtten, ondanks een propositie die op papier sterk is.",
       "Er zit een merkbare kloof tussen wat wij onze klanten beloven en wat we intern consistent kunnen waarmaken.",
     ],
   },
   {
     name: "Organisatie & Groei",
     questions: [
-      "We groeien — in omzet, mensen of diensten — maar onze interne structuur, rollen en verantwoordelijkheden volgen die groei niet.",
+      "We groeien, in omzet, mensen of diensten, maar onze interne structuur, rollen en verantwoordelijkheden volgen die groei niet.",
       "We hebben een fusie, overname of reorganisatie achter de rug die organisatorisch nog niet volledig is verankerd.",
       "We weten wat we strategisch willen bereiken, maar de vertaling naar concrete rollen, beslissingsbevoegdheden en eigenaarschap ontbreekt.",
     ],
@@ -36,14 +36,14 @@ const clusters: Cluster[] = [
     name: "Mensen & Competenties",
     questions: [
       "Onze medewerkers missen competenties die we nodig hebben voor de richting die we strategisch opgaan.",
-      "Sleutelmedewerkers vertrekken of dreigen te vertrekken — en we begrijpen niet goed waardoor dat komt.",
-      "Onze HR- en talentaanpak is voornamelijk operationeel en reactief — ze loopt achter op onze strategische ambities.",
+      "Sleutelmedewerkers vertrekken of dreigen te vertrekken, en we begrijpen niet goed waardoor dat komt.",
+      "Onze HR- en talentaanpak is voornamelijk operationeel en reactief, ze loopt achter op onze strategische ambities.",
     ],
   },
   {
     name: "Verandering & Verankering",
     questions: [
-      "Na een lancering, reorganisatie of verandertraject vallen mensen snel terug op de oude manier van werken — de verandering verdwijnt.",
+      "Na een lancering, reorganisatie of verandertraject vallen mensen snel terug op de oude manier van werken, de verandering verdwijnt.",
       "AI, digitalisering of andere externe druk verandert onze sector fundamenteel, maar onze organisatie is daar structureel nog niet op ingericht.",
     ],
   },
@@ -68,20 +68,20 @@ const scoreTexts = {
   strong: {
     label: "DRI: Sterk",
     color: "#22c55e",
-    text: "Uw organisatie lijkt goed afgestemd op uw ambitie. De meeste signalen die wijzen op een kloof tussen dienstverlening en organisatiecapaciteit zijn bij u afwezig. Gezonde organisaties presteren gemiddeld 3× beter dan organisaties met structurele gaps — en ze blijven dat doen door continu te meten en bij te sturen. (McKinsey OHI, 2024)",
+    text: "Uw organisatie lijkt goed afgestemd op uw ambitie. De meeste signalen die wijzen op een kloof tussen dienstverlening en organisatiecapaciteit zijn bij u afwezig. Gezonde organisaties presteren gemiddeld 3× beter dan organisaties met structurele gaps, en ze blijven dat doen door continu te meten en bij te sturen. (McKinsey OHI, 2024)",
     cta: "Bevestig uw sterktes met een vrijblijvend gesprek",
   },
   pressure: {
     label: "DRI: Onder druk",
     color: "#f59e0b",
-    text: "Er zijn duidelijke signalen dat uw organisatie en uw ambitie niet volledig op elkaar zijn afgestemd. Dit is het moment om te handelen — niet omdat het crisis is, maar omdat de kloof op dit punt nog beheersbaar is. Twee derde van alle transformatietrajecten faalt niet door een slechte strategie, maar omdat de organisatie er niet structureel op is ingericht. (McKinsey, 2023) De Transformatie Scan brengt in 4–5 weken in kaart waar de kloof zit en hoe u die aanpakt.",
+    text: "Er zijn duidelijke signalen dat uw organisatie en uw ambitie niet volledig op elkaar zijn afgestemd. Dit is het moment om te handelen, niet omdat het crisis is, maar omdat de kloof op dit punt nog beheersbaar is. Twee derde van alle transformatietrajecten faalt niet door een slechte strategie, maar omdat de organisatie er niet structureel op is ingericht. (McKinsey, 2023) De Transformatie Scan brengt in 4–5 weken in kaart waar de kloof zit en hoe u die aanpakt.",
     cta: "Vraag de Transformatie Scan aan",
   },
   critical: {
     label: "DRI: Kritisch",
     color: "#ef4444",
     text: "Uw organisatie loopt structureel achter op haar ambities. Organisaties die meer dan 18 maanden in dit patroon zitten mislopen gemiddeld 23% van hun groeipotentieel door talent dat vertrekt, initiatieven die niet landen en klanten die de kloof beginnen te voelen. (WEF Future of Jobs, 2025) Elke maand telt.",
-    cta: "Plan een gesprek — wij bellen u terug",
+    cta: "Plan een gesprek, wij bellen u terug",
   },
 };
 
@@ -192,7 +192,7 @@ const DRISection = () => {
       doc.text(text, w / 2, y + 7, { align: "center" });
     };
 
-    // PAGE 1 — Cover
+    // PAGE 1, Cover
     doc.setFillColor("#1a1a2e");
     doc.rect(0, 0, w, doc.internal.pageSize.getHeight(), "F");
     doc.setTextColor("#315eff");
@@ -211,13 +211,13 @@ const DRISection = () => {
     doc.setFontSize(11);
     doc.setTextColor("#888888");
     doc.text(dateStr, w / 2, 115, { align: "center" });
-    drawColorBand(130, info.color, `${info.label} — ${yesCount}/${totalQuestions}`);
+    drawColorBand(130, info.color, `${info.label}, ${yesCount}/${totalQuestions}`);
     doc.setTextColor("#5ec6b8");
     doc.setFontSize(11);
     doc.setFont("helvetica", "italic");
     doc.text("Levert uw organisatie de waarde die u belooft?", w / 2, 160, { align: "center" });
 
-    // PAGE 2 — Score & toelichting
+    // PAGE 2, Score & toelichting
     doc.addPage();
     doc.setTextColor("#1a1a2e");
     doc.setFont("helvetica", "bold");
@@ -234,12 +234,12 @@ const DRISection = () => {
     doc.setFontSize(9);
     doc.setTextColor("#666666");
     const explainer = doc.splitTextToSize(
-      "De Delivery Readiness Index meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit — op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
+      "De Delivery Readiness Index meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit, op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
       contentW
     );
     doc.text(explainer, margin, y2);
 
-    // PAGE 3 — Antwoorden per cluster
+    // PAGE 3, Antwoorden per cluster
     doc.addPage();
     doc.setTextColor("#1a1a2e");
     doc.setFont("helvetica", "bold");
@@ -285,7 +285,7 @@ const DRISection = () => {
       y3 += 6;
     });
 
-    // PAGE 4 — Volgende stap
+    // PAGE 4, Volgende stap
     doc.addPage();
     doc.setTextColor("#1a1a2e");
     doc.setFont("helvetica", "bold");
@@ -314,7 +314,7 @@ const DRISection = () => {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor("#315eff");
-    doc.text("Vanaf €18.500 — 4–5 weken — 5 concrete deliverables", margin, y4);
+    doc.text("Vanaf €18.500, 4–5 weken, 5 concrete deliverables", margin, y4);
     y4 += 12;
     doc.setTextColor("#1a1a2e");
     doc.setFont("helvetica", "bold");
@@ -327,7 +327,7 @@ const DRISection = () => {
     doc.setFontSize(9);
     doc.text("ellen@dibiz.be · karen.vanderaa@firstfloortalent.be", margin, y4);
 
-    // PAGE 5 — Over FF × Dibiz
+    // PAGE 5, Over FF × Dibiz
     doc.addPage();
     doc.setTextColor("#1a1a2e");
     doc.setFont("helvetica", "bold");
@@ -343,22 +343,22 @@ const DRISection = () => {
     doc.text(aboutText, margin, 42);
     let y5 = 42 + aboutText.length * 5 + 12;
     doc.setFont("helvetica", "bold");
-    doc.text("Ellen Poppe — Dibiz", margin, y5);
+    doc.text("Ellen Poppe, Dibiz", margin, y5);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     const ellenText = doc.splitTextToSize(
-      "Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken — voor klanten én voor de mensen die ze leveren.",
+      "Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken, voor klanten én voor de mensen die ze leveren.",
       contentW
     );
     doc.text(ellenText, margin, y5 + 6);
     y5 += 6 + ellenText.length * 4.5 + 8;
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    doc.text("Karen Van der Aa — First Floor", margin, y5);
+    doc.text("Karen Van der Aa, First Floor", margin, y5);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     const karenText = doc.splitTextToSize(
-      "Bouwt de organisatie die de ambitie kan waarmaken — structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.",
+      "Bouwt de organisatie die de ambitie kan waarmaken, structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.",
       contentW
     );
     doc.text(karenText, margin, y5 + 6);
@@ -373,7 +373,7 @@ const DRISection = () => {
   let qIndex = 0;
 
   return (
-    <section id="dri" className="bg-ff-light py-20 md:py-28 scroll-mt-16">
+    <section id="dri" className="bg-ff-light py-14 md:py-20 scroll-mt-16">
       <div className="container max-w-3xl">
         <motion.div
           initial="hidden"
@@ -398,7 +398,7 @@ const DRISection = () => {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="text-muted-foreground text-sm leading-relaxed mb-10"
           >
-            Twee derde van alle transformatietrajecten mislukt — niet door een slechte strategie, maar omdat de
+            Twee derde van alle transformatietrajecten mislukt, niet door een slechte strategie, maar omdat de
             organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
             <br />
             Beantwoord 10 vragen eerlijk. Resultaat en downloadbaar rapport verschijnen direct na het invullen van uw gegevens.
@@ -448,7 +448,7 @@ const DRISection = () => {
             </motion.div>
           ))}
 
-          {/* Lead capture gate — shown when all questions answered but not yet submitted */}
+          {/* Lead capture gate, shown when all questions answered but not yet submitted */}
           {allAnswered && !leadSubmitted && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -502,7 +502,7 @@ const DRISection = () => {
             </motion.div>
           )}
 
-          {/* Results — only after lead gate */}
+          {/* Results, only after lead gate */}
           {showResults && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -548,7 +548,7 @@ const DRISection = () => {
                       className="font-heading font-bold text-lg mb-2"
                       style={{ color: info.color }}
                     >
-                      {info.label} — {yesCount}/{totalQuestions}
+                      {info.label}, {yesCount}/{totalQuestions}
                     </p>
                     <p className="text-foreground text-sm leading-relaxed">{info.text}</p>
                     <a

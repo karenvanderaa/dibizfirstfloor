@@ -18,7 +18,7 @@ const cards = [
 
 const OvertuigingSection = () => {
   return (
-    <section className="bg-background py-20 md:py-32">
+    <section className="bg-background py-14 md:py-24">
       <div className="container">
         <p className="section-label mb-6">ONZE OVERTUIGING</p>
 

@@ -3,7 +3,7 @@ import karenEventImg from "@/assets/karen-event.jpeg";
 
 const DRITeaser = () => {
   return (
-    <section id="dri" className="bg-ff-light py-20 md:py-28 scroll-mt-16">
+    <section id="dri" className="bg-ff-light py-14 md:py-20 scroll-mt-16">
       <div className="container">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           {/* Photo side */}
@@ -22,7 +22,7 @@ const DRITeaser = () => {
               Levert uw organisatie de waarde die u belooft?
             </h2>
             <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md">
-              Twee derde van alle transformatietrajecten mislukt — niet door een slechte strategie, maar omdat de
+              Twee derde van alle transformatietrajecten mislukt, niet door een slechte strategie, maar omdat de
               organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
               <br /><br />
               Beantwoord 10 vragen en ontdek waar het wringt. Inclusief downloadbaar rapport.

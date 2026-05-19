@@ -123,6 +123,10 @@ const DRISection = () => {
       next[qIndex] = value;
       return next;
     });
+    // auto-advance to next question, or to lead form after last question
+    setTimeout(() => {
+      setCurrentStep((s) => Math.min(s + 1, totalQuestions));
+    }, 220);
   };
 
   const getScoreLevel = () => {

@@ -414,103 +414,150 @@ const DRISection = () => {
             Beantwoord 10 vragen eerlijk, één voor één. Resultaat en downloadbaar rapport verschijnen na het invullen van uw gegevens.
           </motion.p>
 
-          {/* Questions */}
-          {clusters.map((cluster) => (
+          {/* Step-by-step: one question per page, then lead form */}
+          {!showResults && (
             <motion.div
-              key={cluster.name}
               variants={fadeUp}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-8"
             >
-              <p className="font-heading font-semibold text-sm text-ff-blue uppercase tracking-wide mb-4">
-                {cluster.name}
-              </p>
-              {cluster.questions.map((q) => {
-                const idx = qIndex++;
-                return (
-                  <div key={idx} className="mb-4 bg-background rounded-lg p-5 border border-border shadow-sm">
-                    <p className="text-foreground text-sm leading-relaxed mb-3">{q}</p>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleAnswer(idx, true)}
-                        className={`px-5 py-1.5 rounded-md text-sm font-semibold transition-all duration-150 active:scale-[0.97] ${
-                          answers[idx] === true
-                            ? "bg-ff-blue text-white"
-                            : "bg-ff-light text-foreground border border-border hover:border-ff-blue"
-                        }`}
-                      >
-                        Ja
-                      </button>
-                      <button
-                        onClick={() => handleAnswer(idx, false)}
-                        className={`px-5 py-1.5 rounded-md text-sm font-semibold transition-all duration-150 active:scale-[0.97] ${
-                          answers[idx] === false
-                            ? "bg-ff-dark text-white"
-                            : "bg-ff-light text-foreground border border-border hover:border-ff-dark"
-                        }`}
-                      >
-                        Nee
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </motion.div>
-          ))}
-
-          {/* Lead capture gate, shown when all questions answered but not yet submitted */}
-          {allAnswered && !leadSubmitted && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-12 bg-background rounded-lg p-8 border border-border shadow-md"
-            >
-              <div className="text-center mb-6">
-                <p className="font-heading font-bold text-lg text-foreground mb-2">
-                  Uw resultaat is klaar
-                </p>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Vul uw gegevens in om uw persoonlijke DRI-score en downloadbaar rapport te ontvangen.
-                </p>
+              {/* Progress bar */}
+              <div className="mb-6">
+                <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <span>
+                    {currentStep < totalQuestions
+                      ? `Vraag ${currentStep + 1} van ${totalQuestions}`
+                      : "Bijna klaar, uw gegevens"}
+                  </span>
+                  <span>
+                    {Math.round(
+                      ((Math.min(currentStep, totalQuestions)) / (totalQuestions + 1)) * 100
+                    )}%
+                  </span>
+                </div>
+                <div className="h-2 bg-border rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-ff-blue rounded-full transition-all duration-300"
+                    style={{
+                      width: `${
+                        ((Math.min(currentStep, totalQuestions) + (currentStep >= totalQuestions ? 1 : 0)) /
+                          (totalQuestions + 1)) *
+                        100
+                      }%`,
+                    }}
+                  />
+                </div>
               </div>
 
-              <div className="space-y-3 max-w-md mx-auto">
-                <input
-                  type="text"
-                  placeholder="Uw naam *"
-                  value={leadName}
-                  onChange={(e) => setLeadName(e.target.value)}
-                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                />
-                <input
-                  type="email"
-                  placeholder="Uw e-mailadres *"
-                  value={leadEmail}
-                  onChange={(e) => setLeadEmail(e.target.value)}
-                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                />
-                <input
-                  type="text"
-                  placeholder="Organisatie *"
-                  value={leadOrg}
-                  onChange={(e) => setLeadOrg(e.target.value)}
-                  className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                />
-                <button
-                  onClick={handleLeadSubmit}
-                  disabled={leadLoading}
-                  className="w-full bg-ff-blue text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm disabled:opacity-60"
+              {currentStep < totalQuestions ? (
+                <motion.div
+                  key={currentStep}
+                  initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className="bg-background rounded-lg p-6 md:p-8 border border-border shadow-sm"
                 >
-                  {leadLoading ? "Even geduld..." : "Bekijk mijn resultaat"}
-                </button>
-              </div>
+                  <p className="font-heading font-semibold text-xs text-ff-blue uppercase tracking-wide mb-3">
+                    {flatQuestions[currentStep].cluster}
+                  </p>
+                  <p className="text-foreground text-base md:text-lg leading-relaxed mb-6">
+                    {flatQuestions[currentStep].question}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => handleAnswer(currentStep, true)}
+                      className={`flex-1 px-6 py-3 rounded-md text-sm font-heading font-semibold transition-all duration-150 active:scale-[0.97] ${
+                        answers[currentStep] === true
+                          ? "bg-ff-blue text-white"
+                          : "bg-ff-light text-foreground border border-border hover:border-ff-blue"
+                      }`}
+                    >
+                      Ja
+                    </button>
+                    <button
+                      onClick={() => handleAnswer(currentStep, false)}
+                      className={`flex-1 px-6 py-3 rounded-md text-sm font-heading font-semibold transition-all duration-150 active:scale-[0.97] ${
+                        answers[currentStep] === false
+                          ? "bg-ff-dark text-white"
+                          : "bg-ff-light text-foreground border border-border hover:border-ff-dark"
+                      }`}
+                    >
+                      Nee
+                    </button>
+                  </div>
 
-              <p className="text-xs text-muted-foreground text-center mt-4">
-                Uw gegevens worden enkel gebruikt om u uw rapport te bezorgen en eventueel op te volgen. Geen spam.
-              </p>
+                  {currentStep > 0 && (
+                    <button
+                      onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+                      className="mt-5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      ← Vorige vraag
+                    </button>
+                  )}
+                </motion.div>
+              ) : (
+                /* Lead capture form, final step */
+                <motion.div
+                  key="lead"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="bg-background rounded-lg p-6 md:p-8 border border-border shadow-md"
+                >
+                  <div className="text-center mb-6">
+                    <p className="font-heading font-bold text-lg text-foreground mb-2">
+                      Uw resultaat is klaar
+                    </p>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      Vul uw gegevens in om uw persoonlijke DRI-score en downloadbaar rapport te ontvangen.
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 max-w-md mx-auto">
+                    <input
+                      type="text"
+                      placeholder="Uw naam *"
+                      value={leadName}
+                      onChange={(e) => setLeadName(e.target.value)}
+                      className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Uw e-mailadres *"
+                      value={leadEmail}
+                      onChange={(e) => setLeadEmail(e.target.value)}
+                      className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Organisatie *"
+                      value={leadOrg}
+                      onChange={(e) => setLeadOrg(e.target.value)}
+                      className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
+                    />
+                    <button
+                      onClick={handleLeadSubmit}
+                      disabled={leadLoading}
+                      className="w-full bg-ff-blue text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm disabled:opacity-60"
+                    >
+                      {leadLoading ? "Even geduld..." : "Bekijk mijn resultaat"}
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground text-center mt-4">
+                    Uw gegevens worden enkel gebruikt om u uw rapport te bezorgen en eventueel op te volgen. Geen spam.
+                  </p>
+
+                  <button
+                    onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+                    className="mt-5 text-xs text-muted-foreground hover:text-foreground transition-colors block mx-auto"
+                  >
+                    ← Vorige vraag
+                  </button>
+                </motion.div>
+              )}
             </motion.div>
           )}
+
 
           {/* Results, only after lead gate */}
           {showResults && (

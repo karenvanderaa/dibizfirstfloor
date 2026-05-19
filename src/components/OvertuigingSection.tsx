@@ -31,7 +31,7 @@ const OvertuigingSection = () => {
             Marktaanbod en organisatie zijn nooit los van elkaar te ontwerpen.
           </p>
           <p className="text-ff-mint text-lg md:text-xl italic leading-relaxed">
-            Want digitaal aanbod en digitale organisatie ontwerp je nooit los van elkaar.
+            Want aanbod, digitale structuur en organisatie ontwerp je nooit los van elkaar.
           </p>
         </div>
 

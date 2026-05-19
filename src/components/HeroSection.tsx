@@ -11,7 +11,7 @@ const fadeUp = {
 };
 
 const checkItems = [
-  "Digitaal aanbod dat aansluit bij klant én markt",
+  "Een aanbod dat aansluit bij klant én markt",
   "Een organisatie die ingericht is om te leveren",
   "Eén doorlopende keten van marktaanbod tot realisatie",
   "Verandering die blijft, niet verdwijnt na oplevering",
@@ -63,7 +63,7 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
-              Wij ontwerpen uw digitale aanbod en de organisatie die het levert als één geheel. AI, data en nieuwe diensten, vertaald naar wat klanten kopen en wat uw mensen waarmaken.
+              Wij ontwerpen uw aanbod, de digitale infrastructuur eronder en de organisatie die het levert als één geheel. AI, data en nieuwe diensten, vertaald naar wat klanten kopen en wat uw mensen waarmaken.
             </motion.p>
 
             {/* Checklist */}

@@ -1,74 +1,43 @@
-# Digitale transformatie expliciet maken
+## Wat ik fout deed
 
-Op dit moment voelt de site té generiek "strategie + organisatie". Wat jullie écht doen, digitale transformatie van aanbod én organisatie, springt nergens uit. Voorstel: dit op een handvol scherpe plekken inbouwen, zonder de structuur of het visuele design om te gooien.
+Ik schreef "digitaal aanbod" alsof het aanbod zelf digitaal is. Dat klopt niet. Het aanbod = wat klanten kopen (diensten, producten). De **digitale infrastructuur / architectuur** zit eronder en maakt het mogelijk. Daarnaast staan de organisatie en de mensen.
 
-## 1 · HeroSection (src/components/HeroSection.tsx)
+Driedeling die ik consistent ga doortrekken:
+- **Aanbod** (wat de klant koopt)
+- **Digitale infrastructuur** eronder (wat het mogelijk maakt)
+- **Organisatie & mensen** (wat het waarmaakt)
 
-Headline scherper positioneren rond digitale transformatie.
+## Te corrigeren plekken
 
-- **H1 huidig:** "Een aanbod dat landt. Een organisatie die het kan waarmaken."
-- **H1 nieuw:** "Digitale transformatie die landt. In uw aanbod én uw organisatie."
-- **Subtitel nieuw:** "Wij ontwerpen uw digitale aanbod en de organisatie die het levert als één geheel. AI, data en nieuwe diensten, vertaald naar wat klanten kopen en wat uw mensen waarmaken."
-- **Pills:** "First Floor × Dibiz" behouden, daaronder kleine tagline-pill toevoegen: `Digitale transformatie, end-to-end`.
-- Checklist eerste item wordt: "Digitaal aanbod dat aansluit bij klant én markt".
+### 1. `HeroSection.tsx`
 
-## 2 · ProblemSection (de screenshot, src/components/ProblemSection.tsx)
+- **Subtitel (regel 66)**
+  - Nu: "Wij ontwerpen uw digitale aanbod en de organisatie die het levert als één geheel..."
+  - Nieuw: "Wij ontwerpen uw aanbod, de digitale infrastructuur eronder en de organisatie die het levert als één geheel. AI, data en nieuwe diensten, vertaald naar wat klanten kopen en wat uw mensen waarmaken."
 
-Dit is de plek waar het nu het zwakst staat. Twee ingrepen:
+- **Checklist item 1 (regel 14)**
+  - Nu: "Digitaal aanbod dat aansluit bij klant én markt"
+  - Nieuw: "Een aanbod dat aansluit bij klant én markt"
+  - (Eventueel item 2 aanvullen met digitale laag, optioneel, zie vraag onder)
 
-**a. Tab-titels en intro herframen rond digitale transformatie:**
+### 2. `OvertuigingSection.tsx`
 
-- Tab A label blijft "Mijn aanbod", titel wordt: **"Uw digitaal aanbod klopt niet meer."**
-- Tab B label blijft "Mijn organisatie", titel wordt: **"Uw digitale strategie staat. Uw organisatie volgt niet."**
-- Section label "HERKEN JE DIT?" krijgt subkop eronder (nieuwe `<p>`): "De digitale transformatie loopt vast, in uw aanbod of in uw organisatie. Vaak in allebei."
+- **Mint italic regel (regel 34)**
+  - Nu: "Want digitaal aanbod en digitale organisatie ontwerp je nooit los van elkaar."
+  - Nieuw: "Want aanbod, digitale structuur en organisatie ontwerp je nooit los van elkaar."
 
-**b. Kaartteksten aanscherpen met digitaal/AI-vocabulaire (alleen tekst, kaart-structuur ongewijzigd):**
+### 3. `ProblemSection.tsx`, dubbelcheck
 
-Tab A (Mijn aanbod):
-- "Wat onderscheidend was, is commodity." → desc: "AI commoditiseert wat gisteren nog uniek was. Uw aanbod evolueert niet mee."
-- "Klanten zien de digitale meerwaarde niet helder." → desc: "Sales kan het niet uitleggen. Wat digitaal beloofd wordt, sluit niet aan op wat geleverd wordt."
-- "Pricing past niet bij een digitaal model." → desc: "Tarieven zijn gebouwd op uren, niet op waarde of data. Margebewaking ontbreekt."
-- "Digitale diensten lanceren lukt, landen niet." → desc: "De nieuwe digitale dienst staat in het portfolio. Intern volgt de organisatie niet."
+- Tab-titel staat al juist: *"Mijn aanbod klopt niet meer. Met mijn (digitale) structuur."* → behouden.
+- Kaart "Pricing past niet bij een digitaal model." → blijft (pricing-model mag wél digitaal heten, dat is het verdienmodel).
+- Tab B-titel: *"Uw digitale strategie staat. Uw organisatie volgt niet."* → blijft, dit gaat over strategie, niet aanbod.
+- Geen andere "digitaal aanbod"-formuleringen aanwezig.
 
-Tab B (Mijn organisatie):
-- "Structuren ingericht voor wat u vroeger was." → desc: "Vestigingen als eilanden. Data zit verspreid. Beslissingen blijven hangen."
-- "Rollen kloppen niet meer voor een digitale organisatie." → desc: "Mensen doen werk dat geautomatiseerd kan. Of missen de skills voor wat de organisatie wél nodig heeft."
-- "Leiderschap zonder digitale hefbomen." → desc: "Directie wil digitaal transformeren. Middenkader trekt de oude lijn door."
-- "Na elke digitale uitrol: terugval naar het oude." → desc: "Adoption blijft beperkt. Tools worden niet gebruikt. De winst verdwijnt."
+### 4. Andere componenten
 
-CTA-rij onderaan ongewijzigd.
+`rg` bevestigt: alleen `HeroSection` en `OvertuigingSection` bevatten "digitaal/digitale aanbod". `AanpakSection`, `TeamSection`, `FunnelStepsSection` etc. zijn schoon.
 
-## 3 · AanpakSection (src/components/AanpakSection.tsx)
+## Wat ik niet aanpas
 
-Twee subtiele woordwijzigingen, geen layout-aanpassing:
-
-- Subtitel paragraaf: "Een geïntegreerd traject voor digitale transformatie, van marktaanbod tot verankering. Diagnose extern en intern lopen parallel. Pas wanneer beide scherp zijn, gaan we naar ontwerp en verankering."
-- Fase 03 ("Ontworpen & gebouwd"), english subtitle wordt: "Digital service, business & organization design"
-
-## 4 · OvertuigingSection (src/components/OvertuigingSection.tsx)
-
-- H2 wordt: "Digitale transformatie vraagt geen generalisten. Wel specialisten die elkaar versterken."
-- Mint italic regel wordt: "Want digitaal aanbod en digitale organisatie ontwerp je nooit los van elkaar."
-
-## 5 · TeamSection (src/components/TeamSection.tsx)
-
-Korte aanscherping van lead-rollen:
-
-- Ellen: "Lead Digital service & business design"
-- Karen: "Lead Digitale organisatie & mensen"
-- Inleidende H2 tweede regel: "Wij verkopen expertise voor digitale transformatie, op maat en holistisch."
-
-## 6 · StickyHeader (optioneel)
-
-Onder logo-blok kan een micro-tagline staan: `Digitale transformatie, end-to-end`. Alleen op desktop, in subtiele muted color. Skip als jij vindt dat de header te druk wordt, dan laten we het bij hero.
-
-## Wat ik NIET aanpas
-
-- Geen nieuwe secties, geen nieuwe componenten.
-- Geen wijzigingen aan FunnelStepsSection, KleurlogicaSection, TransformationScanSection, DRITeaser, ContactSection, Footer, ExitIntentPopup.
-- Geen kleuren, fonts, spacing, animaties, Calendly-links of mailto's.
-- Geen SEO meta-tags (kan in een volgende stap als je wil).
-
-## Technisch
-
-Pure tekstvervangingen in 5 componenten + optioneel 1 kleine markup-toevoeging in HeroSection (extra pill) en eventueel StickyHeader (micro-tagline span). Alle bestaande classes en structuur blijven staan.
+- Structuur, layout, kleuren, animaties, Calendly-links.
+- De H1 in hero ("Digitale transformatie die landt. In uw aanbod én uw organisatie.") → blijft, want hier wordt aanbod en organisatie correct náást digitale transformatie gezet, niet als "digitaal aanbod".

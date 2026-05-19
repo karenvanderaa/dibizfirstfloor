@@ -66,7 +66,7 @@ const ProblemSection = () => {
   const accentColor = current.accent === "ff-blue" ? "hsl(var(--ff-blue))" : "hsl(var(--ff-mint))";
 
   return (
-    <section id="probleem" className="bg-background py-14 md:py-24 scroll-mt-16">
+    <section id="probleem" className="bg-background py-20 md:py-32 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-10">HERKEN JE DIT?</p>
 

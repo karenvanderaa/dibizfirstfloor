@@ -108,7 +108,7 @@ const Zone = ({ label, phases }: { label: string; phases: Phase[] }) => (
 
 const AanpakSection = () => {
   return (
-    <section id="aanpak" className="bg-background py-16 md:py-24 scroll-mt-16">
+    <section id="aanpak" className="bg-background py-24 md:py-36 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-4">ONZE AANPAK</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 max-w-2xl">
@@ -119,7 +119,7 @@ const AanpakSection = () => {
         </p>
 
         <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">
-          <Zone label="DIAGNOSE, twee parallelle analyses" phases={diagnose} />
+          <Zone label="DIAGNOSE — twee parallelle analyses" phases={diagnose} />
 
           {/* Chevron */}
           <div className="flex items-center justify-center py-2 lg:py-0">
@@ -141,7 +141,7 @@ const AanpakSection = () => {
             </svg>
           </div>
 
-          <Zone label="REALISATIE, bouwen en verankeren" phases={realisatie} />
+          <Zone label="REALISATIE — bouwen en verankeren" phases={realisatie} />
         </div>
 
         {/* Callout */}
@@ -160,7 +160,7 @@ const AanpakSection = () => {
           <div className="md:col-span-3 py-14 px-8 md:px-16 flex items-center">
             <div className="max-w-2xl">
               <p className="text-white text-lg md:text-xl leading-relaxed">
-                Één doorlopend traject, van marktaanbod tot organisatie. Geen gap tussen wat beloofd wordt en wat geleverd wordt. Geen verandering die na het project verdwijnt.{" "}
+                Één doorlopend traject — van marktaanbod tot organisatie. Geen gap tussen wat beloofd wordt en wat geleverd wordt. Geen verandering die na het project verdwijnt.{" "}
                 <strong className="font-bold text-ff-mint">Wij noemen dat geen consultancy. Wij noemen dat fixen.</strong>
               </p>
             </div>

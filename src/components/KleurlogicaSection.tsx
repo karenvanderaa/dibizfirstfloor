@@ -81,7 +81,7 @@ const legend: { color: Owner; label: string }[] = [
 
 const KleurlogicaSection = () => {
   return (
-    <section className="bg-ff-light py-16 md:py-24">
+    <section className="bg-ff-light py-24 md:py-32">
       <div className="container">
         <p className="section-label mb-4">HOE WE SAMEN WERKEN</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-4 max-w-2xl">
@@ -115,7 +115,7 @@ const KleurlogicaSection = () => {
                     <span className="leading-snug">
                       {item.label}
                       {item.note && (
-                        <span className="block text-xs opacity-75 italic">, {item.note}</span>
+                        <span className="block text-xs opacity-75 italic">— {item.note}</span>
                       )}
                     </span>
                   </li>

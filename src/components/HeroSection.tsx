@@ -26,7 +26,7 @@ const HeroSection = () => {
 
       <div className="container relative">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Left, copy */}
+          {/* Left — copy */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -60,7 +60,7 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
-              Wij ontwerpen marktaanbod en organisatie als één geheel, zodat u kunt waarmaken wat u belooft.
+              Wij ontwerpen marktaanbod en organisatie als één geheel — zodat u kunt waarmaken wat u belooft.
             </motion.p>
 
             {/* Checklist */}
@@ -104,7 +104,7 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right, photo composition */}
+          {/* Right — photo composition */}
           <motion.div
             initial={{ opacity: 0, x: 24, filter: "blur(6px)" }}
             animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
@@ -122,7 +122,7 @@ const HeroSection = () => {
               style={{ background: "hsl(var(--ff-mint) / 0.15)" }}
             />
 
-            {/* Main photo, duo */}
+            {/* Main photo — duo */}
             <div className="relative z-10 rounded-[1.5rem] overflow-hidden shadow-2xl">
               <img
                 src={ellenKarenLaptopImg}

@@ -5,7 +5,7 @@ const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="bg-ff-light py-16 md:py-24 scroll-mt-16">
+    <section id="contact" className="bg-ff-light py-24 md:py-36 scroll-mt-16">
       <div className="container">
         {/* Personal CTA band */}
         <div className="bg-ff-blue rounded-xl p-8 md:p-12 mb-16">
@@ -31,11 +31,11 @@ const ContactSection = () => {
               </a>
             </div>
             <div className="flex gap-4 justify-center md:justify-end">
-              <div className="w-40 h-52 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
-                <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-[center_18%]" />
+              <div className="w-36 h-44 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
+                <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-[center_30%]" />
               </div>
-              <div className="w-40 h-52 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
-                <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-[center_15%]" />
+              <div className="w-36 h-44 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
+                <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-[center_30%]" />
               </div>
             </div>
           </div>
@@ -52,7 +52,7 @@ const ContactSection = () => {
               ✓
             </div>
             <h4 className="font-heading font-bold text-foreground text-lg mb-1">Doe de DRI scan</h4>
-            <p className="text-muted-foreground text-sm mb-5">In 5 minuten, gratis</p>
+            <p className="text-muted-foreground text-sm mb-5">In 5 minuten — gratis</p>
             <a
               href="/dri"
               className="mt-auto inline-flex items-center justify-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-3 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150"
@@ -66,7 +66,7 @@ const ContactSection = () => {
               ◷
             </div>
             <h4 className="font-heading font-bold text-foreground text-lg mb-1">Plan een werksessie</h4>
-            <p className="text-muted-foreground text-sm mb-5">Halve dag, €2.500</p>
+            <p className="text-muted-foreground text-sm mb-5">Halve dag — €2.500</p>
             <a
               href={CALENDLY_URL}
               target="_blank"

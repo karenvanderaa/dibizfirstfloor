@@ -57,11 +57,11 @@ const ctaStyles: Record<Step["variant"], string> = {
 
 const FunnelStepsSection = () => {
   return (
-    <section className="bg-background py-14 md:py-20">
+    <section className="bg-background py-20 md:py-28">
       <div className="container">
         <p className="section-label mb-4">DRIE INSTAPPEN</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 max-w-2xl">
-          Drie manieren om te starten, kies wat past.
+          Drie manieren om te starten — kies wat past.
         </h2>
 
         <div className="grid md:grid-cols-3 gap-6">

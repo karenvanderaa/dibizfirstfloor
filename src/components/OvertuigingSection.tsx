@@ -28,10 +28,10 @@ const OvertuigingSection = () => {
 
         <div className="max-w-2xl mb-14">
           <p className="text-foreground text-lg md:text-xl leading-relaxed mb-2">
-            Marktaanbod en organisatie zijn nooit los van elkaar te ontwerpen.
+            Wij zijn systeemdenkers- en doeners.
           </p>
           <p className="text-ff-mint text-lg md:text-xl italic leading-relaxed">
-            Want aanbod, digitale structuur en organisatie ontwerp je nooit los van elkaar.
+            Want aanbod, organisatie en digitale structuur bouw je niet los van elkaar. Toch niet als je wil dat het werkt.
           </p>
         </div>
 

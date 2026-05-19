@@ -411,7 +411,7 @@ const DRISection = () => {
             Twee derde van alle transformatietrajecten mislukt, niet door een slechte strategie, maar omdat de
             organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
             <br />
-            Beantwoord 10 vragen eerlijk. Resultaat en downloadbaar rapport verschijnen direct na het invullen van uw gegevens.
+            Beantwoord 10 vragen eerlijk, één voor één. Resultaat en downloadbaar rapport verschijnen na het invullen van uw gegevens.
           </motion.p>
 
           {/* Questions */}

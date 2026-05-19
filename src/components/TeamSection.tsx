@@ -44,12 +44,12 @@ const TeamSection = () => {
           </div>
 
           <div className="bg-white rounded-lg overflow-hidden border border-border shadow-sm">
-            <div className="h-80 md:h-96 overflow-hidden bg-ff-light">
+            <div className="aspect-[4/3] overflow-hidden bg-ff-light">
               <img
                 src={karenImg}
                 alt="Karen Van der Aa"
                 className="w-full h-full object-cover"
-                style={{ objectPosition: "center 18%" }}
+                style={{ objectPosition: "center 22%" }}
               />
             </div>
             <div className="p-6">

@@ -31,11 +31,11 @@ const ContactSection = () => {
               </a>
             </div>
             <div className="flex gap-4 justify-center md:justify-end">
-              <div className="w-36 h-44 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
-                <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-[center_30%]" />
+              <div className="w-40 h-52 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
+                <img src={ellenImg} alt="Ellen Poppe" className="w-full h-full object-cover object-[center_18%]" />
               </div>
-              <div className="w-36 h-44 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
-                <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-[center_30%]" />
+              <div className="w-40 h-52 rounded-xl overflow-hidden shadow-lg ring-4 ring-white/20">
+                <img src={karenImg} alt="Karen Van der Aa" className="w-full h-full object-cover object-[center_15%]" />
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ const fadeUp = {
 };
 
 const checkItems = [
-  "Marktaanbod dat aansluit bij klant én markt",
+  "Digitaal aanbod dat aansluit bij klant én markt",
   "Een organisatie die ingericht is om te leveren",
   "Eén doorlopende keten van marktaanbod tot realisatie",
   "Verandering die blijft, niet verdwijnt na oplevering",

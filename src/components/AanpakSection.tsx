@@ -32,7 +32,7 @@ const realisatie: Phase[] = [
   {
     num: "03",
     title: "Ontworpen & gebouwd",
-    english: "Service, business & organization design",
+    english: "Digital service, business & organization design",
     accent: "#6CC1BF",
     items: [
       "Service design",

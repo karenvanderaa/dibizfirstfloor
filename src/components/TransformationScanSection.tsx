@@ -24,11 +24,11 @@ const TransformationScanSection = () => {
               De Transformatie Scan
             </h2>
             <p className="text-lg italic text-foreground mb-6 max-w-xl">
-              Klopt uw aanbod bij wat de markt vraagt — en is uw organisatie ingericht om dat ook waar te maken?
+              Klopt uw aanbod bij wat de markt vraagt, en is uw organisatie ingericht om dat ook waar te maken?
             </p>
             <p className="text-muted-foreground mb-8 max-w-xl leading-relaxed">
               In 4–5 weken brengen wij in kaart of uw aanbod de waarde levert die u belooft, en of uw organisatie
-              ingericht is om dat waar te maken. Geen rapport dat in een lade verdwijnt — een concrete roadmap voor de
+              ingericht is om dat waar te maken. Geen rapport dat in een lade verdwijnt, een concrete roadmap voor de
               volgende 12 maanden.
             </p>
 

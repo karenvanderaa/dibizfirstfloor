@@ -30,7 +30,7 @@ const tabs: Tab[] = [
       },
       {
         title: "Innovatie of nieuwe diensten lanceren lukt, ze laten landen niet.",
-        desc: "De nieuwe dienst staat in het portfolio. Intern volgt de organisatie niet.",
+        desc: "De digitale architectuur volgt niet. De mensen ook niet altijd.",
       },
     ],
   },

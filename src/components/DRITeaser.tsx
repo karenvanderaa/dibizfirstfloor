@@ -3,7 +3,7 @@ import karenEventImg from "@/assets/karen-event.jpeg";
 
 const DRITeaser = () => {
   return (
-    <section id="dri" className="bg-ff-light py-20 md:py-28 scroll-mt-16">
+    <section id="dri" className="bg-ff-light py-14 md:py-20 scroll-mt-16">
       <div className="container">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           {/* Photo side */}

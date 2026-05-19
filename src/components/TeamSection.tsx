@@ -33,7 +33,7 @@ const TeamSection = () => {
             <div className="p-6">
               <div className="w-10 h-1 bg-ff-mint rounded-full mb-4" />
               <h3 className="font-heading font-bold text-foreground text-lg">Ellen Poppe</h3>
-              <p className="text-ff-mint text-sm font-medium mb-3">Lead Service & business design</p>
+              <p className="text-ff-mint text-sm font-medium mb-3">Lead Digital service & business design</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken, voor klanten én voor de mensen die ze leveren.
               </p>
@@ -55,7 +55,7 @@ const TeamSection = () => {
             <div className="p-6">
               <div className="w-10 h-1 bg-ff-blue rounded-full mb-4" />
               <h3 className="font-heading font-bold text-foreground text-lg">Karen Van der Aa</h3>
-              <p className="text-ff-blue text-sm font-medium mb-3">Lead Organisatie & mensen</p>
+              <p className="text-ff-blue text-sm font-medium mb-3">Lead Digitale organisatie & mensen</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 Bouwt de organisatie die de ambitie kan waarmaken, met structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.
               </p>

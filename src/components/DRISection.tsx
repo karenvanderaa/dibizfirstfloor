@@ -373,7 +373,7 @@ const DRISection = () => {
   let qIndex = 0;
 
   return (
-    <section id="dri" className="bg-ff-light py-20 md:py-28 scroll-mt-16">
+    <section id="dri" className="bg-ff-light py-14 md:py-20 scroll-mt-16">
       <div className="container max-w-3xl">
         <motion.div
           initial="hidden"

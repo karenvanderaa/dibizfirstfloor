@@ -115,7 +115,7 @@ const AanpakSection = () => {
           Vier fases. Twee parallelle fundamenten.
         </h2>
         <p className="text-muted-foreground mb-12 max-w-2xl leading-relaxed">
-          Een geïntegreerd traject van marktaanbod tot verankering. Diagnose extern en intern lopen parallel. Pas wanneer beide scherp zijn, gaan we naar ontwerp en verankering.
+          Een geïntegreerd traject voor digitale transformatie, van marktaanbod tot verankering. Diagnose extern en intern lopen parallel. Pas wanneer beide scherp zijn, gaan we naar ontwerp en verankering.
         </p>
 
         <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-6 items-stretch">

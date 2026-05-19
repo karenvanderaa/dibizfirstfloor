@@ -56,8 +56,8 @@ const TeamSection = () => {
           </div>
         </div>
 
-        {/* Laag 2, Kernteam */}
-        <p className="section-label mb-6">KERNTEAM, STRUCTUREEL BETROKKEN</p>
+        {/* Laag 2, Team van senior experten */}
+        <p className="section-label mb-6">TEAM VAN SENIOR EXPERTEN</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
           {coreTeam.map((m, i) => (
             <div key={i} className="bg-white rounded-lg p-5 border border-border shadow-sm flex items-start gap-4">

@@ -13,48 +13,48 @@ const tabs: Tab[] = [
   {
     key: "aanbod",
     label: "Mijn aanbod",
-    title: "Uw aanbod klopt niet meer.",
+    title: "Uw digitaal aanbod klopt niet meer.",
     accent: "ff-blue",
     cards: [
       {
         title: "Wat onderscheidend was, is commodity.",
-        desc: "AI versnelt. Klanten verwachten meer. Het aanbod evolueert niet mee.",
+        desc: "AI commoditiseert wat gisteren nog uniek was. Uw aanbod evolueert niet mee.",
       },
       {
-        title: "Klanten zien de meerwaarde niet helder.",
-        desc: "Sales kan het niet uitleggen. Wat verkocht wordt sluit niet aan op wat geleverd wordt.",
+        title: "Klanten zien de digitale meerwaarde niet helder.",
+        desc: "Sales kan het niet uitleggen. Wat digitaal beloofd wordt, sluit niet aan op wat geleverd wordt.",
       },
       {
-        title: "Pricing klopt niet meer.",
-        desc: "Tarieven zijn intern bepaald. Margebewaking moeilijk. Scope-discussies zijn norm.",
+        title: "Pricing past niet bij een digitaal model.",
+        desc: "Tarieven zijn gebouwd op uren, niet op waarde of data. Margebewaking ontbreekt.",
       },
       {
-        title: "Lanceren lukt, landen niet.",
-        desc: "Een nieuwe dienst staat in het portfolio. Intern volgt de organisatie niet.",
+        title: "Digitale diensten lanceren lukt, landen niet.",
+        desc: "De nieuwe digitale dienst staat in het portfolio. Intern volgt de organisatie niet.",
       },
     ],
   },
   {
     key: "organisatie",
     label: "Mijn organisatie",
-    title: "Uw strategie staat. Uw organisatie volgt niet.",
+    title: "Uw digitale strategie staat. Uw organisatie volgt niet.",
     accent: "ff-mint",
     cards: [
       {
         title: "Structuren ingericht voor wat u vroeger was.",
-        desc: "Vestigingen als eilanden. Beslissingen blijven hangen.",
+        desc: "Vestigingen als eilanden. Data zit verspreid. Beslissingen blijven hangen.",
       },
       {
-        title: "Rollen kloppen niet meer.",
-        desc: "Mensen doen werk dat de organisatie niet meer nodig heeft. Of niet doen wat ze zou moeten.",
+        title: "Rollen kloppen niet meer voor een digitale organisatie.",
+        desc: "Mensen doen werk dat geautomatiseerd kan. Of missen de skills voor wat de organisatie wél nodig heeft.",
       },
       {
-        title: "Leiderschap zonder de juiste hefbomen.",
-        desc: "Directie wil transformeren. Middenkader trekt de oude lijn door.",
+        title: "Leiderschap zonder digitale hefbomen.",
+        desc: "Directie wil digitaal transformeren. Middenkader trekt de oude lijn door.",
       },
       {
-        title: "Na elke verandering: terugval naar het oude.",
-        desc: "Adoption blijft beperkt. De winst van het project verdwijnt.",
+        title: "Na elke digitale uitrol: terugval naar het oude.",
+        desc: "Adoption blijft beperkt. Tools worden niet gebruikt. De winst verdwijnt.",
       },
     ],
   },
@@ -68,7 +68,10 @@ const ProblemSection = () => {
   return (
     <section id="probleem" className="bg-background py-14 md:py-24 scroll-mt-16">
       <div className="container">
-        <p className="section-label mb-10">HERKEN JE DIT?</p>
+        <p className="section-label mb-3">HERKEN JE DIT?</p>
+        <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-10 max-w-2xl">
+          De digitale transformatie loopt vast. In uw aanbod of in uw organisatie. Vaak in allebei.
+        </p>
 
         {/* Tabs */}
         <div className="inline-flex bg-ff-light rounded-lg p-1 mb-10 border border-border">

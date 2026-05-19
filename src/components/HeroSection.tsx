@@ -11,7 +11,7 @@ const fadeUp = {
 };
 
 const checkItems = [
-  "Marktaanbod dat aansluit bij klant én markt",
+  "Digitaal aanbod dat aansluit bij klant én markt",
   "Een organisatie die ingericht is om te leveren",
   "Eén doorlopende keten van marktaanbod tot realisatie",
   "Verandering die blijft, niet verdwijnt na oplevering",
@@ -33,12 +33,15 @@ const HeroSection = () => {
             transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
           >
             {/* Pills */}
-            <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="flex gap-2 mb-8">
+            <motion.div variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="flex flex-wrap gap-2 mb-8">
               <span className="bg-ff-blue text-white font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
                 First Floor
               </span>
               <span className="bg-ff-mint text-ff-dark font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
                 × Dibiz
+              </span>
+              <span className="bg-ff-light text-foreground font-heading font-semibold text-sm px-4 py-1.5 rounded-md border border-border">
+                Digitale transformatie, end-to-end
               </span>
             </motion.div>
 
@@ -48,10 +51,10 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-foreground font-heading font-bold text-3xl md:text-4xl lg:text-[2.75rem] leading-[1.1] mb-5"
             >
-              Een aanbod dat landt.
+              Digitale transformatie die landt.
               <br />
-              Een organisatie die het{" "}
-              <span className="text-ff-blue">kan waarmaken.</span>
+              In uw aanbod én uw{" "}
+              <span className="text-ff-blue">organisatie.</span>
             </motion.h1>
 
             {/* Subtitle */}
@@ -60,7 +63,7 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
-              Wij ontwerpen marktaanbod en organisatie als één geheel, zodat u kunt waarmaken wat u belooft.
+              Wij ontwerpen uw digitale aanbod en de organisatie die het levert als één geheel. AI, data en nieuwe diensten, vertaald naar wat klanten kopen en wat uw mensen waarmaken.
             </motion.p>
 
             {/* Checklist */}

@@ -380,7 +380,6 @@ const DRISection = () => {
     doc.save(`DRI_Rapport_${dateStr.replace(/\//g, "-")}.pdf`);
   };
 
-  let qIndex = 0;
 
   return (
     <section id="dri" className="bg-ff-light py-14 md:py-20 scroll-mt-16">

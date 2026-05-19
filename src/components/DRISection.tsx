@@ -85,8 +85,14 @@ const scoreTexts = {
   },
 };
 
+// Flatten questions with their cluster name for the step-by-step flow
+const flatQuestions: { cluster: string; question: string }[] = clusters.flatMap((c) =>
+  c.questions.map((q) => ({ cluster: c.name, question: q }))
+);
+
 const DRISection = () => {
   const [answers, setAnswers] = useState<Answer[]>(Array(totalQuestions).fill(null));
+  const [currentStep, setCurrentStep] = useState(0); // 0..totalQuestions-1 = questions, totalQuestions = lead form
   const [orgName, setOrgName] = useState("");
   const [email, setEmail] = useState("");
 

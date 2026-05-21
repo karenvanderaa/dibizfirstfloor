@@ -13,6 +13,7 @@ export const dimensions: Dimension[] = [
     name: "Strategische helderheid & urgentie",
     kernvraag: "Weten we waarom, en is dat gedeeld?",
     badge: "Ontwerpen",
+    service: "Ontwerpen — Diagnose & richting, Organisatieontwerp",
     questions: [
       "Onze directie heeft een helder en gedeeld beeld van waar de organisatie over 3–5 jaar wil staan.",
       "De noodzaak om te transformeren is breed gedragen in de organisatie — niet alleen bij de top.",

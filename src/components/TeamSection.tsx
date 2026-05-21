@@ -50,7 +50,7 @@ const TeamSection = () => {
               <h3 className="font-heading font-bold text-foreground text-lg">Karen Van der Aa</h3>
               <p className="text-ff-blue text-sm font-medium mb-3">Lead organisatie & mensen</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Bouwt de organisatie die de ambitie kan waarmaken, met structuur, rollen, competenties en leiderschap afgestemd op wat de organisatie moet kunnen uitvoeren.
+                Vertaalt strategie naar interne structuur, rollen, skills en leiderschap. Bouwt de brug tussen wat een organisatie wil en wat haar mensen kunnen.
               </p>
               <a href="mailto:karen@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
                 📧 karen@firstfloortalent.be

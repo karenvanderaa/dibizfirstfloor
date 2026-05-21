@@ -18,7 +18,7 @@ const ContactSection = () => {
                 Plan een gesprek met<br />Karen & Ellen
               </h2>
               <p className="text-white/80 leading-relaxed mb-6 max-w-md">
-                Een vrijblijvende kennismaking. Geen verkooppraatje. Een open gesprek over waar het wringt en wat er mogelijk is. Binnen 30 minuten weet u of we kunnen helpen.
+                Een open gesprek over waar het wringt en wat er mogelijk is. Binnen 30 minuten weet u of we kunnen helpen.
               </p>
               <a
                 href={CALENDLY_URL}

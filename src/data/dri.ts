@@ -2,7 +2,8 @@ export type Dimension = {
   id: number;
   name: string;
   kernvraag: string;
-  badge: "Ontwerpen" | "Bouwen aan mensen" | "Verankeren";
+  badge: "Ontwerpen" | "Bouwen aan mensen" | "Verankeren" | "Ontwerpen + Verankeren";
+  service: string; // "Wat wij hierin doen" — specifieke beschrijving per dimensie
   questions: string[];
 };
 
@@ -12,6 +13,7 @@ export const dimensions: Dimension[] = [
     name: "Strategische helderheid & urgentie",
     kernvraag: "Weten we waarom, en is dat gedeeld?",
     badge: "Ontwerpen",
+    service: "Ontwerpen — Diagnose & richting, Organisatieontwerp",
     questions: [
       "Onze directie heeft een helder en gedeeld beeld van waar de organisatie over 3–5 jaar wil staan.",
       "De noodzaak om te transformeren is breed gedragen in de organisatie — niet alleen bij de top.",
@@ -24,6 +26,7 @@ export const dimensions: Dimension[] = [
     name: "Leiderschap & ownership",
     kernvraag: "Stuurt het leiderschap vanuit visie, of vanuit controle?",
     badge: "Bouwen aan mensen",
+    service: "Bouwen aan mensen — Leiderschapstrajecten, Teamwerking",
     questions: [
       "Onze leidinggevenden nemen zichtbaar eigenaarschap over de transformatie — het is geen 'HR-project' of 'IT-project'.",
       "Het leiderschap durft beslissingen te nemen, ook als niet alle informatie beschikbaar is.",
@@ -36,6 +39,7 @@ export const dimensions: Dimension[] = [
     name: "Cultuur & verandervermogen",
     kernvraag: "Hoe snel pakt deze organisatie iets nieuws op?",
     badge: "Bouwen aan mensen",
+    service: "Bouwen aan mensen — Leiderschapstrajecten, Skill based organisatie",
     questions: [
       "Medewerkers durven fouten te maken en die openlijk te bespreken, zonder angst voor afrekening.",
       "Als we iets nieuws invoeren, wordt dat binnen een redelijke termijn opgepakt door de brede organisatie — niet alleen door early adopters.",
@@ -48,6 +52,7 @@ export const dimensions: Dimension[] = [
     name: "Operating model & executiekracht",
     kernvraag: "Is de organisatie zo ingericht dat ze kán uitvoeren?",
     badge: "Ontwerpen",
+    service: "Ontwerpen — Operating model, rollen, processen, governance",
     questions: [
       "Rollen, verantwoordelijkheden en besluitlijnen zijn helder belegd en voor iedereen zichtbaar — niet afhankelijk van informele paden.",
       "Onze kernprocessen zijn gedocumenteerd, gestandaardiseerd en worden regelmatig geëvalueerd — we draaien niet op impliciete kennis in de hoofden van een paar sleutelfiguren.",
@@ -59,7 +64,8 @@ export const dimensions: Dimension[] = [
     id: 5,
     name: "Tooling & slimme automatisering",
     kernvraag: "Automatiseren we de juiste dingen?",
-    badge: "Verankeren",
+    badge: "Ontwerpen + Verankeren",
+    service: "Ontwerpen + Verankeren — IT-architectuur, procesborging, adoptie",
     questions: [
       "We kiezen technologie en tools op basis van een procesanalyse — niet op basis van wat IT of een leverancier interessant vindt.",
       "Onze data is schoon, gestructureerd en toegankelijk over systemen heen — er zijn geen silo's met handmatige koppelingen als standaard.",
@@ -72,6 +78,7 @@ export const dimensions: Dimension[] = [
     name: "Mensen, skills & samenwerking",
     kernvraag: "Zijn de juiste competenties aanwezig voor de toekomst?",
     badge: "Bouwen aan mensen",
+    service: "Bouwen aan mensen — Skill based organisatie, Talent & ontwikkeling",
     questions: [
       "We weten welke skills en competenties we nodig hebben om onze strategie waar te maken — en waar de grootste gaps zitten.",
       "Er wordt structureel geïnvesteerd in de ontwikkeling van medewerkers — niet alleen via trainingen, maar ook via coaching, feedback en on-the-job learning.",

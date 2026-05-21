@@ -639,6 +639,7 @@ function ResultsPage({
                 </>
               )}
             </div>
+          </div>
           <div className="mx-auto mt-12 grid max-w-xl gap-4 text-left sm:grid-cols-2">
             <a href="mailto:karen@firstfloortalent.be" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
               <div className="text-xs font-bold uppercase tracking-wider text-[#6CC1BF]">Karen</div>

@@ -1,99 +1,65 @@
-# Magic link verificatie voor PDF-rapport
+# Visual toevoegen aan "Onze Overtuiging"
 
-## Wat verandert er voor de bezoeker
+## Wat blijft
 
-1. Bezoeker doorloopt de 24 vragen.
-2. Vult lead-formulier in (naam, email, organisatie, functie).
-3. **Ziet meteen het volledige resultaat op scherm** (huidige flow blijft).
-4. PDF-download knop is **vergrendeld** met tekst: *"Check uw mailbox — we sturen u een beveiligde link om uw rapport te downloaden."*
-5. In de mail (afzender: `notify@firstfloor-dibiz.be` o.i.d.) staat één knop: **"Download mijn rapport"** → opent een pagina die de PDF genereert en download triggert.
-6. Link werkt 7 dagen, eenmalig of meermaals (zie keuze hieronder).
+- Section label, titel ("Geen generalisten…"), intro-paragraaf en de 3 kaartjes (Holistisch / Pragmatisch / Verankerd) blijven exact zoals nu.
 
-## Validatielagen
+## Wat erbij komt (tussen intro en de 3 kaartjes)
 
-### Laag 1 — Client-side (directe feedback in formulier)
-- **Naam**: min. 2 woorden, ≥2 letters elk, enkel letters/spatie/`-`/`'`. Blokkeert `aaa`, `test`, `qsdf`.
-- **E-mail**: strikte regex, lowercase, trim.
-- **Blocklist wegwerpdomeinen**: `mailinator`, `tempmail`, `10minutemail`, `yopmail`, `guerrillamail`, … (`src/lib/disposableEmailDomains.ts`).
-- **Organisatie/functie**: min. 2 tekens, niet enkel cijfers.
-- Foutmeldingen onder elk veld, knop disabled tot alles klopt.
+Een geanimeerde Venn-compositie in pure React + SVG (geen image, blijft scherp, themable, responsive):
 
-### Laag 2 — Server-side validatie (edge function)
-Zelfde zod-schema spiegelen + extra:
-- **MX-record check** op email-domein via `dns.google/resolve` → geen MX = weigeren.
-- Disposable-blocklist server-side (bron van waarheid).
-- 400 response bij ongeldig, UI toont nette foutmelding.
+```text
+ [ First Floor ]   ↘     ↙   [ Dibiz ]
+  Wie doet wat?     ╲   ╱     Hoe loopt het werk?
+  Kloppen rollen?    ╲ ╱      Kloppen processen?
+  Skills aanwezig?    O       Helpt tooling echt?
+  Leiderschap mee?   /│\      Waar past automatisatie?
+                    / │ \
+                       ▼
+           [ Daar waar 1 + 1 = 3 ]
+       AI agents zijn de nieuwe teamleden.
 
-### Laag 3 — Magic link gating PDF (hoofdmoot)
-Nieuwe tabel + edge function + mail.
-
-**Flow technisch:**
+         De organisatie van de toekomst
+   Mensen, processen, tooling, AI agents — één team
 ```
-[ContactScreen submit] 
-   → POST edge function `request-report-link`
-   → valideert (laag 1+2) 
-   → maakt row in `report_tokens` (token = crypto.randomUUID, expires_at = now+7d, scan_data = jsonb met scores+contact)
-   → verstuurt mail via Lovable transactional email met link:
-     https://dibizfirstfloor.lovable.app/rapport?token=xxx
-   → return 200
 
-[Bezoeker ziet resultaat op scherm + "check mailbox" banner]
+- **Links**: zacht paars-blauw kaartje (`bg-ff-light-blue`) met de 4 First Floor-vragen.
+- **Rechts**: zacht mint kaartje (`bg-ff-light-mint`) met de 4 Dibiz-vragen.
+- **Midden**: cirkel in warm crème (`#F5EFE0`) met kernbelofte *"Uw organisatie voert uit wat uw strategie belooft"* + 2 ondersteunende regels (rollen/processen/tooling/skills + AI agents).
+- **Twee gebogen SVG-pijlen** (blauw + mint) van de zijkaartjes naar de cirkel — desktop only.
+- **Pill onder de cirkel**: *"Daar waar 1 + 1 = 3"* + subregel over AI agents.
+- **Afsluitende claim**: *"De organisatie van de toekomst"* + ondertitel.
 
-[Klikt link in mail] 
-   → /rapport pagina laadt
-   → GET edge function `redeem-report-link?token=xxx`
-   → valideert token (bestaat, niet expired, optioneel: niet eerder gebruikt)
-   → return scan_data
-   → frontend genereert PDF client-side (huidige driPdf.ts hergebruiken) en triggert download
-   → markeert token.used_at = now (optioneel)
-```
+## Tekst-tweaks (subtiel, voor scherpte)
+
+- "Zijn de juiste skills aanwezig?" → **"Skills aanwezig?"** (consistent met de korte vraagvorm van de andere bullets) — *check: oké of liever 1-op-1 uit screenshot?*
+- Rest 1-op-1 uit het screenshot.
+
+> Standaard houd ik alles 1-op-1 uit het screenshot, tenzij je hierboven groen licht geeft op die ene tweak.
+
+## Animatie (Framer Motion)
+
+Triggert wanneer de visual in beeld komt (`whileInView`, `once: true`):
+
+1. First Floor kaart → fade-up van links (delay 0s)
+2. Dibiz kaart → fade-up van rechts (delay 0.12s)
+3. Centrale cirkel → fade-up + scale-in (delay 0.24s)
+4. Pijlen → SVG `pathLength` van 0 → 1 (delay 0.5s, duur 0.9s)
+5. "1+1=3" pill → fade-up (delay 0.36s)
+6. Afsluitende claim → fade-up (delay 0.48s)
+
+Easing: `[0.22, 1, 0.36, 1]` (soft cubic) — past bij rest van de site.
+
+## Responsive gedrag
+
+- **Desktop (≥ md)**: 3 kolommen `[kaart] [cirkel] [kaart]` met de twee SVG-pijlen er overheen.
+- **Mobiel**: alles stackt verticaal — First Floor → cirkel → Dibiz → 1+1=3 pill → claim. Pijlen worden verborgen (`hidden md:block`); de visuele flow wordt door de stack zelf gedragen.
+- Cirkel: 260px op mobiel, 320px op desktop.
 
 ## Technische details
 
-**Nieuwe DB-tabel** (migration):
-```sql
-create table public.report_tokens (
-  token uuid primary key default gen_random_uuid(),
-  email text not null,
-  naam text not null,
-  organisatie text not null,
-  functie text not null,
-  scan_data jsonb not null,        -- antwoorden + scores
-  created_at timestamptz default now(),
-  expires_at timestamptz not null,
-  used_at timestamptz,             -- null = nooit gebruikt
-  redeem_count int default 0
-);
-alter table public.report_tokens enable row level security;
--- geen public policies; enkel service role (edge functions) leest/schrijft
-create index on public.report_tokens (email);
-```
-
-**Nieuwe edge functions:**
-- `request-report-link/index.ts`: zod-validatie, MX-check, disposable-check, token aanmaken, mail versturen via `send-transactional-email`, sync naar Brevo (huidige logica).
-- `redeem-report-link/index.ts`: token ophalen, expires_at check, scan_data terugsturen.
-
-**Shared util** (`src/lib/leadValidation.ts`): zod-schema + disposable-lijst, importeerbaar in edge function via inline copy of via `_shared/`.
-
-**Nieuwe frontend route** `/rapport?token=...`:
-- nieuwe pagina `src/pages/RapportDownload.tsx` 
-- bij mount: fetch redeem endpoint, bij succes → genereer PDF via bestaande `generateDriPdf()`, trigger download, toon "Klaar! Check uw downloads."
-- bij fout: toon foutmelding + knop "vraag nieuwe link aan".
-
-**Email setup** (eenmalig, geautomatiseerd):
-1. Email-domein configureren (popup).
-2. Email-infra opzetten.
-3. Transactional template scaffolden: `report-download-link.tsx` met First Floor / Dibiz branding (Sora heading, blauwe primary, korte tekst + CTA-knop).
-4. Edge functions deployen.
-
-**Frontend wijzigingen `DRISection.tsx`:**
-- `ContactScreen`: zod-validatie + per-veld errors.
-- Na submit: `request-report-link` invoke ipv direct doorgaan naar resultaat. Op succes → resultaat tonen + "📧 Mail verstuurd" banner ipv directe download knop.
-- "Download PDF" knop op resultaatscherm wordt vervangen door "We hebben uw rapport naar [email] gestuurd. Niets ontvangen? [opnieuw versturen]".
-
-## Open keuzes — graag bevestigen
-
-1. **Token: eenmalig of meermaals bruikbaar binnen 7 dagen?** Aanbeveling: **meermaals** binnen geldigheidsperiode (gebruiker wil rapport later soms opnieuw downloaden), maar wel `redeem_count` loggen.
-2. **Email-afzender**: heeft First Floor / Dibiz al een domein dat we als sender willen gebruiken? Zo ja, welk? (bv. `notify.firstfloor.be`, `rapport@dibiz.be`). Anders zet ik een setup-dialoog klaar.
-3. **Disposable-blocklist scope**: alleen de top ~30 wegwerpdiensten, of een uitgebreidere lijst (~10k domeinen)? Aanbeveling: korte curated lijst — uitgebreide lijst geeft te veel false positives.
-4. **Rolmailboxen** (`info@`, `sales@`, `noreply@`) wel/niet toelaten? Aanbeveling: **wel toelaten** — bij B2B is `info@` vaak het enige adres dat een prospect deelt.
+- Eén bestand aanpassen: `src/components/OvertuigingSection.tsx`.
+- Geen nieuwe dependencies (Framer Motion zit al in `package.json`).
+- Kleuren via bestaande tokens: `ff-light-blue`, `ff-light-mint`, `ff-blue`, `ff-mint`, `foreground`, `muted-foreground`. Crème cirkel via inline hex (`#F5EFE0` / border `#E8DFC9`) omdat er nog geen sand-token is — kan later naar `--ff-sand` worden gepromoveerd.
+- SVG-pijlen: `viewBox="0 0 1000 360"` met `preserveAspectRatio="none"`, twee `<motion.path>` met `pathLength` animatie en arrow-marker defs in dezelfde mint/blauw.
+- Geen layout-impact buiten de section.

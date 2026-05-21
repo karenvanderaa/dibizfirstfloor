@@ -279,10 +279,12 @@ export function generateDRIPdf(opts: {
     // Score card
     setFill(INK); doc.roundedRect(M, yy, W - 2 * M, 80, 10, 10, "F");
     setText([255, 255, 255]); doc.setFont("helvetica", "bold"); doc.setFontSize(36);
-    doc.text(score.toFixed(1), M + 24, yy + 52);
-    doc.setFontSize(10); doc.setFont("helvetica", "normal");
-    setText([170, 180, 200]); doc.text("/ 5.0", M + 24 + doc.getTextWidth(score.toFixed(1)) + 6, yy + 52);
-    setFill(levelColors[bb] as unknown as [number, number, number]);
+    const scoreText = score.toFixed(1);
+    doc.text(scoreText, M + 24, yy + 52);
+    const scoreW = doc.getTextDimensions(scoreText).w;
+    doc.setFontSize(11); doc.setFont("helvetica", "normal");
+    setText([170, 180, 200]); doc.text("/ 5.0", M + 24 + scoreW + 10, yy + 52);
+    setFill(readinessColor(bb));
     const lbl3 = levelLabels[bb];
     doc.setFont("helvetica", "bold"); doc.setFontSize(10);
     const lblW3 = doc.getTextWidth(lbl3) + 20;
@@ -309,10 +311,11 @@ export function generateDRIPdf(opts: {
     setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
     doc.text("WAT FIRST FLOOR × DIBIZ HIERIN DOET", M, yy); yy += 16;
     setFill(BLUE_SOFT);
-    const sW = doc.getTextWidth(d.service) + 24;
-    doc.roundedRect(M, yy - 2, Math.min(sW, W - 2 * M), 24, 12, 12, "F");
+    const serviceLines = doc.splitTextToSize(d.service, W - 2 * M - 24);
+    const pillH = Math.max(24, serviceLines.length * 13 + 12);
+    doc.roundedRect(M, yy - 2, W - 2 * M, pillH, 12, 12, "F");
     setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
-    doc.text(d.service, M + 12, yy + 14, { maxWidth: W - 2 * M - 24 });
+    doc.text(serviceLines, M + 12, yy + 14);
     addFooter();
   });
 

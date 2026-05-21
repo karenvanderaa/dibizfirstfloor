@@ -406,9 +406,7 @@ export function generateDRIPdf(opts: {
   const bg = "De DRI is ontworpen als diagnostisch instrument voor commerciële inzet door First Floor × Dibiz. Het is géén klinisch of academisch meetinstrument. De scores zijn indicatief en dienen als startpunt voor een verdiepend gesprek, niet als absoluut oordeel.";
   doc.text(doc.splitTextToSize(bg, W - 2 * M), M, y);
 
-  setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
-  doc.text("Delivery Readiness Index™ · First Floor × Dibiz · Versie 1.0 · 2026", M, H - 40);
-  addFooter();
+  addFooter(true);
 
   const safeOrg = (contact.organisatie || "rapport").replace(/[^a-zA-Z0-9]+/g, "-");
   doc.save(`DRI-Rapport-${safeOrg}.pdf`);

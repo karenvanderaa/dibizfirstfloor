@@ -3,7 +3,7 @@ const Footer = () => (
     <div className="container flex flex-col sm:flex-row items-center justify-between gap-3">
       <span className="text-ff-dark font-heading font-semibold text-sm">First Floor × Dibiz</span>
       <span className="text-ff-dark/70 text-sm text-center">
-        Nieuwe diensten die landen. Een organisatie die ze kan waarmaken.
+        Uw strategie klopt. Maar voert uw organisatie ze ook uit?
       </span>
     </div>
   </footer>

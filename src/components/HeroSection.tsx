@@ -11,9 +11,9 @@ const fadeUp = {
 };
 
 const checkItems = [
-  "Een aanbod dat aansluit bij klant én markt",
-  "Een organisatie die ingericht is om te leveren",
-  "Eén doorlopende keten van marktaanbod tot realisatie",
+  "Mensen, rollen en processen die kloppen met de strategie",
+  "Tooling, automatisatie en AI die de uitvoering versterkt",
+  "Eén doorlopende keten van strategie tot verankering",
   "Verandering die blijft, niet verdwijnt na oplevering",
 ];
 

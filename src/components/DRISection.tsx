@@ -339,7 +339,7 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
   const overallBand = bandIndex(overall);
 
   const sorted = dimScores.map((s, i) => ({ s, i })).sort((a, b) => a.s - b.s);
-  const lowestTwo = sorted.slice(0, 2).map((x) => ({ ...x, d: dimensions[x.i] }));
+  const top3 = sorted.slice(0, 3).map((x) => ({ ...x, d: dimensions[x.i] }));
 
   const radarData = dimensions.map((d, i) => ({
     dim: d.name.split(" ").slice(0, 2).join(" "),

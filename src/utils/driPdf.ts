@@ -81,10 +81,12 @@ export function generateDRIPdf(opts: {
   setText(INK); doc.setFontSize(10); doc.setFont("helvetica", "bold");
   doc.text("DRI-SCORE", M + 28, 372);
   doc.setFontSize(64);
-  doc.text(`${overall.toFixed(1)}`, M + 28, 445);
+  const coverScoreText = overall.toFixed(1);
+  doc.text(coverScoreText, M + 28, 445);
+  const coverScoreW = doc.getTextDimensions(coverScoreText).w;
   doc.setFont("helvetica", "normal"); doc.setFontSize(14);
   setText(MUTED);
-  doc.text("/ 5.0", M + 28 + doc.getTextWidth(`${overall.toFixed(1)}`) + 10, 445);
+  doc.text("/ 5.0", M + 28 + coverScoreW + 10, 445);
 
   const b = bandIndex(overall);
   const lbl = levelLabels[b];
@@ -162,10 +164,12 @@ export function generateDRIPdf(opts: {
   setText([255, 255, 255]); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
   doc.text("DRI-SCORE", M + 24, 145);
   doc.setFontSize(54);
-  doc.text(overall.toFixed(1), M + 24, 210);
+  const summaryScoreText = overall.toFixed(1);
+  doc.text(summaryScoreText, M + 24, 210);
+  const summaryScoreW = doc.getTextDimensions(summaryScoreText).w;
   doc.setFont("helvetica", "normal"); doc.setFontSize(13);
   setText([170, 180, 200]);
-  doc.text("/ 5.0", M + 24 + doc.getTextWidth(overall.toFixed(1)) + 8, 210);
+  doc.text("/ 5.0", M + 24 + summaryScoreW + 10, 210);
 
   setFill(readinessColor(b));
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);

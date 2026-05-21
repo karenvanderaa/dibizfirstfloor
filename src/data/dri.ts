@@ -39,6 +39,7 @@ export const dimensions: Dimension[] = [
     name: "Cultuur & verandervermogen",
     kernvraag: "Hoe snel pakt deze organisatie iets nieuws op?",
     badge: "Bouwen aan mensen",
+    service: "Bouwen aan mensen — Leiderschapstrajecten, Skill based organisatie",
     questions: [
       "Medewerkers durven fouten te maken en die openlijk te bespreken, zonder angst voor afrekening.",
       "Als we iets nieuws invoeren, wordt dat binnen een redelijke termijn opgepakt door de brede organisatie — niet alleen door early adopters.",

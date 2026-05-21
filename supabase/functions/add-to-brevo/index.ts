@@ -57,8 +57,8 @@ serve(async (req) => {
       }
     }
 
-    // Add contact to list if BREVO_LIST_ID is set
-    const listId = Deno.env.get("BREVO_LIST_ID");
+    // Add contact to list (default list #57)
+    const listId = Deno.env.get("BREVO_LIST_ID") || "57";
     if (listId) {
       const listRes = await fetch(
         `https://api.brevo.com/v3/contacts/lists/${listId}/contacts/add`,

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, PolarRadiusAxis } from "recharts";
-import { ArrowLeft, ArrowRight, Calendar, Download, Mail, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Mail, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -14,7 +14,8 @@ import {
   levelColors,
   overallSummary,
 } from "@/data/dri";
-import { generateDRIPdf, type Contact } from "@/utils/driPdf";
+import { type Contact } from "@/utils/driPdf";
+import { validateLeadFields } from "@/lib/leadValidation";
 
 const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
@@ -191,7 +192,40 @@ function AboutScreen({ onNext, onBack }: { onNext: () => void; onBack: () => voi
 // =================== CONTACT ===================
 function ContactScreen({ onSubmit, onBack }: { onSubmit: (c: Contact) => void; onBack: () => void }) {
   const [c, setC] = useState<Contact>({ naam: "", email: "", organisatie: "", functie: "" });
-  const valid = c.naam.trim() && /\S+@\S+\.\S+/.test(c.email) && c.organisatie.trim() && c.functie.trim();
+  const [touched, setTouched] = useState<Record<keyof Contact, boolean>>({
+    naam: false, email: false, organisatie: false, functie: false,
+  });
+  const [serverErrors, setServerErrors] = useState<Partial<Record<keyof Contact, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
+
+  const local = validateLeadFields(c);
+  const errors: Partial<Record<keyof Contact, string>> = {
+    ...(local.ok ? {} : local.errors),
+    ...serverErrors,
+  };
+  const valid = local.ok;
+
+  const handleSubmit = async () => {
+    setTouched({ naam: true, email: true, organisatie: true, functie: true });
+    if (!local.ok) return;
+    setSubmitting(true);
+    setServerErrors({});
+    try {
+      const { data, error } = await supabase.functions.invoke("validate-lead", { body: c });
+      if (error || !data?.ok) {
+        const errs = (data?.errors ?? { email: "Controleer uw e-mailadres" }) as Record<string, string>;
+        setServerErrors(errs as Partial<Record<keyof Contact, string>>);
+        return;
+      }
+      onSubmit(c);
+    } catch (e) {
+      console.error(e);
+      setServerErrors({ email: "Controle van uw e-mailadres faalde. Probeer opnieuw." });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <motion.div {...fade} className="min-h-[88vh] bg-[#F4F6FB] py-16 md:py-24">
       <div className="mx-auto max-w-xl px-6">
@@ -207,32 +241,46 @@ function ContactScreen({ onSubmit, onBack }: { onSubmit: (c: Contact) => void; o
             { k: "email", label: "E-mailadres", type: "email", ph: "u@bedrijf.be" },
             { k: "organisatie", label: "Organisatie", type: "text", ph: "Naam van uw organisatie" },
             { k: "functie", label: "Functietitel", type: "text", ph: "Bv. CEO, HR-directeur" },
-          ] as const).map((f) => (
-            <div key={f.k}>
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#6B7384]">
-                {f.label}
-              </label>
-              <input
-                type={f.type}
-                value={c[f.k]}
-                onChange={(e) => setC({ ...c, [f.k]: e.target.value })}
-                placeholder={f.ph}
-                maxLength={150}
-                className="w-full rounded-lg border border-[#E2E8F0] bg-white px-4 py-3 font-body text-[#1A1A2E] outline-none transition focus:border-[#315EFF] focus:ring-2 focus:ring-[#315EFF]/15"
-              />
-            </div>
-          ))}
+          ] as const).map((f) => {
+            const showError = touched[f.k] && errors[f.k];
+            return (
+              <div key={f.k}>
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#6B7384]">
+                  {f.label}
+                </label>
+                <input
+                  type={f.type}
+                  value={c[f.k]}
+                  onChange={(e) => {
+                    setC({ ...c, [f.k]: e.target.value });
+                    if (serverErrors[f.k]) setServerErrors({ ...serverErrors, [f.k]: undefined });
+                  }}
+                  onBlur={() => setTouched((t) => ({ ...t, [f.k]: true }))}
+                  placeholder={f.ph}
+                  maxLength={150}
+                  className={`w-full rounded-lg border bg-white px-4 py-3 font-body text-[#1A1A2E] outline-none transition focus:ring-2 ${
+                    showError
+                      ? "border-[#E85D3A] focus:border-[#E85D3A] focus:ring-[#E85D3A]/15"
+                      : "border-[#E2E8F0] focus:border-[#315EFF] focus:ring-[#315EFF]/15"
+                  }`}
+                />
+                {showError && (
+                  <p className="mt-1.5 text-xs text-[#E85D3A]">{errors[f.k]}</p>
+                )}
+              </div>
+            );
+          })}
         </div>
         <div className="mt-8 flex items-center justify-between">
           <button onClick={onBack} className="inline-flex items-center gap-2 text-sm font-medium text-[#6B7384] hover:text-[#1A1A2E]">
             <ArrowLeft className="h-4 w-4" /> Terug
           </button>
           <button
-            disabled={!valid}
-            onClick={() => valid && onSubmit(c)}
+            disabled={!valid || submitting}
+            onClick={handleSubmit}
             className="inline-flex items-center gap-2 rounded-xl bg-[#1A1A2E] px-6 py-3.5 font-heading text-sm font-semibold text-white shadow-lg transition hover:bg-[#0f0f1e] disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Start de vragen <ArrowRight className="h-4 w-4" />
+            {submitting ? "Controleren…" : <>Start de vragen <ArrowRight className="h-4 w-4" /></>}
           </button>
         </div>
       </div>
@@ -322,7 +370,18 @@ function QuestionScreen({
 }
 
 // =================== RESULTS ===================
-function ResultsPage({ contact, answers }: { contact: Contact; answers: number[] }) {
+type MailStatus = "sending" | "sent" | "error";
+function ResultsPage({
+  contact,
+  answers,
+  mailStatus,
+  onResend,
+}: {
+  contact: Contact;
+  answers: number[];
+  mailStatus: MailStatus;
+  onResend: () => void;
+}) {
   const dimScores = useMemo(
     () =>
       dimensions.map((_, i) => {
@@ -543,12 +602,43 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
             >
               <Calendar className="h-4 w-4" /> Plan een gesprek
             </a>
-            <button
-              onClick={() => generateDRIPdf({ contact, dimScores, overall })}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-4 font-heading text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              <Download className="h-4 w-4" /> Download rapport als PDF
-            </button>
+            <div className="inline-flex max-w-md flex-col items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-6 py-5 text-left">
+              <div className="flex items-center gap-2 text-[#6CC1BF]">
+                <Mail className="h-4 w-4" />
+                <span className="font-heading text-xs font-bold uppercase tracking-wider">Uw rapport</span>
+              </div>
+              {mailStatus === "sending" && (
+                <p className="text-sm text-white/80">
+                  We sturen een beveiligde downloadlink naar <span className="font-semibold text-white">{contact.email}</span>…
+                </p>
+              )}
+              {mailStatus === "sent" && (
+                <>
+                  <p className="text-sm text-white/80">
+                    We hebben een beveiligde downloadlink gestuurd naar <span className="font-semibold text-white">{contact.email}</span>. Check ook uw spam-map.
+                  </p>
+                  <button
+                    onClick={onResend}
+                    className="text-xs font-semibold text-[#6CC1BF] underline-offset-4 hover:underline"
+                  >
+                    Niets ontvangen? Stuur opnieuw
+                  </button>
+                </>
+              )}
+              {mailStatus === "error" && (
+                <>
+                  <p className="text-sm text-white/80">
+                    Het versturen van uw rapport faalde. Probeer het opnieuw.
+                  </p>
+                  <button
+                    onClick={onResend}
+                    className="inline-flex items-center gap-2 rounded-lg bg-[#6CC1BF] px-4 py-2 font-heading text-xs font-semibold text-[#1A1A2E] hover:bg-[#7dd0ce]"
+                  >
+                    Opnieuw versturen
+                  </button>
+                </>
+              )}
+            </div>
           </div>
           <div className="mx-auto mt-12 grid max-w-xl gap-4 text-left sm:grid-cols-2">
             <a href="mailto:karen@firstfloortalent.be" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
@@ -617,6 +707,7 @@ export default function DRISection() {
   const [contact, setContact] = useState<Contact | null>(null);
   const [qIdx, setQIdx] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(TOTAL_QUESTIONS).fill(null));
+  const [mailStatus, setMailStatus] = useState<MailStatus>("sending");
 
   const goTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -637,6 +728,23 @@ export default function DRISection() {
     }
   };
 
+  const requestReportLink = async (c: Contact, scanData: { answers: number[]; dimScores: number[]; overall: number }) => {
+    setMailStatus("sending");
+    try {
+      const { data, error } = await supabase.functions.invoke("request-report-link", {
+        body: { contact: c, scanData },
+      });
+      if (error || !data?.ok) {
+        setMailStatus("error");
+        return;
+      }
+      setMailStatus("sent");
+    } catch (e) {
+      console.error("request-report-link failed", e);
+      setMailStatus("error");
+    }
+  };
+
   const handleContactSubmit = (c: Contact) => {
     setContact(c);
     setStep("questions");
@@ -652,26 +760,37 @@ export default function DRISection() {
     });
   };
 
+  const finalScores = useMemo(() => {
+    const filled = answers.map((a) => a ?? 3);
+    const dimScores = dimensions.map((_, i) => {
+      const start = i * 4;
+      const sum = filled.slice(start, start + 4).reduce((a, b) => a + b, 0);
+      return Math.round((sum / 4) * 10) / 10;
+    });
+    const overall = Math.round((dimScores.reduce((a, b) => a + b, 0) / dimScores.length) * 10) / 10;
+    return { filled, dimScores, overall };
+  }, [answers]);
+
   const handleNextQuestion = async () => {
     if (qIdx < TOTAL_QUESTIONS - 1) {
       setQIdx(qIdx + 1);
       goTop();
     } else {
-      // finalize
-      const filled = answers.map((a) => a ?? 3);
-      const dimScores = dimensions.map((_, i) => {
-        const start = i * 4;
-        const sum = filled.slice(start, start + 4).reduce((a, b) => a + b, 0);
-        return Math.round((sum / 4) * 10) / 10;
-      });
-      const overall = Math.round((dimScores.reduce((a, b) => a + b, 0) / dimScores.length) * 10) / 10;
+      const { filled, dimScores, overall } = finalScores;
       if (contact) {
         sendToBrevo(contact, overall);
+        requestReportLink(contact, { answers: filled, dimScores, overall });
         toast({ title: "Uw rapport is klaar", description: "Scroll door uw persoonlijk DRI™-rapport." });
       }
       setStep("results");
       goTop();
     }
+  };
+
+  const handleResend = () => {
+    if (!contact) return;
+    const { filled, dimScores, overall } = finalScores;
+    requestReportLink(contact, { answers: filled, dimScores, overall });
   };
 
   return (
@@ -697,9 +816,16 @@ export default function DRISection() {
           />
         )}
         {step === "results" && contact && (
-          <ResultsPage key="results" contact={contact} answers={answers.map((a) => a ?? 3)} />
+          <ResultsPage
+            key="results"
+            contact={contact}
+            answers={answers.map((a) => a ?? 3)}
+            mailStatus={mailStatus}
+            onResend={handleResend}
+          />
         )}
       </AnimatePresence>
     </div>
   );
 }
+

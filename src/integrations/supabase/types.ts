@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      report_tokens: {
+        Row: {
+          created_at: string
+          email: string
+          expires_at: string
+          functie: string
+          naam: string
+          organisatie: string
+          redeem_count: number
+          scan_data: Json
+          token: string
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          expires_at: string
+          functie: string
+          naam: string
+          organisatie: string
+          redeem_count?: number
+          scan_data: Json
+          token?: string
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          expires_at?: string
+          functie?: string
+          naam?: string
+          organisatie?: string
+          redeem_count?: number
+          scan_data?: Json
+          token?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

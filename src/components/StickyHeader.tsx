@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const CALENDLY_URL = "https://calendly.com/ff-dibiz";
+const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
 const navLinks = [
   { label: "Probleem", href: "#probleem" },

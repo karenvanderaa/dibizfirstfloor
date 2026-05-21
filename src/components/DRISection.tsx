@@ -15,6 +15,7 @@ import {
   overallSummary,
 } from "@/data/dri";
 import { generateDRIPdf, type Contact } from "@/utils/driPdf";
+import { validateLeadFields } from "@/lib/leadValidation";
 
 const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
@@ -191,7 +192,40 @@ function AboutScreen({ onNext, onBack }: { onNext: () => void; onBack: () => voi
 // =================== CONTACT ===================
 function ContactScreen({ onSubmit, onBack }: { onSubmit: (c: Contact) => void; onBack: () => void }) {
   const [c, setC] = useState<Contact>({ naam: "", email: "", organisatie: "", functie: "" });
-  const valid = c.naam.trim() && /\S+@\S+\.\S+/.test(c.email) && c.organisatie.trim() && c.functie.trim();
+  const [touched, setTouched] = useState<Record<keyof Contact, boolean>>({
+    naam: false, email: false, organisatie: false, functie: false,
+  });
+  const [serverErrors, setServerErrors] = useState<Partial<Record<keyof Contact, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
+
+  const local = validateLeadFields(c);
+  const errors: Partial<Record<keyof Contact, string>> = {
+    ...(local.ok ? {} : local.errors),
+    ...serverErrors,
+  };
+  const valid = local.ok;
+
+  const handleSubmit = async () => {
+    setTouched({ naam: true, email: true, organisatie: true, functie: true });
+    if (!local.ok) return;
+    setSubmitting(true);
+    setServerErrors({});
+    try {
+      const { data, error } = await supabase.functions.invoke("validate-lead", { body: c });
+      if (error || !data?.ok) {
+        const errs = (data?.errors ?? { email: "Controleer uw e-mailadres" }) as Record<string, string>;
+        setServerErrors(errs as Partial<Record<keyof Contact, string>>);
+        return;
+      }
+      onSubmit(c);
+    } catch (e) {
+      console.error(e);
+      setServerErrors({ email: "Controle van uw e-mailadres faalde. Probeer opnieuw." });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <motion.div {...fade} className="min-h-[88vh] bg-[#F4F6FB] py-16 md:py-24">
       <div className="mx-auto max-w-xl px-6">
@@ -207,32 +241,46 @@ function ContactScreen({ onSubmit, onBack }: { onSubmit: (c: Contact) => void; o
             { k: "email", label: "E-mailadres", type: "email", ph: "u@bedrijf.be" },
             { k: "organisatie", label: "Organisatie", type: "text", ph: "Naam van uw organisatie" },
             { k: "functie", label: "Functietitel", type: "text", ph: "Bv. CEO, HR-directeur" },
-          ] as const).map((f) => (
-            <div key={f.k}>
-              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#6B7384]">
-                {f.label}
-              </label>
-              <input
-                type={f.type}
-                value={c[f.k]}
-                onChange={(e) => setC({ ...c, [f.k]: e.target.value })}
-                placeholder={f.ph}
-                maxLength={150}
-                className="w-full rounded-lg border border-[#E2E8F0] bg-white px-4 py-3 font-body text-[#1A1A2E] outline-none transition focus:border-[#315EFF] focus:ring-2 focus:ring-[#315EFF]/15"
-              />
-            </div>
-          ))}
+          ] as const).map((f) => {
+            const showError = touched[f.k] && errors[f.k];
+            return (
+              <div key={f.k}>
+                <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#6B7384]">
+                  {f.label}
+                </label>
+                <input
+                  type={f.type}
+                  value={c[f.k]}
+                  onChange={(e) => {
+                    setC({ ...c, [f.k]: e.target.value });
+                    if (serverErrors[f.k]) setServerErrors({ ...serverErrors, [f.k]: undefined });
+                  }}
+                  onBlur={() => setTouched((t) => ({ ...t, [f.k]: true }))}
+                  placeholder={f.ph}
+                  maxLength={150}
+                  className={`w-full rounded-lg border bg-white px-4 py-3 font-body text-[#1A1A2E] outline-none transition focus:ring-2 ${
+                    showError
+                      ? "border-[#E85D3A] focus:border-[#E85D3A] focus:ring-[#E85D3A]/15"
+                      : "border-[#E2E8F0] focus:border-[#315EFF] focus:ring-[#315EFF]/15"
+                  }`}
+                />
+                {showError && (
+                  <p className="mt-1.5 text-xs text-[#E85D3A]">{errors[f.k]}</p>
+                )}
+              </div>
+            );
+          })}
         </div>
         <div className="mt-8 flex items-center justify-between">
           <button onClick={onBack} className="inline-flex items-center gap-2 text-sm font-medium text-[#6B7384] hover:text-[#1A1A2E]">
             <ArrowLeft className="h-4 w-4" /> Terug
           </button>
           <button
-            disabled={!valid}
-            onClick={() => valid && onSubmit(c)}
+            disabled={!valid || submitting}
+            onClick={handleSubmit}
             className="inline-flex items-center gap-2 rounded-xl bg-[#1A1A2E] px-6 py-3.5 font-heading text-sm font-semibold text-white shadow-lg transition hover:bg-[#0f0f1e] disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Start de vragen <ArrowRight className="h-4 w-4" />
+            {submitting ? "Controleren…" : <>Start de vragen <ArrowRight className="h-4 w-4" /></>}
           </button>
         </div>
       </div>

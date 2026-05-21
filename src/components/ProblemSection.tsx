@@ -21,7 +21,7 @@ const ProblemSection = () => {
   const accentColor = "hsl(var(--ff-blue))";
 
   return (
-    <section id="probleem" className="bg-background py-14 md:py-24 scroll-mt-16">
+    <section id="probleem" className="bg-background py-10 md:py-16 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-3">HERKEN JE DIT?</p>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-10 max-w-2xl">

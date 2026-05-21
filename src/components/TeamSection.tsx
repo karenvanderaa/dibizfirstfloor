@@ -32,7 +32,7 @@ const TeamSection = () => {
             </div>
             <div className="p-6">
               <div className="w-10 h-1 bg-ff-mint rounded-full mb-4" />
-              <h3 className="font-heading font-bold text-foreground text-lg">Ellen</h3>
+              <h3 className="font-heading font-bold text-foreground text-lg">Ellen Poppe</h3>
               <p className="text-ff-mint text-sm font-medium mb-3">Lead business, processen & technologie</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 Vertaalt businessnoden naar werkbare processen, tooling en IT-architectuur. Bouwt de brug tussen wat een organisatie wil en wat de technologie kan.

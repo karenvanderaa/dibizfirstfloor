@@ -21,12 +21,41 @@ const DRITeaser = () => {
             <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-4">
               Levert uw organisatie de waarde die u belooft?
             </h2>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-md">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-md">
               Twee derde van alle transformatietrajecten mislukt, niet door een slechte strategie, maar omdat de
               organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
-              <br /><br />
-              Beantwoord 10 vragen en ontdek waar het wringt. Inclusief downloadbaar rapport.
             </p>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-md">
+              De Delivery Readiness Index™ meet in 24 vragen over 6 dimensies hoe klaar uw organisatie werkelijk is — van strategische helderheid en leiderschap tot operating model, tooling en skills. Wetenschappelijk verankerd in o.a. Weiner's Organizational Readiness for Change, Scaling Leadership (Anderson &amp; Adams) en de TMA-competenties.
+            </p>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-md">
+              ±10 minuten. Direct een visueel rapport met uw scores per dimensie en concrete aanbevelingen.
+            </p>
+
+            <div className="flex flex-wrap gap-2 mb-8 max-w-md">
+              {[
+                "Strategische helderheid",
+                "Leiderschap & ownership",
+                "Cultuur & verandervermogen",
+                "Operating model",
+                "Tooling & automatisering",
+                "Mensen, skills & samenwerking",
+              ].map((tag, i) => (
+                <span
+                  key={tag}
+                  className="font-heading font-semibold text-foreground"
+                  style={{
+                    fontSize: "12px",
+                    background: i % 2 === 0 ? "#E8EEFF" : "#DDF3F2",
+                    borderRadius: "20px",
+                    padding: "5px 14px",
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
             <Link
               to="/dri"
               className="inline-flex items-center gap-2 bg-ff-blue text-white font-heading font-semibold px-8 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-lg shadow-ff-blue/20"

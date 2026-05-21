@@ -64,7 +64,8 @@ export const dimensions: Dimension[] = [
     id: 5,
     name: "Tooling & slimme automatisering",
     kernvraag: "Automatiseren we de juiste dingen?",
-    badge: "Verankeren",
+    badge: "Ontwerpen + Verankeren",
+    service: "Ontwerpen + Verankeren — IT-architectuur, procesborging, adoptie",
     questions: [
       "We kiezen technologie en tools op basis van een procesanalyse — niet op basis van wat IT of een leverancier interessant vindt.",
       "Onze data is schoon, gestructureerd en toegankelijk over systemen heen — er zijn geen silo's met handmatige koppelingen als standaard.",

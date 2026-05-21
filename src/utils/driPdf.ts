@@ -13,6 +13,16 @@ const SOFT_BG: [number, number, number] = [244, 246, 251];
 const BLUE_SOFT: [number, number, number] = [232, 238, 255];
 const MINT_SOFT: [number, number, number] = [221, 243, 242];
 
+const readinessColor = (idx: number): [number, number, number] => {
+  const hex = levelColors[idx] ?? levelColors[0];
+  const clean = hex.replace("#", "");
+  return [
+    parseInt(clean.slice(0, 2), 16),
+    parseInt(clean.slice(2, 4), 16),
+    parseInt(clean.slice(4, 6), 16),
+  ];
+};
+
 export function generateDRIPdf(opts: {
   contact: Contact;
   dimScores: number[];
@@ -34,9 +44,15 @@ export function generateDRIPdf(opts: {
   };
 
   let pageNum = 0;
-  const addFooter = () => {
+  const addFooter = (version = false) => {
     setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
-    doc.text(`Delivery Readiness Index™ · First Floor × Dibiz · ${contact.organisatie}`, M, H - 24);
+    doc.text(
+      version
+        ? "Delivery Readiness Index™ · First Floor × Dibiz · Versie 1.0 · 2026"
+        : `Delivery Readiness Index™ · First Floor × Dibiz · ${contact.organisatie}`,
+      M,
+      H - 24
+    );
     doc.text(`${pageNum}`, W - M, H - 24, { align: "right" });
   };
   const newPage = () => { doc.addPage(); pageNum++; splitGradient(0); };
@@ -65,14 +81,16 @@ export function generateDRIPdf(opts: {
   setText(INK); doc.setFontSize(10); doc.setFont("helvetica", "bold");
   doc.text("DRI-SCORE", M + 28, 372);
   doc.setFontSize(64);
-  doc.text(`${overall.toFixed(1)}`, M + 28, 445);
+  const coverScoreText = overall.toFixed(1);
+  doc.text(coverScoreText, M + 28, 445);
+  const coverScoreW = doc.getTextDimensions(coverScoreText).w;
   doc.setFont("helvetica", "normal"); doc.setFontSize(14);
   setText(MUTED);
-  doc.text("/ 5.0", M + 28 + doc.getTextWidth(`${overall.toFixed(1)}`) + 10, 445);
+  doc.text("/ 5.0", M + 28 + coverScoreW + 10, 445);
 
   const b = bandIndex(overall);
   const lbl = levelLabels[b];
-  setFill(levelColors[b] as unknown as [number, number, number]);
+  setFill(readinessColor(b));
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);
   const lblW = doc.getTextWidth(lbl) + 28;
   doc.roundedRect(W - M - 28 - lblW, 358, lblW, 28, 14, 14, "F");
@@ -146,12 +164,14 @@ export function generateDRIPdf(opts: {
   setText([255, 255, 255]); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
   doc.text("DRI-SCORE", M + 24, 145);
   doc.setFontSize(54);
-  doc.text(overall.toFixed(1), M + 24, 210);
+  const summaryScoreText = overall.toFixed(1);
+  doc.text(summaryScoreText, M + 24, 210);
+  const summaryScoreW = doc.getTextDimensions(summaryScoreText).w;
   doc.setFont("helvetica", "normal"); doc.setFontSize(13);
   setText([170, 180, 200]);
-  doc.text("/ 5.0", M + 24 + doc.getTextWidth(overall.toFixed(1)) + 8, 210);
+  doc.text("/ 5.0", M + 24 + summaryScoreW + 10, 210);
 
-  setFill(levelColors[b] as unknown as [number, number, number]);
+  setFill(readinessColor(b));
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);
   const lblW2 = doc.getTextWidth(lbl) + 24;
   doc.roundedRect(W - M - 24 - lblW2, 138, lblW2, 26, 13, 13, "F");
@@ -188,12 +208,12 @@ export function generateDRIPdf(opts: {
     const barY = y + 38;
     const barW = W - 2 * M - 200;
     setFill([226, 232, 240]); doc.rect(barX, barY, barW, 4, "F");
-    setFill(levelColors[bb] as unknown as [number, number, number]);
+    setFill(readinessColor(bb));
     doc.rect(barX, barY, (barW * score) / 5, 4, "F");
 
     setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(15);
     doc.text(score.toFixed(1), W - M - 90, y + 24);
-    setText(levelColors[bb] as unknown as [number, number, number]);
+    setText(readinessColor(bb));
     doc.setFontSize(8); doc.setFont("helvetica", "bold");
     doc.text(levelLabels[bb].toUpperCase(), W - M - 90, y + 40);
 
@@ -263,10 +283,12 @@ export function generateDRIPdf(opts: {
     // Score card
     setFill(INK); doc.roundedRect(M, yy, W - 2 * M, 80, 10, 10, "F");
     setText([255, 255, 255]); doc.setFont("helvetica", "bold"); doc.setFontSize(36);
-    doc.text(score.toFixed(1), M + 24, yy + 52);
-    doc.setFontSize(10); doc.setFont("helvetica", "normal");
-    setText([170, 180, 200]); doc.text("/ 5.0", M + 24 + doc.getTextWidth(score.toFixed(1)) + 6, yy + 52);
-    setFill(levelColors[bb] as unknown as [number, number, number]);
+    const scoreText = score.toFixed(1);
+    doc.text(scoreText, M + 24, yy + 52);
+    const scoreW = doc.getTextDimensions(scoreText).w;
+    doc.setFontSize(11); doc.setFont("helvetica", "normal");
+    setText([170, 180, 200]); doc.text("/ 5.0", M + 24 + scoreW + 10, yy + 52);
+    setFill(readinessColor(bb));
     const lbl3 = levelLabels[bb];
     doc.setFont("helvetica", "bold"); doc.setFontSize(10);
     const lblW3 = doc.getTextWidth(lbl3) + 20;
@@ -293,10 +315,11 @@ export function generateDRIPdf(opts: {
     setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
     doc.text("WAT FIRST FLOOR × DIBIZ HIERIN DOET", M, yy); yy += 16;
     setFill(BLUE_SOFT);
-    const sW = doc.getTextWidth(d.service) + 24;
-    doc.roundedRect(M, yy - 2, Math.min(sW, W - 2 * M), 24, 12, 12, "F");
+    const serviceLines = doc.splitTextToSize(d.service, W - 2 * M - 24);
+    const pillH = Math.max(24, serviceLines.length * 13 + 12);
+    doc.roundedRect(M, yy - 2, W - 2 * M, pillH, 12, 12, "F");
     setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
-    doc.text(d.service, M + 12, yy + 14, { maxWidth: W - 2 * M - 24 });
+    doc.text(serviceLines, M + 12, yy + 14);
     addFooter();
   });
 
@@ -387,9 +410,7 @@ export function generateDRIPdf(opts: {
   const bg = "De DRI is ontworpen als diagnostisch instrument voor commerciële inzet door First Floor × Dibiz. Het is géén klinisch of academisch meetinstrument. De scores zijn indicatief en dienen als startpunt voor een verdiepend gesprek, niet als absoluut oordeel.";
   doc.text(doc.splitTextToSize(bg, W - 2 * M), M, y);
 
-  setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
-  doc.text("Delivery Readiness Index™ · First Floor × Dibiz · Versie 1.0 · 2026", M, H - 40);
-  addFooter();
+  addFooter(true);
 
   const safeOrg = (contact.organisatie || "rapport").replace(/[^a-zA-Z0-9]+/g, "-");
   doc.save(`DRI-Rapport-${safeOrg}.pdf`);

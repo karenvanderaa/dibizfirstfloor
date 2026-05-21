@@ -2,7 +2,8 @@ export type Dimension = {
   id: number;
   name: string;
   kernvraag: string;
-  badge: "Ontwerpen" | "Bouwen aan mensen" | "Verankeren";
+  badge: "Ontwerpen" | "Bouwen aan mensen" | "Verankeren" | "Ontwerpen + Verankeren";
+  service: string; // "Wat wij hierin doen" — specifieke beschrijving per dimensie
   questions: string[];
 };
 

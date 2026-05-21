@@ -88,7 +88,7 @@ export function generateDRIPdf(opts: {
 
   const b = bandIndex(overall);
   const lbl = levelLabels[b];
-  setFill(levelColors[b] as unknown as [number, number, number]);
+  setFill(readinessColor(b));
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);
   const lblW = doc.getTextWidth(lbl) + 28;
   doc.roundedRect(W - M - 28 - lblW, 358, lblW, 28, 14, 14, "F");
@@ -167,7 +167,7 @@ export function generateDRIPdf(opts: {
   setText([170, 180, 200]);
   doc.text("/ 5.0", M + 24 + doc.getTextWidth(overall.toFixed(1)) + 8, 210);
 
-  setFill(levelColors[b] as unknown as [number, number, number]);
+  setFill(readinessColor(b));
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);
   const lblW2 = doc.getTextWidth(lbl) + 24;
   doc.roundedRect(W - M - 24 - lblW2, 138, lblW2, 26, 13, 13, "F");
@@ -204,12 +204,12 @@ export function generateDRIPdf(opts: {
     const barY = y + 38;
     const barW = W - 2 * M - 200;
     setFill([226, 232, 240]); doc.rect(barX, barY, barW, 4, "F");
-    setFill(levelColors[bb] as unknown as [number, number, number]);
+    setFill(readinessColor(bb));
     doc.rect(barX, barY, (barW * score) / 5, 4, "F");
 
     setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(15);
     doc.text(score.toFixed(1), W - M - 90, y + 24);
-    setText(levelColors[bb] as unknown as [number, number, number]);
+    setText(readinessColor(bb));
     doc.setFontSize(8); doc.setFont("helvetica", "bold");
     doc.text(levelLabels[bb].toUpperCase(), W - M - 90, y + 40);
 

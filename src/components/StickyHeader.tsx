@@ -49,7 +49,7 @@ const StickyHeader = () => {
             href="/dri"
             className="hidden sm:inline-flex items-center bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-4 py-2 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150"
           >
-            Doe de DRI scan
+            Doe de Delivery Readiness Index scan
           </a>
           <a
             href={CALENDLY_URL}

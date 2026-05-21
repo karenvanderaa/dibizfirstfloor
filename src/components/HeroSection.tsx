@@ -98,7 +98,7 @@ const HeroSection = () => {
                 href="/dri"
                 className="inline-flex items-center gap-2 bg-ff-mint text-ff-dark font-heading font-semibold px-7 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150"
               >
-                Doe de DRI scan
+                Doe de Delivery Readiness Index scan
               </a>
             </motion.div>
           </motion.div>

@@ -4,7 +4,7 @@ import ProblemSection from "@/components/ProblemSection";
 import DRITeaser from "@/components/DRITeaser";
 import FunnelStepsSection from "@/components/FunnelStepsSection";
 import AanpakSection from "@/components/AanpakSection";
-import KleurlogicaSection from "@/components/KleurlogicaSection";
+
 import OvertuigingSection from "@/components/OvertuigingSection";
 import TransformationScanSection from "@/components/TransformationScanSection";
 import TeamSection from "@/components/TeamSection";
@@ -22,7 +22,7 @@ const Index = () => {
         <DRITeaser />
         <FunnelStepsSection />
         <AanpakSection />
-        <KleurlogicaSection />
+        
         <OvertuigingSection />
         <TransformationScanSection />
         <TeamSection />

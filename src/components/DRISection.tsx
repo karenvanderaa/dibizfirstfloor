@@ -44,7 +44,7 @@ const clusters: Cluster[] = [
     name: "Verandering & Verankering",
     questions: [
       "Na een lancering, reorganisatie of verandertraject vallen mensen snel terug op de oude manier van werken, de verandering verdwijnt.",
-      "AI, digitalisering of andere externe druk verandert onze sector fundamenteel, maar onze organisatie is daar structureel nog niet op ingericht.",
+      "AI, technologie of andere externe druk verandert onze sector fundamenteel, maar onze organisatie is daar structureel nog niet op ingericht.",
     ],
   },
 ];

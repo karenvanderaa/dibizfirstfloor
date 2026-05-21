@@ -2,8 +2,8 @@ import ellenImg from "@/assets/ellen.jpeg";
 import karenImg from "@/assets/karen.png";
 
 const coreTeam = [
-  { initials: "W", name: "Wendy", role: "HR director, sales & operations expert" },
-  { initials: "S", name: "Sofie", role: "CFO met business & people ervaring" },
+  { initials: "WS", name: "Wendy Simonet", role: "HR director, sales & operations expert" },
+  { initials: "SS", name: "Sofie Smets", role: "CFO met business & people ervaring" },
   { initials: "T", name: "Thomas", role: "Founder na exit, AI expert" },
   { initials: "I", name: "Ingrid", role: "Data & market analyst" },
 ];
@@ -14,9 +14,8 @@ const TeamSection = () => {
       <div className="container">
         <p className="section-label mb-6">WIE WIJ ZIJN</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 leading-snug max-w-2xl">
-          Wij verkopen geen mensen.
-          <br />
-          <span className="text-ff-mint">Wij verkopen expertise voor digitale transformatie, op maat en holistisch.</span>
+          Wij bieden expertise die converteert in{" "}
+          <span className="text-ff-mint">business value, vanaf de start.</span>
         </h2>
 
         {/* Laag 1: Leads */}
@@ -33,9 +32,9 @@ const TeamSection = () => {
             <div className="p-6">
               <div className="w-10 h-1 bg-ff-mint rounded-full mb-4" />
               <h3 className="font-heading font-bold text-foreground text-lg">Ellen Poppe</h3>
-              <p className="text-ff-mint text-sm font-medium mb-3">Lead service & business design</p>
+              <p className="text-ff-mint text-sm font-medium mb-3">Lead business, processen & technologie</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken, voor klanten én voor de mensen die ze leveren.
+                Vertaalt businessnoden naar werkbare processen, tooling en IT-architectuur. Bouwt de brug tussen wat een organisatie wil en wat de technologie kan.
               </p>
               <a href="mailto:ellen@dibiz.be" className="inline-flex items-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150">
                 📧 ellen@dibiz.be
@@ -57,7 +56,7 @@ const TeamSection = () => {
               <h3 className="font-heading font-bold text-foreground text-lg">Karen Van der Aa</h3>
               <p className="text-ff-blue text-sm font-medium mb-3">Lead organisatie & mensen</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Bouwt de organisatie die de ambitie kan waarmaken, met structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.
+                Bouwt de organisatie die de ambitie kan waarmaken, met structuur, rollen, competenties en leiderschap afgestemd op wat de organisatie moet kunnen uitvoeren.
               </p>
               <a href="mailto:karen@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
                 📧 karen@firstfloortalent.be
@@ -67,7 +66,7 @@ const TeamSection = () => {
         </div>
 
         {/* Laag 2: Team van senior experten */}
-        <p className="section-label mb-6">TEAM VAN SENIOR EXPERTEN</p>
+        <p className="section-label mb-6">KERNTEAM — STRUCTUREEL BETROKKEN</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
           {coreTeam.map((m, i) => (
             <div key={i} className="bg-white rounded-lg p-5 border border-border shadow-sm flex items-start gap-4">

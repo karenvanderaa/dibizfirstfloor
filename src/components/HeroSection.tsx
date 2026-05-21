@@ -11,9 +11,9 @@ const fadeUp = {
 };
 
 const checkItems = [
-  "Een aanbod dat aansluit bij klant én markt",
-  "Een organisatie die ingericht is om te leveren",
-  "Eén doorlopende keten van marktaanbod tot realisatie",
+  "Mensen, rollen en processen die kloppen met de strategie",
+  "Tooling, automatisatie en AI die de uitvoering versterkt",
+  "Eén doorlopende keten van strategie tot verankering",
   "Verandering die blijft, niet verdwijnt na oplevering",
 ];
 
@@ -40,9 +40,6 @@ const HeroSection = () => {
               <span className="bg-ff-mint text-ff-dark font-heading font-semibold text-sm px-4 py-1.5 rounded-md">
                 × Dibiz
               </span>
-              <span className="bg-ff-light text-foreground font-heading font-semibold text-sm px-4 py-1.5 rounded-md border border-border">
-                Digitale transformatie, end-to-end
-              </span>
             </motion.div>
 
             {/* Heading */}
@@ -51,10 +48,9 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-foreground font-heading font-bold text-3xl md:text-4xl lg:text-[2.75rem] leading-[1.1] mb-5"
             >
-              Digitale transformatie die landt.
-              <br />
-              In uw aanbod én uw{" "}
-              <span className="text-ff-blue">organisatie.</span>
+              Uw strategie klopt. Maar voert uw{" "}
+              <span className="text-ff-mint">organisatie</span>{" "}
+              ze ook uit?
             </motion.h1>
 
             {/* Subtitle */}
@@ -63,7 +59,7 @@ const HeroSection = () => {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
             >
-              Wij ontwerpen uw aanbod, de digitale infrastructuur eronder en de organisatie die het levert als één geheel. AI, data en nieuwe diensten, vertaald naar wat klanten kopen en wat uw mensen waarmaken.
+              Strategie waarmaken vraagt executie. Executie vraagt de juiste organisatie. Wij bouwen die organisatie met u, waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken.
             </motion.p>
 
             {/* Checklist */}

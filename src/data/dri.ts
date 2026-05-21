@@ -52,6 +52,7 @@ export const dimensions: Dimension[] = [
     name: "Operating model & executiekracht",
     kernvraag: "Is de organisatie zo ingericht dat ze kán uitvoeren?",
     badge: "Ontwerpen",
+    service: "Ontwerpen — Operating model, rollen, processen, governance",
     questions: [
       "Rollen, verantwoordelijkheden en besluitlijnen zijn helder belegd en voor iedereen zichtbaar — niet afhankelijk van informele paden.",
       "Onze kernprocessen zijn gedocumenteerd, gestandaardiseerd en worden regelmatig geëvalueerd — we draaien niet op impliciete kennis in de hoofden van een paar sleutelfiguren.",

@@ -51,7 +51,7 @@ const ContactSection = () => {
             <div className="w-12 h-12 rounded-lg bg-ff-mint/10 text-ff-mint flex items-center justify-center mb-4 text-xl" aria-hidden="true">
               ✓
             </div>
-            <h4 className="font-heading font-bold text-foreground text-lg mb-1">Doe de DRI scan</h4>
+            <h4 className="font-heading font-bold text-foreground text-lg mb-1">Doe de Delivery Readiness Index scan</h4>
             <p className="text-muted-foreground text-sm mb-5">In 5 minuten, gratis</p>
             <a
               href="/dri"

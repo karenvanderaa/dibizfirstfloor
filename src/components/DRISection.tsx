@@ -401,12 +401,56 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
         </div>
       </section>
 
-      {/* Dimension cards */}
-      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-        <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">Scores per dimensie</div>
-        <h3 className="mb-10 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
-          Waar staat uw organisatie?
+      {/* De rode draad — top 3 prioriteiten */}
+      <section className="bg-white py-14 md:py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">De rode draad</div>
+          <h3 className="mb-4 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
+            Hier zit uw grootste hefboom
+          </h3>
+          <p className="mb-10 max-w-3xl text-base text-[#6B7384]">
+            Deze drie dimensies zijn het meest urgent en hebben samen de grootste impact op het transformatievermogen van uw organisatie.
+          </p>
+          <div className="space-y-4">
+            {top3.map((x, idx) => {
+              const accent = idx === 0 ? "#315EFF" : idx === 1 ? "#6CC1BF" : "#6B7384";
+              return (
+                <div key={x.i} className="flex gap-5 rounded-2xl border border-[#E2E8F0] bg-[#F4F6FB] p-7">
+                  <div className="w-1.5 shrink-0 rounded-full" style={{ background: accent }} />
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-baseline justify-between gap-3">
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-wider" style={{ color: accent }}>
+                          Prioriteit {idx + 1}
+                        </div>
+                        <div className="mt-1 font-heading text-xl font-bold text-[#1A1A2E]">{x.d.name}</div>
+                      </div>
+                      <div className="font-heading text-2xl font-bold text-[#1A1A2E]">
+                        {x.s.toFixed(1)} <span className="text-sm font-normal text-[#6B7384]">/ 5.0</span>
+                      </div>
+                    </div>
+                    <p className="mt-4 text-sm leading-relaxed text-[#2D3748]">{risks[x.d.id]}</p>
+                    <div className="mt-3 rounded-lg bg-white p-4">
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-[#315EFF]">Aanbevolen eerste stap</div>
+                      <p className="mt-1 text-sm text-[#2D3748]">{firstSteps[x.d.id]}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Resultaten per dimensie */}
+      <section className="mx-auto max-w-6xl px-6 py-14 md:py-20">
+        <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">Resultaten per dimensie</div>
+        <h3 className="mb-3 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
+          Volledige analyse
         </h3>
+        <p className="mb-10 max-w-3xl text-base text-[#6B7384]">
+          Per dimensie: uw score, wat dit betekent, het risico voor de transformatie, en een aanbevolen eerste stap.
+        </p>
         <div className="grid gap-5 md:grid-cols-2">
           {dimensions.map((d, i) => {
             const s = dimScores[i];
@@ -429,7 +473,10 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
                 <div className="mb-5 h-2 w-full overflow-hidden rounded-full bg-[#F4F6FB]">
                   <div className="h-full transition-all" style={{ width: `${(s / 5) * 100}%`, background: levelColors[b] }} />
                 </div>
-                <p className="mb-4 text-sm leading-relaxed text-[#2D3748]">{interpretations[d.id][b]}</p>
+                <div className="mb-4">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#1A1A2E]">Wat dit betekent</div>
+                  <p className="mt-1 text-sm leading-relaxed text-[#2D3748]">{interpretations[d.id][b]}</p>
+                </div>
                 <div className="space-y-3 border-t border-[#E2E8F0] pt-4">
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-wider text-[#315EFF]">Risico voor de transformatie</div>
@@ -440,8 +487,11 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
                     <div className="mt-1 text-sm text-[#2D3748]">{firstSteps[d.id]}</div>
                   </div>
                 </div>
-                <div className="mt-4 inline-flex items-center rounded-full bg-[#E8EEFF] px-3 py-1 text-xs font-bold text-[#315EFF]">
-                  {d.badge}
+                <div className="mt-5 border-t border-[#E2E8F0] pt-4">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#6B7384]">Wat First Floor × Dibiz hierin doet</div>
+                  <div className="mt-2 inline-flex items-center rounded-full bg-[#E8EEFF] px-3 py-1.5 text-xs font-bold text-[#315EFF]">
+                    {d.service}
+                  </div>
                 </div>
               </div>
             );
@@ -449,23 +499,26 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
         </div>
       </section>
 
-      {/* Red thread */}
-      <section className="bg-white py-16 md:py-20">
+      {/* Hoe FF × Dibiz kan helpen */}
+      <section className="bg-white py-14 md:py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">De rode draad</div>
-          <h3 className="mb-10 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
-            Hier zit uw grootste hefboom
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">Onze aanpak</div>
+          <h3 className="mb-4 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
+            Hoe First Floor × Dibiz kan helpen
           </h3>
-          <div className="grid gap-5 md:grid-cols-2">
-            {lowestTwo.map((x, idx) => (
-              <div key={x.i} className="rounded-2xl border border-[#E2E8F0] bg-[#F4F6FB] p-7">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#F59E0B]">Prioriteit {idx + 1}</div>
-                <div className="mt-2 font-heading text-xl font-bold text-[#1A1A2E]">{x.d.name}</div>
-                <div className="mt-1 text-sm italic text-[#6B7384]">Score: {x.s.toFixed(1)} / 5.0</div>
-                <p className="mt-4 text-sm leading-relaxed text-[#2D3748]">{risks[x.d.id]}</p>
-                <p className="mt-3 text-sm leading-relaxed text-[#2D3748]">
-                  <span className="font-semibold text-[#1A1A2E]">Eerste stap: </span>{firstSteps[x.d.id]}
-                </p>
+          <p className="mb-10 max-w-3xl text-base text-[#6B7384]">
+            Strategie waarmaken vraagt executie. Executie vraagt de juiste organisatie. Wij bouwen die organisatie met u — waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken.
+          </p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              { t: "Ontwerpen", b: "Structuur, rollen, processen, governance, IT-architectuur", d: "Dimensies 1, 4, 5", bg: "#E8EEFF", color: "#315EFF" },
+              { t: "Bouwen", b: "Leiderschap, teamwerking, skill based organisatie", d: "Dimensies 2, 3, 6", bg: "#DDF3F2", color: "#0F766E" },
+              { t: "Verankeren", b: "Adoptie, procesborging, overdracht, exitcriteria", d: "Dimensies 4, 5, 6", bg: "#F4F6FB", color: "#1A1A2E" },
+            ].map((s) => (
+              <div key={s.t} className="rounded-2xl p-6" style={{ background: s.bg }}>
+                <div className="font-heading text-2xl font-bold" style={{ color: s.color }}>{s.t}</div>
+                <p className="mt-3 text-sm leading-relaxed text-[#2D3748]">{s.b}</p>
+                <div className="mt-4 text-xs font-bold uppercase tracking-wider" style={{ color: s.color }}>{s.d}</div>
               </div>
             ))}
           </div>
@@ -473,12 +526,13 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden bg-[#1A1A2E] py-16 text-white md:py-24">
+      <section className="relative overflow-hidden bg-[#1A1A2E] py-14 text-white md:py-20">
         <div className="absolute inset-x-0 top-0"><SplitGradient /></div>
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <h3 className="font-heading text-3xl font-bold md:text-5xl">Wilt u deze resultaten bespreken?</h3>
+          <div className="text-xs font-bold uppercase tracking-[0.25em] text-[#6CC1BF]">Volgende stap</div>
+          <h3 className="mt-3 font-heading text-3xl font-bold md:text-5xl">Wilt u deze resultaten bespreken?</h3>
           <p className="mx-auto mt-5 max-w-2xl text-base text-white/70 md:text-lg">
-            Dit rapport is een startpunt. De échte waarde ontstaat in het gesprek over wat u ermee gaat doen.
+            Dit rapport is een startpunt. De échte waarde ontstaat in het gesprek over wat u ermee gaat doen. Neem contact op voor een vrijblijvend gesprek.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <a
@@ -495,16 +549,62 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
             >
               <Download className="h-4 w-4" /> Download rapport als PDF
             </button>
-            <a
-              href="mailto:karen@firstfloortalent.be"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-4 font-heading text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              <Mail className="h-4 w-4" /> Mail Karen
+          </div>
+          <div className="mx-auto mt-12 grid max-w-xl gap-4 text-left sm:grid-cols-2">
+            <a href="mailto:karen@firstfloortalent.be" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#6CC1BF]">Karen</div>
+              <div className="mt-1 font-heading text-sm font-semibold text-white">karen@firstfloortalent.be</div>
+              <div className="mt-0.5 text-xs text-white/50">First Floor</div>
+            </a>
+            <a href="mailto:ellen@dibiz.com" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
+              <div className="text-xs font-bold uppercase tracking-wider text-[#6CC1BF]">Ellen</div>
+              <div className="mt-1 font-heading text-sm font-semibold text-white">ellen@dibiz.com</div>
+              <div className="mt-0.5 text-xs text-white/50">Dibiz</div>
             </a>
           </div>
           <p className="mt-12 text-sm text-white/50">
             First Floor × Dibiz — Wij bouwen de organisatie van de toekomst met u.
           </p>
+        </div>
+      </section>
+
+      {/* Wetenschappelijke verantwoording */}
+      <section className="bg-[#F4F6FB] py-12 md:py-16">
+        <div className="mx-auto max-w-4xl px-6">
+          <details className="group rounded-2xl border border-[#E2E8F0] bg-white p-6">
+            <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">Appendix</div>
+                <div className="mt-1 font-heading text-xl font-bold text-[#1A1A2E]">Wetenschappelijke verantwoording</div>
+              </div>
+              <span className="font-heading text-2xl text-[#6B7384] transition group-open:rotate-45">+</span>
+            </summary>
+            <div className="mt-6 space-y-5 text-sm leading-relaxed text-[#2D3748]">
+              <div>
+                <div className="mb-2 font-heading font-bold text-[#1A1A2E]">Gebruikte bronnen</div>
+                <ul className="list-disc space-y-1.5 pl-5 text-[13px]">
+                  <li>Weiner, B. J. (2009). A theory of organizational readiness for change. <em>Implementation Science</em>, 4, 67.</li>
+                  <li>Shea, C. M. et al. (2014). Organizational readiness for implementing change: ORIC. <em>Implementation Science</em>, 9, 7.</li>
+                  <li>Anderson, R. J. & Adams, W. A. (2019). <em>Scaling Leadership</em>. Wiley.</li>
+                  <li>Jo, Y. & Hong, A. J. (2023). Development and Validation of a Readiness for Organizational Change Scale. <em>SAGE Open</em>, 13(4).</li>
+                  <li>Kotter, J. P. (2012). <em>Leading Change</em> (2nd ed.). Harvard Business Review Press.</li>
+                  <li>Cohen, W. M. & Levinthal, D. A. (1990). Absorptive Capacity. <em>Administrative Science Quarterly</em>, 35(1), 128–152.</li>
+                  <li>Galbraith, J. R. (2014). <em>Designing Organizations</em>. Jossey-Bass.</li>
+                  <li>IDC (2026). Futurescape for the AI-enabled Future of Work.</li>
+                  <li>DASA (2024). Digital Readiness Assessment — 7 core dimensions.</li>
+                  <li>TMA Competentiemodel. 53 gevalideerde competenties met gedragsankers op 4 niveaus.</li>
+                </ul>
+              </div>
+              <div>
+                <div className="mb-2 font-heading font-bold text-[#1A1A2E]">Constructvaliditeit</div>
+                <p>De 6 dimensies zijn afgeleid uit een synthese van bovenstaande bronnen. Elke dimensie is opgebouwd uit items die aansluiten bij gevalideerde constructen (change commitment, change efficacy, absorptive capacity, procesvolwassenheid, decision rights).</p>
+              </div>
+              <div>
+                <div className="mb-2 font-heading font-bold text-[#1A1A2E]">Beoogd gebruik</div>
+                <p>De DRI is ontworpen als diagnostisch instrument voor commerciële inzet door First Floor × Dibiz. Het is géén klinisch of academisch meetinstrument. De scores zijn indicatief en dienen als startpunt voor een verdiepend gesprek, niet als absoluut oordeel.</p>
+              </div>
+            </div>
+          </details>
         </div>
       </section>
     </motion.div>

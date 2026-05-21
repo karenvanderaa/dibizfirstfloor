@@ -707,6 +707,7 @@ export default function DRISection() {
   const [contact, setContact] = useState<Contact | null>(null);
   const [qIdx, setQIdx] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(TOTAL_QUESTIONS).fill(null));
+  const [mailStatus, setMailStatus] = useState<MailStatus>("sending");
 
   const goTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -727,6 +728,23 @@ export default function DRISection() {
     }
   };
 
+  const requestReportLink = async (c: Contact, scanData: { answers: number[]; dimScores: number[]; overall: number }) => {
+    setMailStatus("sending");
+    try {
+      const { data, error } = await supabase.functions.invoke("request-report-link", {
+        body: { contact: c, scanData },
+      });
+      if (error || !data?.ok) {
+        setMailStatus("error");
+        return;
+      }
+      setMailStatus("sent");
+    } catch (e) {
+      console.error("request-report-link failed", e);
+      setMailStatus("error");
+    }
+  };
+
   const handleContactSubmit = (c: Contact) => {
     setContact(c);
     setStep("questions");
@@ -742,26 +760,37 @@ export default function DRISection() {
     });
   };
 
+  const finalScores = useMemo(() => {
+    const filled = answers.map((a) => a ?? 3);
+    const dimScores = dimensions.map((_, i) => {
+      const start = i * 4;
+      const sum = filled.slice(start, start + 4).reduce((a, b) => a + b, 0);
+      return Math.round((sum / 4) * 10) / 10;
+    });
+    const overall = Math.round((dimScores.reduce((a, b) => a + b, 0) / dimScores.length) * 10) / 10;
+    return { filled, dimScores, overall };
+  }, [answers]);
+
   const handleNextQuestion = async () => {
     if (qIdx < TOTAL_QUESTIONS - 1) {
       setQIdx(qIdx + 1);
       goTop();
     } else {
-      // finalize
-      const filled = answers.map((a) => a ?? 3);
-      const dimScores = dimensions.map((_, i) => {
-        const start = i * 4;
-        const sum = filled.slice(start, start + 4).reduce((a, b) => a + b, 0);
-        return Math.round((sum / 4) * 10) / 10;
-      });
-      const overall = Math.round((dimScores.reduce((a, b) => a + b, 0) / dimScores.length) * 10) / 10;
+      const { filled, dimScores, overall } = finalScores;
       if (contact) {
         sendToBrevo(contact, overall);
+        requestReportLink(contact, { answers: filled, dimScores, overall });
         toast({ title: "Uw rapport is klaar", description: "Scroll door uw persoonlijk DRI™-rapport." });
       }
       setStep("results");
       goTop();
     }
+  };
+
+  const handleResend = () => {
+    if (!contact) return;
+    const { filled, dimScores, overall } = finalScores;
+    requestReportLink(contact, { answers: filled, dimScores, overall });
   };
 
   return (
@@ -787,9 +816,16 @@ export default function DRISection() {
           />
         )}
         {step === "results" && contact && (
-          <ResultsPage key="results" contact={contact} answers={answers.map((a) => a ?? 3)} />
+          <ResultsPage
+            key="results"
+            contact={contact}
+            answers={answers.map((a) => a ?? 3)}
+            mailStatus={mailStatus}
+            onResend={handleResend}
+          />
         )}
       </AnimatePresence>
     </div>
   );
 }
+

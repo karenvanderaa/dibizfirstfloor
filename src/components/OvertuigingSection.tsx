@@ -22,18 +22,20 @@ const OvertuigingSection = () => {
       <div className="container">
         <p className="section-label mb-6">ONZE OVERTUIGING</p>
 
-        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 max-w-3xl leading-snug">
+        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 leading-snug whitespace-nowrap">
           Geen generalisten. Wel specialisten die elkaar versterken.
         </h2>
 
-        <div className="max-w-2xl mb-14">
-          <p className="text-foreground text-lg md:text-xl leading-relaxed mb-2">
-            Wij zijn systeemdenkers en doeners.
-          </p>
-          <p className="text-ff-mint text-lg md:text-xl italic leading-relaxed">
-            Want strategie, executie en organisatie bouw je niet los van elkaar. Toch niet als je wil dat het werkt.
+        <div className="mb-14">
+          <p className="text-foreground text-lg md:text-xl leading-relaxed">
+            Wij zijn systeemdenkers en doeners.{" "}
+            <span className="text-ff-mint italic">
+              Want strategie, executie en organisatie bouw je niet los van elkaar. Toch niet als je wil dat het werkt.
+            </span>
           </p>
         </div>
+
+
 
         <div className="grid sm:grid-cols-3 gap-6">
           {cards.map((c, i) => (

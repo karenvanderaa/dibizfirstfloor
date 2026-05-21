@@ -1,640 +1,605 @@
-import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
-import jsPDF from "jspdf";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, PolarRadiusAxis } from "recharts";
+import { ArrowLeft, ArrowRight, Calendar, Download, Mail, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import {
+  dimensions,
+  interpretations,
+  risks,
+  firstSteps,
+  bandIndex,
+  levelLabels,
+  levelColors,
+  overallSummary,
+} from "@/data/dri";
+import { generateDRIPdf, type Contact } from "@/utils/driPdf";
 
 const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-};
+type Step = "landing" | "about" | "contact" | "questions" | "results";
 
-interface Cluster {
-  name: string;
-  questions: string[];
-}
+const TOTAL_QUESTIONS = 24;
 
-const clusters: Cluster[] = [
-  {
-    name: "Diensten & Marktpositie",
-    questions: [
-      "Onze nieuwe of vernieuwde diensten leveren niet het rendement dat we verwachtten, ondanks een propositie die op papier sterk is.",
-      "Er zit een merkbare kloof tussen wat wij onze klanten beloven en wat we intern consistent kunnen waarmaken.",
-    ],
-  },
-  {
-    name: "Organisatie & Groei",
-    questions: [
-      "We groeien, in omzet, mensen of diensten, maar onze interne structuur, rollen en verantwoordelijkheden volgen die groei niet.",
-      "We hebben een fusie, overname of reorganisatie achter de rug die organisatorisch nog niet volledig is verankerd.",
-      "We weten wat we strategisch willen bereiken, maar de vertaling naar concrete rollen, beslissingsbevoegdheden en eigenaarschap ontbreekt.",
-    ],
-  },
-  {
-    name: "Mensen & Competenties",
-    questions: [
-      "Onze medewerkers missen competenties die we nodig hebben voor de richting die we strategisch opgaan.",
-      "Sleutelmedewerkers vertrekken of dreigen te vertrekken, en we begrijpen niet goed waardoor dat komt.",
-      "Onze HR- en talentaanpak is voornamelijk operationeel en reactief, ze loopt achter op onze strategische ambities.",
-    ],
-  },
-  {
-    name: "Verandering & Verankering",
-    questions: [
-      "Na een lancering, reorganisatie of verandertraject vallen mensen snel terug op de oude manier van werken, de verandering verdwijnt.",
-      "AI, technologie of andere externe druk verandert onze sector fundamenteel, maar onze organisatie is daar structureel nog niet op ingericht.",
-    ],
-  },
-];
-
-const clusterInterpretations: Record<string, string> = {
-  "Diensten & Marktpositie":
-    "Er zijn signalen dat uw dienstverlening en de marktbehoefte niet volledig op elkaar zijn afgestemd. Dit is het vertrekpunt van elke Transformatie Scan.",
-  "Organisatie & Groei":
-    "Uw structuur volgt uw groei niet. Zonder structurele interventie vergroot deze kloof zich naarmate de ambitie toeneemt.",
-  "Mensen & Competenties":
-    "De competentiegap is een strategisch risico, geen HR-kwestie. Zonder actie vertaalt dit zich in verloren talent en gemiste leveringskwaliteit.",
-  "Verandering & Verankering":
-    "Uw organisatie heeft moeite om verandering te verankeren. Dit patroon herhaalt zich bij elk nieuw initiatief zolang de onderliggende oorzaak niet wordt aangepakt.",
-};
-
-const totalQuestions = clusters.reduce((a, c) => a + c.questions.length, 0);
-
-type Answer = boolean | null;
-
-const scoreTexts = {
-  strong: {
-    label: "DRI: Sterk",
-    color: "#22c55e",
-    text: "Uw organisatie lijkt goed afgestemd op uw ambitie. De meeste signalen die wijzen op een kloof tussen dienstverlening en organisatiecapaciteit zijn bij u afwezig. Gezonde organisaties presteren gemiddeld 3× beter dan organisaties met structurele gaps, en ze blijven dat doen door continu te meten en bij te sturen. (McKinsey OHI, 2024)",
-    cta: "Bevestig uw sterktes met een vrijblijvend gesprek",
-  },
-  pressure: {
-    label: "DRI: Onder druk",
-    color: "#f59e0b",
-    text: "Er zijn duidelijke signalen dat uw organisatie en uw ambitie niet volledig op elkaar zijn afgestemd. Dit is het moment om te handelen, niet omdat het crisis is, maar omdat de kloof op dit punt nog beheersbaar is. Twee derde van alle transformatietrajecten faalt niet door een slechte strategie, maar omdat de organisatie er niet structureel op is ingericht. (McKinsey, 2023) De Transformatie Scan brengt in 4–5 weken in kaart waar de kloof zit en hoe u die aanpakt.",
-    cta: "Vraag de Transformatie Scan aan",
-  },
-  critical: {
-    label: "DRI: Kritisch",
-    color: "#ef4444",
-    text: "Uw organisatie loopt structureel achter op haar ambities. Organisaties die meer dan 18 maanden in dit patroon zitten mislopen gemiddeld 23% van hun groeipotentieel door talent dat vertrekt, initiatieven die niet landen en klanten die de kloof beginnen te voelen. (WEF Future of Jobs, 2025) Elke maand telt.",
-    cta: "Plan een gesprek, wij bellen u terug",
-  },
-};
-
-// Flatten questions with their cluster name for the step-by-step flow
-const flatQuestions: { cluster: string; question: string }[] = clusters.flatMap((c) =>
-  c.questions.map((q) => ({ cluster: c.name, question: q }))
+// Flatten questions with their dimension reference
+const flatQuestions = dimensions.flatMap((d) =>
+  d.questions.map((q, qi) => ({ dimId: d.id, dimName: d.name, dimIndex: dimensions.indexOf(d), localIdx: qi, text: q }))
 );
 
-const DRISection = () => {
-  const [answers, setAnswers] = useState<Answer[]>(Array(totalQuestions).fill(null));
-  const [currentStep, setCurrentStep] = useState(0); // 0..totalQuestions-1 = questions, totalQuestions = lead form
-  const [orgName, setOrgName] = useState("");
-  const [email, setEmail] = useState("");
+const likertLabels = [
+  "Helemaal niet akkoord",
+  "Niet akkoord",
+  "Neutraal",
+  "Akkoord",
+  "Helemaal akkoord",
+];
 
-  // Lead gate state
-  const [leadName, setLeadName] = useState("");
-  const [leadEmail, setLeadEmail] = useState("");
-  const [leadOrg, setLeadOrg] = useState("");
-  const [leadSubmitted, setLeadSubmitted] = useState(false);
-  const [leadLoading, setLeadLoading] = useState(false);
+// Split gradient bar
+const SplitGradient = ({ progress = 100 }: { progress?: number }) => (
+  <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
+    <div
+      className="absolute inset-y-0 left-0 transition-all duration-500 ease-out"
+      style={{
+        width: `${progress}%`,
+        background: "linear-gradient(90deg, #315EFF 0%, #315EFF 50%, #6CC1BF 50%, #6CC1BF 100%)",
+      }}
+    />
+  </div>
+);
 
-  const [emailSent, setEmailSent] = useState(false);
-
-  const allAnswered = answers.every((a) => a !== null);
-  const yesCount = answers.filter((a) => a === true).length;
-
-  const clusterScores = useMemo(() => {
-    let idx = 0;
-    return clusters.map((c) => {
-      const clusterAnswers = answers.slice(idx, idx + c.questions.length);
-      idx += c.questions.length;
-      return clusterAnswers.filter((a) => a === true).length;
-    });
-  }, [answers]);
-
-  const handleAnswer = (qIndex: number, value: boolean) => {
-    setAnswers((prev) => {
-      const next = [...prev];
-      next[qIndex] = value;
-      return next;
-    });
-    // auto-advance to next question, or to lead form after last question
-    setTimeout(() => {
-      setCurrentStep((s) => Math.min(s + 1, totalQuestions));
-    }, 220);
-  };
-
-  const getScoreLevel = () => {
-    if (yesCount <= 3) return "strong";
-    if (yesCount <= 6) return "pressure";
-    return "critical";
-  };
-
-  const getClusterColor = (score: number) => {
-    if (score === 0) return "#22c55e";
-    if (score === 1) return "#f59e0b";
-    return "#ef4444";
-  };
-
-  const handleLeadSubmit = async () => {
-    if (!leadName.trim() || !leadEmail.trim() || !leadOrg.trim()) {
-      toast({ title: "Vul alle velden in", variant: "destructive" });
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(leadEmail)) {
-      toast({ title: "Ongeldig e-mailadres", variant: "destructive" });
-      return;
-    }
-
-    setLeadLoading(true);
-
-    try {
-      const level = getScoreLevel();
-      const info = scoreTexts[level];
-
-      const { error } = await supabase.functions.invoke("add-to-brevo", {
-        body: {
-          email: leadEmail.trim(),
-          firstName: leadName.trim(),
-          organisatie: leadOrg.trim(),
-          score: yesCount,
-          scoreLabel: info.label,
-        },
-      });
-
-      if (error) {
-        console.error("Brevo error:", error);
-        // Still show results even if Brevo fails
-      }
-    } catch (err) {
-      console.error("Lead submit error:", err);
-    }
-
-    setLeadSubmitted(true);
-    setOrgName(leadOrg);
-    setLeadLoading(false);
-  };
-
-  const showResults = allAnswered && leadSubmitted;
-
-  const generatePDF = () => {
-    const doc = new jsPDF("p", "mm", "a4");
-    const w = doc.internal.pageSize.getWidth();
-    const margin = 20;
-    const contentW = w - margin * 2;
-    const level = getScoreLevel();
-    const info = scoreTexts[level];
-    const dateStr = new Date().toLocaleDateString("nl-BE");
-
-    const drawColorBand = (y: number, color: string, text: string) => {
-      doc.setFillColor(color);
-      doc.roundedRect(margin, y, contentW, 10, 2, 2, "F");
-      doc.setTextColor("#ffffff");
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(12);
-      doc.text(text, w / 2, y + 7, { align: "center" });
-    };
-
-    // PAGE 1, Cover
-    doc.setFillColor("#1a1a2e");
-    doc.rect(0, 0, w, doc.internal.pageSize.getHeight(), "F");
-    doc.setTextColor("#315eff");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(22);
-    doc.text("First Floor × Dibiz", w / 2, 50, { align: "center" });
-    doc.setTextColor("#ffffff");
-    doc.setFontSize(18);
-    doc.text("Delivery Readiness Index™", w / 2, 70, { align: "center" });
-    doc.setFontSize(13);
-    doc.text("Uw persoonlijk rapport", w / 2, 80, { align: "center" });
-    if (orgName) {
-      doc.setFontSize(14);
-      doc.text(orgName, w / 2, 100, { align: "center" });
-    }
-    doc.setFontSize(11);
-    doc.setTextColor("#888888");
-    doc.text(dateStr, w / 2, 115, { align: "center" });
-    drawColorBand(130, info.color, `${info.label}, ${yesCount}/${totalQuestions}`);
-    doc.setTextColor("#5ec6b8");
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "italic");
-    doc.text("Levert uw organisatie de waarde die u belooft?", w / 2, 160, { align: "center" });
-
-    // PAGE 2, Score & toelichting
-    doc.addPage();
-    doc.setTextColor("#1a1a2e");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    doc.text("Uw score & toelichting", margin, 30);
-    drawColorBand(38, info.color, info.label);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor("#333333");
-    const splitText = doc.splitTextToSize(info.text, contentW);
-    doc.text(splitText, margin, 60);
-    let y2 = 60 + splitText.length * 5 + 10;
-    doc.setFont("helvetica", "italic");
-    doc.setFontSize(9);
-    doc.setTextColor("#666666");
-    const explainer = doc.splitTextToSize(
-      "De Delivery Readiness Index™ meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit, op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
-      contentW
-    );
-    doc.text(explainer, margin, y2);
-
-    // PAGE 3, Antwoorden per cluster
-    doc.addPage();
-    doc.setTextColor("#1a1a2e");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    doc.text("Uw antwoorden per cluster", margin, 30);
-    let y3 = 42;
-    let qIdx = 0;
-    clusters.forEach((cluster, ci) => {
-      if (y3 > 250) { doc.addPage(); y3 = 30; }
-      const cScore = clusterScores[ci];
-      const barColor = getClusterColor(cScore);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(11);
-      doc.setTextColor("#1a1a2e");
-      doc.text(cluster.name, margin, y3);
-      doc.setFillColor("#e5e7eb");
-      doc.roundedRect(margin + 100, y3 - 3, 40, 5, 1, 1, "F");
-      const barW = (cScore / cluster.questions.length) * 40;
-      if (barW > 0) {
-        doc.setFillColor(barColor);
-        doc.roundedRect(margin + 100, y3 - 3, barW, 5, 1, 1, "F");
-      }
-      y3 += 8;
-      cluster.questions.forEach((q) => {
-        const isYes = answers[qIdx] === true;
-        doc.setFont("helvetica", isYes ? "bold" : "normal");
-        doc.setFontSize(9);
-        doc.setTextColor(isYes ? "#1a1a2e" : "#888888");
-        const prefix = isYes ? "JA  " : "NEE ";
-        const lines = doc.splitTextToSize(`${prefix}${q}`, contentW);
-        doc.text(lines, margin + 4, y3);
-        y3 += lines.length * 4.5 + 3;
-        qIdx++;
-      });
-      if (cScore > 0) {
-        doc.setFont("helvetica", "italic");
-        doc.setFontSize(8.5);
-        doc.setTextColor("#666666");
-        const interp = doc.splitTextToSize(clusterInterpretations[cluster.name], contentW - 8);
-        doc.text(interp, margin + 4, y3);
-        y3 += interp.length * 4 + 4;
-      }
-      y3 += 6;
-    });
-
-    // PAGE 4, Volgende stap
-    doc.addPage();
-    doc.setTextColor("#1a1a2e");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    doc.text("Wat nu?", margin, 30);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor("#333333");
-    const nextStepIntro = doc.splitTextToSize(
-      "De Delivery Readiness Index™ geeft u een eerste beeld. De Transformatie Scan gaat dieper: in 4–5 weken brengen First Floor en Dibiz samen in kaart waar de kloof precies zit, wat de oorzaak is, en hoe u die aanpakt. Resultaat: een concrete roadmap voor de volgende 12 maanden.",
-      contentW
-    );
-    doc.text(nextStepIntro, margin, 42);
-    let y4 = 42 + nextStepIntro.length * 5 + 10;
-    const deliverables = [
-      "Strategisch vertrekpunt",
-      "Rollenkaart huidig vs. gewenst",
-      "Competentiematrix",
-      "Readiness-score",
-      "Transformatie-roadmap 12 maanden",
-    ];
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    deliverables.forEach((d) => { doc.text(`• ${d}`, margin + 4, y4); y4 += 6; });
-    y4 += 6;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor("#315eff");
-    doc.text("Vanaf €18.500, 4–5 weken, 5 concrete deliverables", margin, y4);
-    y4 += 12;
-    doc.setTextColor("#1a1a2e");
-    doc.setFont("helvetica", "bold");
-    doc.text("Plan een vrijblijvend gesprek", margin, y4);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor("#315eff");
-    doc.text(CALENDLY_URL, margin, y4 + 6);
-    y4 += 16;
-    doc.setTextColor("#666666");
-    doc.setFontSize(9);
-    doc.text("ellen@dibiz.be · karen.vanderaa@firstfloortalent.be", margin, y4);
-
-    // PAGE 5, Over FF × Dibiz
-    doc.addPage();
-    doc.setTextColor("#1a1a2e");
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    doc.text("Over FF × Dibiz", margin, 30);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor("#333333");
-    const aboutText = doc.splitTextToSize(
-      'First Floor en Dibiz zijn twee Belgische adviesbureaus die samen één blinde vlek aanpakken die klassieke consultancy overlaat: de gap tussen servicedesign en organisatiedesign. Wij designen organisaties zodat ze de waarde leveren die ze beloven. Geen rapport dat in een lade verdwijnt. Wij noemen dat fixen.',
-      contentW
-    );
-    doc.text(aboutText, margin, 42);
-    let y5 = 42 + aboutText.length * 5 + 12;
-    doc.setFont("helvetica", "bold");
-    doc.text("Ellen Poppe, Dibiz", margin, y5);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    const ellenText = doc.splitTextToSize(
-      "Begeleidt organisaties bij het vertalen van strategische ambities naar diensten die écht werken, voor klanten én voor de mensen die ze leveren.",
-      contentW
-    );
-    doc.text(ellenText, margin, y5 + 6);
-    y5 += 6 + ellenText.length * 4.5 + 8;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.text("Karen Van der Aa, First Floor", margin, y5);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    const karenText = doc.splitTextToSize(
-      "Bouwt de organisatie die de ambitie kan waarmaken, structuur, rollen, competenties en leiderschap afgestemd op de diensten die de organisatie wil leveren.",
-      contentW
-    );
-    doc.text(karenText, margin, y5 + 6);
-    y5 += 6 + karenText.length * 4.5 + 16;
-    doc.setFontSize(8);
-    doc.setTextColor("#888888");
-    doc.text(`FF × Dibiz · Vertrouwelijk · ${dateStr} · firstfloortalent.be · dibiz.odoo.com`, margin, y5);
-
-    doc.save(`DRI_Rapport_${dateStr.replace(/\//g, "-")}.pdf`);
-  };
-
-
-  return (
-    <section id="dri" className="bg-ff-light py-14 md:py-20 scroll-mt-16">
-      <div className="container max-w-3xl">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ staggerChildren: 0.08 }}
-        >
-          <motion.p variants={fadeUp} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="section-label mb-4">
-            DELIVERY READINESS INDEX™
-          </motion.p>
-
-          <motion.h2
-            variants={fadeUp}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-4"
-          >
-            Levert uw organisatie de waarde die u belooft?
-          </motion.h2>
-
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-muted-foreground text-sm leading-relaxed mb-10"
-          >
-            Twee derde van alle transformatietrajecten mislukt, niet door een slechte strategie, maar omdat de
-            organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
-            <br />
-            Beantwoord 10 vragen eerlijk, één voor één. Resultaat en downloadbaar rapport verschijnen na het invullen van uw gegevens.
-          </motion.p>
-
-          {/* Step-by-step: one question per page, then lead form */}
-          {!showResults && (
-            <motion.div
-              variants={fadeUp}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Progress bar */}
-              <div className="mb-6">
-                <div className="flex justify-between text-xs text-muted-foreground mb-2">
-                  <span>
-                    {currentStep < totalQuestions
-                      ? `Vraag ${currentStep + 1} van ${totalQuestions}`
-                      : "Bijna klaar, uw gegevens"}
-                  </span>
-                  <span>
-                    {Math.round(
-                      ((Math.min(currentStep, totalQuestions)) / (totalQuestions + 1)) * 100
-                    )}%
-                  </span>
-                </div>
-                <div className="h-2 bg-border rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-ff-blue rounded-full transition-all duration-300"
-                    style={{
-                      width: `${
-                        ((Math.min(currentStep, totalQuestions) + (currentStep >= totalQuestions ? 1 : 0)) /
-                          (totalQuestions + 1)) *
-                        100
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {currentStep < totalQuestions ? (
-                <motion.div
-                  key={currentStep}
-                  initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-background rounded-lg p-6 md:p-8 border border-border shadow-sm"
-                >
-                  <p className="font-heading font-semibold text-xs text-ff-blue uppercase tracking-wide mb-3">
-                    {flatQuestions[currentStep].cluster}
-                  </p>
-                  <p className="text-foreground text-base md:text-lg leading-relaxed mb-6">
-                    {flatQuestions[currentStep].question}
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                      onClick={() => handleAnswer(currentStep, true)}
-                      className={`flex-1 px-6 py-3 rounded-md text-sm font-heading font-semibold transition-all duration-150 active:scale-[0.97] ${
-                        answers[currentStep] === true
-                          ? "bg-ff-blue text-white"
-                          : "bg-ff-light text-foreground border border-border hover:border-ff-blue"
-                      }`}
-                    >
-                      Ja
-                    </button>
-                    <button
-                      onClick={() => handleAnswer(currentStep, false)}
-                      className={`flex-1 px-6 py-3 rounded-md text-sm font-heading font-semibold transition-all duration-150 active:scale-[0.97] ${
-                        answers[currentStep] === false
-                          ? "bg-ff-dark text-white"
-                          : "bg-ff-light text-foreground border border-border hover:border-ff-dark"
-                      }`}
-                    >
-                      Nee
-                    </button>
-                  </div>
-
-                  {currentStep > 0 && (
-                    <button
-                      onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
-                      className="mt-5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      ← Vorige vraag
-                    </button>
-                  )}
-                </motion.div>
-              ) : (
-                /* Lead capture form, final step */
-                <motion.div
-                  key="lead"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-background rounded-lg p-6 md:p-8 border border-border shadow-md"
-                >
-                  <div className="text-center mb-6">
-                    <p className="font-heading font-bold text-lg text-foreground mb-2">
-                      Uw resultaat is klaar
-                    </p>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      Vul uw gegevens in om uw persoonlijke DRI-score en downloadbaar rapport te ontvangen.
-                    </p>
-                  </div>
-
-                  <div className="space-y-3 max-w-md mx-auto">
-                    <input
-                      type="text"
-                      placeholder="Uw naam *"
-                      value={leadName}
-                      onChange={(e) => setLeadName(e.target.value)}
-                      className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Uw e-mailadres *"
-                      value={leadEmail}
-                      onChange={(e) => setLeadEmail(e.target.value)}
-                      className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Organisatie *"
-                      value={leadOrg}
-                      onChange={(e) => setLeadOrg(e.target.value)}
-                      className="w-full border border-border rounded-md px-4 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ff-blue"
-                    />
-                    <button
-                      onClick={handleLeadSubmit}
-                      disabled={leadLoading}
-                      className="w-full bg-ff-blue text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm disabled:opacity-60"
-                    >
-                      {leadLoading ? "Even geduld..." : "Bekijk mijn resultaat"}
-                    </button>
-                  </div>
-
-                  <p className="text-xs text-muted-foreground text-center mt-4">
-                    Uw gegevens worden enkel gebruikt om u uw rapport te bezorgen en eventueel op te volgen. Geen spam.
-                  </p>
-
-                  <button
-                    onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
-                    className="mt-5 text-xs text-muted-foreground hover:text-foreground transition-colors block mx-auto"
-                  >
-                    ← Vorige vraag
-                  </button>
-                </motion.div>
-              )}
-            </motion.div>
-          )}
-
-
-          {/* Results, only after lead gate */}
-          {showResults && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-12"
-            >
-              {/* Cluster bars */}
-              <div className="mb-8 space-y-3">
-                {clusters.map((c, ci) => {
-                  const score = clusterScores[ci];
-                  const pct = (score / c.questions.length) * 100;
-                  return (
-                    <div key={ci}>
-                      <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                        <span>{c.name}</span>
-                        <span>{score}/{c.questions.length} JA</span>
-                      </div>
-                      <div className="h-3 bg-border rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-500"
-                          style={{
-                            width: `${pct}%`,
-                            backgroundColor: getClusterColor(score),
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Score banner */}
-              {(() => {
-                const level = getScoreLevel();
-                const info = scoreTexts[level];
-                return (
-                  <div
-                    className="rounded-lg p-6 mb-6"
-                    style={{ backgroundColor: info.color + "18", borderLeft: `4px solid ${info.color}` }}
-                  >
-                    <p
-                      className="font-heading font-bold text-lg mb-2"
-                      style={{ color: info.color }}
-                    >
-                      {info.label}, {yesCount}/{totalQuestions}
-                    </p>
-                    <p className="text-foreground text-sm leading-relaxed">{info.text}</p>
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block mt-4 bg-ff-blue text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 text-sm"
-                    >
-                      {info.cta}
-                    </a>
-                  </div>
-                );
-              })()}
-
-              {/* PDF Download */}
-              <div className="bg-background rounded-lg p-6 border border-border">
-                <p className="font-heading font-semibold text-foreground mb-4">Download uw DRI-rapport (PDF)</p>
-                <button
-                  onClick={generatePDF}
-                  className="bg-ff-dark text-white font-heading font-semibold px-6 py-3 rounded-md hover:brightness-125 active:scale-[0.97] transition-all duration-150 text-sm w-full"
-                >
-                  Download PDF
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
-    </section>
-  );
+const fade = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.35, ease: "easeOut" as const },
 };
 
-export default DRISection;
+// =================== LANDING ===================
+function LandingScreen({ onStart }: { onStart: () => void }) {
+  return (
+    <motion.div {...fade} className="relative min-h-[88vh] overflow-hidden bg-[#1A1A2E] text-white">
+      <div className="absolute inset-x-0 top-0">
+        <SplitGradient />
+      </div>
+      <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-[#315EFF]/20 blur-3xl" />
+      <div className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#6CC1BF]/15 blur-3xl" />
+      <div className="relative mx-auto flex min-h-[88vh] max-w-4xl flex-col justify-center px-6 py-20">
+        <div className="mb-6 inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] text-[#6CC1BF]">
+          <Sparkles className="h-3.5 w-3.5" /> FIRST FLOOR × DIBIZ
+        </div>
+        <h1 className="font-heading text-5xl font-extrabold leading-[1.05] md:text-7xl">
+          Delivery Readiness <span className="text-[#6CC1BF]">Index™</span>
+        </h1>
+        <p className="mt-6 max-w-2xl font-heading text-2xl font-light leading-snug text-white/90 md:text-3xl">
+          Uw strategie klopt. Maar voert uw organisatie ze ook uit?
+        </p>
+        <p className="mt-8 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+          De Delivery Readiness Index meet in 24 vragen over 6 dimensies hoe goed uw organisatie is toegerust om transformatie niet alleen te starten, maar ook daadwerkelijk te laten landen. De scan duurt ±10 minuten. U ontvangt direct een visueel rapport met uw scores en concrete aanbevelingen.
+        </p>
+        <div className="mt-12 flex flex-wrap items-center gap-4">
+          <button
+            onClick={onStart}
+            className="group inline-flex items-center gap-3 rounded-xl bg-[#6CC1BF] px-7 py-4 font-heading text-base font-semibold text-[#1A1A2E] shadow-[0_10px_40px_-10px_rgba(108,193,191,0.6)] transition hover:bg-[#7dd0ce]"
+          >
+            Start de scan
+            <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+          </button>
+          <div className="text-sm text-white/50">24 vragen · 6 dimensies · ±10 min</div>
+        </div>
+        <div className="mt-16 text-xs uppercase tracking-[0.3em] text-white/40">
+          Een initiatief van First Floor × Dibiz
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// =================== ABOUT ===================
+function AboutScreen({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
+  const cards = [
+    {
+      title: "Weiner (2009)",
+      body: "Theory of Organizational Readiness for Change — het meest geciteerde model in de implementatiewetenschap. Gevalideerd meetinstrument (ORIC, α > 0.89).",
+    },
+    {
+      title: "Transformatie-readiness",
+      body: "Frameworks van DASA, IDC en academisch onderzoek identificeren consistent dezelfde dimensies: strategie, leiderschap, cultuur, operating model, technologie en talent.",
+    },
+    {
+      title: "Scaling Leadership",
+      body: "Anderson & Adams (2019) — het onderscheid tussen creative en reactive leiderschap, het Canceling Effect en de Development Gap.",
+    },
+  ];
+  return (
+    <motion.div {...fade} className="min-h-[88vh] bg-[#F4F6FB] py-16 md:py-24">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="mb-10">
+          <SplitGradient progress={100} />
+        </div>
+        <div className="mb-12">
+          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#315EFF]">Over de scan</div>
+          <h2 className="font-heading text-4xl font-bold leading-tight text-[#1A1A2E] md:text-5xl">
+            Wat meet de Delivery Readiness Index™?
+          </h2>
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[#2D3748]">
+            De DRI™ meet hoe klaar uw organisatie is om een transformatie niet alleen te starten, maar ook daadwerkelijk te laten landen. Niet de intentie telt, maar het vermogen om strategie om te zetten in werkend resultaat.
+          </p>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-[#6B7384]">
+            De kernlogica: strategie waarmaken vraagt executie. Executie vraagt de juiste organisatie. En de juiste organisatie vandaag is de organisatie van de toekomst — waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken.
+          </p>
+        </div>
+
+        <div className="mb-14">
+          <h3 className="mb-5 font-heading text-xl font-semibold text-[#1A1A2E]">Wetenschappelijke basis</h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            {cards.map((c) => (
+              <div key={c.title} className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
+                <div className="mb-3 inline-block rounded-md bg-[#E8EEFF] px-2.5 py-1 text-xs font-bold text-[#315EFF]">
+                  {c.title}
+                </div>
+                <p className="text-sm leading-relaxed text-[#2D3748]">{c.body}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-[#6B7384]">
+            Aanvullend verankerd in de TMA-competenties (53 gevalideerde competenties).
+          </p>
+        </div>
+
+        <div className="mb-14">
+          <h3 className="mb-5 font-heading text-xl font-semibold text-[#1A1A2E]">De 6 dimensies</h3>
+          <div className="grid gap-3 md:grid-cols-2">
+            {dimensions.map((d) => (
+              <div key={d.id} className="flex gap-4 rounded-xl border border-[#E2E8F0] bg-white p-5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1A1A2E] font-heading text-sm font-bold text-[#6CC1BF]">
+                  {d.id}
+                </div>
+                <div>
+                  <div className="font-heading font-semibold text-[#1A1A2E]">{d.name}</div>
+                  <div className="mt-1 text-sm italic text-[#6B7384]">{d.kernvraag}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-12 rounded-2xl bg-[#1A1A2E] p-8 text-white">
+          <div className="text-xs font-semibold uppercase tracking-[0.25em] text-[#6CC1BF]">Praktisch</div>
+          <div className="mt-3 font-heading text-2xl font-semibold">24 vragen · 6 dimensies · ±10 minuten</div>
+          <p className="mt-3 text-sm text-white/70">
+            U ontvangt direct een visueel rapport met scores per dimensie en concrete aanbevelingen.
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <button onClick={onBack} className="inline-flex items-center gap-2 text-sm font-medium text-[#6B7384] hover:text-[#1A1A2E]">
+            <ArrowLeft className="h-4 w-4" /> Terug
+          </button>
+          <button
+            onClick={onNext}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#315EFF] px-6 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#315EFF]/25 transition hover:bg-[#2347d1]"
+          >
+            Ga verder <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// =================== CONTACT ===================
+function ContactScreen({ onSubmit, onBack }: { onSubmit: (c: Contact) => void; onBack: () => void }) {
+  const [c, setC] = useState<Contact>({ naam: "", email: "", organisatie: "", functie: "" });
+  const valid = c.naam.trim() && /\S+@\S+\.\S+/.test(c.email) && c.organisatie.trim() && c.functie.trim();
+  return (
+    <motion.div {...fade} className="min-h-[88vh] bg-[#F4F6FB] py-16 md:py-24">
+      <div className="mx-auto max-w-xl px-6">
+        <div className="mb-10"><SplitGradient progress={50} /></div>
+        <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#315EFF]">Bijna klaar</div>
+        <h2 className="mb-3 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">Uw gegevens</h2>
+        <p className="mb-8 text-[#6B7384]">
+          We gebruiken deze enkel om uw persoonlijk rapport toe te sturen.
+        </p>
+        <div className="space-y-4 rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
+          {([
+            { k: "naam", label: "Naam", type: "text", ph: "Voor- en achternaam" },
+            { k: "email", label: "E-mailadres", type: "email", ph: "u@bedrijf.be" },
+            { k: "organisatie", label: "Organisatie", type: "text", ph: "Naam van uw organisatie" },
+            { k: "functie", label: "Functietitel", type: "text", ph: "Bv. CEO, HR-directeur" },
+          ] as const).map((f) => (
+            <div key={f.k}>
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#6B7384]">
+                {f.label}
+              </label>
+              <input
+                type={f.type}
+                value={c[f.k]}
+                onChange={(e) => setC({ ...c, [f.k]: e.target.value })}
+                placeholder={f.ph}
+                maxLength={150}
+                className="w-full rounded-lg border border-[#E2E8F0] bg-white px-4 py-3 font-body text-[#1A1A2E] outline-none transition focus:border-[#315EFF] focus:ring-2 focus:ring-[#315EFF]/15"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 flex items-center justify-between">
+          <button onClick={onBack} className="inline-flex items-center gap-2 text-sm font-medium text-[#6B7384] hover:text-[#1A1A2E]">
+            <ArrowLeft className="h-4 w-4" /> Terug
+          </button>
+          <button
+            disabled={!valid}
+            onClick={() => valid && onSubmit(c)}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#1A1A2E] px-6 py-3.5 font-heading text-sm font-semibold text-white shadow-lg transition hover:bg-[#0f0f1e] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Start de vragen <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// =================== QUESTION SCREEN ===================
+function QuestionScreen({
+  idx,
+  value,
+  onAnswer,
+  onNext,
+  onBack,
+}: {
+  idx: number;
+  value: number | null;
+  onAnswer: (v: number) => void;
+  onNext: () => void;
+  onBack: () => void;
+}) {
+  const q = flatQuestions[idx];
+  const progress = ((idx + 1) / TOTAL_QUESTIONS) * 100;
+  const isLast = idx === TOTAL_QUESTIONS - 1;
+  return (
+    <motion.div key={idx} {...fade} className="min-h-[88vh] bg-[#F4F6FB] py-10 md:py-16">
+      <div className="mx-auto max-w-3xl px-6">
+        <div className="mb-3 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[#6B7384]">
+          <span>Vraag {idx + 1} van {TOTAL_QUESTIONS}</span>
+          <span>{Math.round(progress)}%</span>
+        </div>
+        <SplitGradient progress={progress} />
+
+        <div className="mt-10 rounded-3xl border border-[#E2E8F0] bg-white p-7 shadow-[0_8px_40px_-12px_rgba(26,26,46,0.12)] md:p-10">
+          <div className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#315EFF]">
+            Dimensie {q.dimId} van 6 — {q.dimName}
+          </div>
+          <h3 className="font-heading text-2xl font-semibold leading-snug text-[#1A1A2E] md:text-3xl">
+            {q.text}
+          </h3>
+
+          <div className="mt-8 grid gap-3 md:grid-cols-5">
+            {[1, 2, 3, 4, 5].map((n) => {
+              const selected = value === n;
+              return (
+                <button
+                  key={n}
+                  onClick={() => onAnswer(n)}
+                  className={[
+                    "group flex flex-col items-center justify-center rounded-xl border px-3 py-5 text-center transition-all",
+                    selected
+                      ? "border-transparent bg-gradient-to-br from-[#315EFF] to-[#6CC1BF] text-white shadow-lg shadow-[#315EFF]/25"
+                      : "border-[#E2E8F0] bg-white text-[#1A1A2E] hover:border-[#315EFF] hover:bg-[#E8EEFF]",
+                  ].join(" ")}
+                >
+                  <span className={"font-heading text-3xl font-bold " + (selected ? "text-white" : "text-[#1A1A2E]")}>
+                    {n}
+                  </span>
+                  <span className={"mt-2 text-[11px] font-medium leading-tight " + (selected ? "text-white/90" : "text-[#6B7384]")}>
+                    {likertLabels[n - 1]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-8 flex items-center justify-between">
+          <button
+            onClick={onBack}
+            disabled={idx === 0}
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#6B7384] transition hover:text-[#1A1A2E] disabled:opacity-30"
+          >
+            <ArrowLeft className="h-4 w-4" /> Vorige
+          </button>
+          <button
+            onClick={onNext}
+            disabled={value === null}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#315EFF] px-6 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#315EFF]/25 transition hover:bg-[#2347d1] disabled:cursor-not-allowed disabled:bg-[#94a3b8] disabled:shadow-none"
+          >
+            {isLast ? "Bekijk mijn resultaten" : "Volgende"} <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// =================== RESULTS ===================
+function ResultsPage({ contact, answers }: { contact: Contact; answers: number[] }) {
+  const dimScores = useMemo(
+    () =>
+      dimensions.map((_, i) => {
+        const start = i * 4;
+        const sum = answers.slice(start, start + 4).reduce((a, b) => a + b, 0);
+        return Math.round((sum / 4) * 10) / 10;
+      }),
+    [answers]
+  );
+  const overall = useMemo(
+    () => Math.round((dimScores.reduce((a, b) => a + b, 0) / dimScores.length) * 10) / 10,
+    [dimScores]
+  );
+  const overallBand = bandIndex(overall);
+
+  const sorted = dimScores.map((s, i) => ({ s, i })).sort((a, b) => a.s - b.s);
+  const lowestTwo = sorted.slice(0, 2).map((x) => ({ ...x, d: dimensions[x.i] }));
+
+  const radarData = dimensions.map((d, i) => ({
+    dim: d.name.split(" ").slice(0, 2).join(" "),
+    score: dimScores[i],
+    full: 5,
+  }));
+
+  const summary = overallSummary(
+    overall,
+    sorted.map((x) => dimensions[x.i].name)
+  );
+
+  return (
+    <motion.div {...fade} className="bg-[#F4F6FB]">
+      {/* Hero score */}
+      <section className="relative overflow-hidden bg-[#1A1A2E] py-16 text-white md:py-24">
+        <div className="absolute inset-x-0 top-0"><SplitGradient /></div>
+        <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-[#6CC1BF]/15 blur-3xl" />
+        <div className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#315EFF]/20 blur-3xl" />
+        <div className="relative mx-auto max-w-5xl px-6">
+          <div className="text-xs font-bold uppercase tracking-[0.25em] text-[#6CC1BF]">UW DRI™-RAPPORT</div>
+          <h2 className="mt-3 font-heading text-3xl font-bold md:text-4xl">{contact.organisatie}</h2>
+          <p className="mt-1 text-sm text-white/60">{contact.naam} · {contact.functie}</p>
+
+          <div className="mt-10 grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.25em] text-white/50">Uw DRI-score</div>
+              <div className="mt-3 flex items-baseline gap-3">
+                <span className="font-heading text-7xl font-extrabold leading-none text-[#6CC1BF] md:text-8xl">
+                  {overall.toFixed(1)}
+                </span>
+                <span className="font-heading text-2xl font-light text-white/60">/ 5.0</span>
+              </div>
+              <div
+                className="mt-5 inline-flex items-center rounded-full px-4 py-1.5 text-sm font-semibold"
+                style={{ background: levelColors[overallBand], color: "#fff" }}
+              >
+                {levelLabels[overallBand]}
+              </div>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80">{summary}</p>
+            </div>
+
+            <div className="rounded-2xl bg-white/5 p-4 backdrop-blur">
+              <div className="h-72 md:h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={radarData} outerRadius="75%">
+                    <PolarGrid stroke="#ffffff22" />
+                    <PolarAngleAxis
+                      dataKey="dim"
+                      tick={{ fill: "#ffffffcc", fontSize: 11, fontFamily: "Inter" }}
+                    />
+                    <PolarRadiusAxis domain={[0, 5]} tick={false} axisLine={false} />
+                    <Radar name="Score" dataKey="score" stroke="#315EFF" fill="#315EFF" fillOpacity={0.35} dot={{ r: 4, fill: "#6CC1BF", stroke: "#fff", strokeWidth: 1 }} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dimension cards */}
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">Scores per dimensie</div>
+        <h3 className="mb-10 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
+          Waar staat uw organisatie?
+        </h3>
+        <div className="grid gap-5 md:grid-cols-2">
+          {dimensions.map((d, i) => {
+            const s = dimScores[i];
+            const b = bandIndex(s);
+            return (
+              <div key={d.id} className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#6B7384]">Dimensie {d.id}</div>
+                    <div className="mt-1 font-heading text-lg font-bold text-[#1A1A2E]">{d.name}</div>
+                    <div className="mt-1 text-sm italic text-[#6B7384]">{d.kernvraag}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-heading text-3xl font-bold text-[#1A1A2E]">{s.toFixed(1)}</div>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: levelColors[b] }}>
+                      {levelLabels[b]}
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-5 h-2 w-full overflow-hidden rounded-full bg-[#F4F6FB]">
+                  <div className="h-full transition-all" style={{ width: `${(s / 5) * 100}%`, background: levelColors[b] }} />
+                </div>
+                <p className="mb-4 text-sm leading-relaxed text-[#2D3748]">{interpretations[d.id][b]}</p>
+                <div className="space-y-3 border-t border-[#E2E8F0] pt-4">
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#315EFF]">Risico voor de transformatie</div>
+                    <div className="mt-1 text-sm text-[#2D3748]">{risks[d.id]}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#6CC1BF]">Aanbevolen eerste stap</div>
+                    <div className="mt-1 text-sm text-[#2D3748]">{firstSteps[d.id]}</div>
+                  </div>
+                </div>
+                <div className="mt-4 inline-flex items-center rounded-full bg-[#E8EEFF] px-3 py-1 text-xs font-bold text-[#315EFF]">
+                  {d.badge}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Red thread */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-[#315EFF]">De rode draad</div>
+          <h3 className="mb-10 font-heading text-3xl font-bold text-[#1A1A2E] md:text-4xl">
+            Hier zit uw grootste hefboom
+          </h3>
+          <div className="grid gap-5 md:grid-cols-2">
+            {lowestTwo.map((x, idx) => (
+              <div key={x.i} className="rounded-2xl border border-[#E2E8F0] bg-[#F4F6FB] p-7">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#F59E0B]">Prioriteit {idx + 1}</div>
+                <div className="mt-2 font-heading text-xl font-bold text-[#1A1A2E]">{x.d.name}</div>
+                <div className="mt-1 text-sm italic text-[#6B7384]">Score: {x.s.toFixed(1)} / 5.0</div>
+                <p className="mt-4 text-sm leading-relaxed text-[#2D3748]">{risks[x.d.id]}</p>
+                <p className="mt-3 text-sm leading-relaxed text-[#2D3748]">
+                  <span className="font-semibold text-[#1A1A2E]">Eerste stap: </span>{firstSteps[x.d.id]}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-[#1A1A2E] py-16 text-white md:py-24">
+        <div className="absolute inset-x-0 top-0"><SplitGradient /></div>
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <h3 className="font-heading text-3xl font-bold md:text-5xl">Wilt u deze resultaten bespreken?</h3>
+          <p className="mx-auto mt-5 max-w-2xl text-base text-white/70 md:text-lg">
+            Dit rapport is een startpunt. De échte waarde ontstaat in het gesprek over wat u ermee gaat doen.
+          </p>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#6CC1BF] px-6 py-4 font-heading text-sm font-semibold text-[#1A1A2E] shadow-lg transition hover:bg-[#7dd0ce]"
+            >
+              <Calendar className="h-4 w-4" /> Plan een gesprek
+            </a>
+            <button
+              onClick={() => generateDRIPdf({ contact, dimScores, overall })}
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-4 font-heading text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              <Download className="h-4 w-4" /> Download rapport als PDF
+            </button>
+            <a
+              href="mailto:karen@firstfloortalent.be"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-4 font-heading text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              <Mail className="h-4 w-4" /> Mail Karen
+            </a>
+          </div>
+          <p className="mt-12 text-sm text-white/50">
+            First Floor × Dibiz — Wij bouwen de organisatie van de toekomst met u.
+          </p>
+        </div>
+      </section>
+    </motion.div>
+  );
+}
+
+// =================== ORCHESTRATOR ===================
+export default function DRISection() {
+  const [step, setStep] = useState<Step>("landing");
+  const [contact, setContact] = useState<Contact | null>(null);
+  const [qIdx, setQIdx] = useState(0);
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(TOTAL_QUESTIONS).fill(null));
+
+  const goTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const sendToBrevo = async (c: Contact, overall: number) => {
+    try {
+      const b = bandIndex(overall);
+      await supabase.functions.invoke("add-to-brevo", {
+        body: {
+          email: c.email,
+          firstName: c.naam,
+          organisatie: c.organisatie,
+          score: overall,
+          scoreLabel: levelLabels[b],
+        },
+      });
+    } catch (e) {
+      console.error("brevo sync failed", e);
+    }
+  };
+
+  const handleContactSubmit = (c: Contact) => {
+    setContact(c);
+    setStep("questions");
+    setQIdx(0);
+    goTop();
+  };
+
+  const setAnswer = (v: number) => {
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[qIdx] = v;
+      return next;
+    });
+  };
+
+  const handleNextQuestion = async () => {
+    if (qIdx < TOTAL_QUESTIONS - 1) {
+      setQIdx(qIdx + 1);
+      goTop();
+    } else {
+      // finalize
+      const filled = answers.map((a) => a ?? 3);
+      const dimScores = dimensions.map((_, i) => {
+        const start = i * 4;
+        const sum = filled.slice(start, start + 4).reduce((a, b) => a + b, 0);
+        return Math.round((sum / 4) * 10) / 10;
+      });
+      const overall = Math.round((dimScores.reduce((a, b) => a + b, 0) / dimScores.length) * 10) / 10;
+      if (contact) {
+        sendToBrevo(contact, overall);
+        toast({ title: "Uw rapport is klaar", description: "Scroll door uw persoonlijk DRI™-rapport." });
+      }
+      setStep("results");
+      goTop();
+    }
+  };
+
+  return (
+    <div className="font-body">
+      <AnimatePresence mode="wait">
+        {step === "landing" && (
+          <LandingScreen key="landing" onStart={() => { setStep("about"); goTop(); }} />
+        )}
+        {step === "about" && (
+          <AboutScreen key="about" onNext={() => { setStep("contact"); goTop(); }} onBack={() => { setStep("landing"); goTop(); }} />
+        )}
+        {step === "contact" && (
+          <ContactScreen key="contact" onSubmit={handleContactSubmit} onBack={() => { setStep("about"); goTop(); }} />
+        )}
+        {step === "questions" && (
+          <QuestionScreen
+            key={`q-${qIdx}`}
+            idx={qIdx}
+            value={answers[qIdx]}
+            onAnswer={setAnswer}
+            onNext={handleNextQuestion}
+            onBack={() => { if (qIdx > 0) { setQIdx(qIdx - 1); goTop(); } }}
+          />
+        )}
+        {step === "results" && contact && (
+          <ResultsPage key="results" contact={contact} answers={answers.map((a) => a ?? 3)} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

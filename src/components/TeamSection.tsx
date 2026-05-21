@@ -13,10 +13,11 @@ const TeamSection = () => {
     <section id="team" className="bg-background py-16 md:py-24 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-6">WIE WIJ ZIJN</p>
-        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 leading-snug max-w-2xl">
+        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 leading-snug whitespace-nowrap">
           Wij bieden expertise die converteert in{" "}
           <span className="text-ff-mint">business value, vanaf de start.</span>
         </h2>
+
 
         {/* Laag 1: Leads */}
         <div className="grid md:grid-cols-2 gap-8 mb-14">

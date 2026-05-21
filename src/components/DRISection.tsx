@@ -556,9 +556,9 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
               <div className="mt-1 font-heading text-sm font-semibold text-white">karen@firstfloortalent.be</div>
               <div className="mt-0.5 text-xs text-white/50">First Floor</div>
             </a>
-            <a href="mailto:ellen@dibiz.com" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
+            <a href="mailto:ellen@dibiz.be" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
               <div className="text-xs font-bold uppercase tracking-wider text-[#6CC1BF]">Ellen</div>
-              <div className="mt-1 font-heading text-sm font-semibold text-white">ellen@dibiz.com</div>
+              <div className="mt-1 font-heading text-sm font-semibold text-white">ellen@dibiz.be</div>
               <div className="mt-0.5 text-xs text-white/50">Dibiz</div>
             </a>
           </div>

@@ -341,7 +341,7 @@ export function generateDRIPdf(opts: {
   y += 18;
   setText(BLUE); doc.setFont("helvetica", "bold");
   doc.text("Ellen", M, y); setText(DARK); doc.setFont("helvetica", "normal");
-  doc.text("  ·  ellen@dibiz.com", M + doc.getTextWidth("Ellen"), y);
+  doc.text("  ·  ellen@dibiz.be", M + doc.getTextWidth("Ellen"), y);
   addFooter();
 
   // ============ WETENSCHAPPELIJKE VERANTWOORDING ============

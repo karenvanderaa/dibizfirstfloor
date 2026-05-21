@@ -26,6 +26,7 @@ export const dimensions: Dimension[] = [
     name: "Leiderschap & ownership",
     kernvraag: "Stuurt het leiderschap vanuit visie, of vanuit controle?",
     badge: "Bouwen aan mensen",
+    service: "Bouwen aan mensen — Leiderschapstrajecten, Teamwerking",
     questions: [
       "Onze leidinggevenden nemen zichtbaar eigenaarschap over de transformatie — het is geen 'HR-project' of 'IT-project'.",
       "Het leiderschap durft beslissingen te nemen, ook als niet alle informatie beschikbaar is.",

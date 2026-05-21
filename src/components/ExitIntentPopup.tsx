@@ -51,9 +51,9 @@ const ExitIntentPopup = () => {
         >
           ×
         </button>
-        <h3 className="font-heading font-bold text-foreground text-xl mb-3">Nog niet zeker?</h3>
+        <h3 className="font-heading font-bold text-foreground text-xl mb-3">Hoe sterk is de executiekracht van uw organisatie?</h3>
         <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-          Doe de Delivery Readiness Index™, 10 vragen, geen registratie, direct resultaat + downloadbaar rapport.
+          Doe de delivery Readiness Scan (TM). Direct resultaat. Downloadbaar rapport.
         </p>
         <div className="flex items-center gap-4">
           <a

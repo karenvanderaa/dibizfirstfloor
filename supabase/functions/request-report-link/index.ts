@@ -66,22 +66,58 @@ serve(async (req) => {
 
     const downloadUrl = `${PUBLIC_APP_URL}/rapport?token=${inserted.token}`;
 
-    // Magic-link mail via Lovable transactional email.
-    const { error: mailErr } = await supabase.functions.invoke("send-transactional-email", {
-      body: {
-        templateName: "report-download-link",
-        recipientEmail: parsed.data.email,
-        idempotencyKey: `report-${inserted.token}`,
-        templateData: {
-          naam: parsed.data.naam.split(" ")[0],
-          downloadUrl,
-          expiresDays: TOKEN_TTL_DAYS,
-        },
+    // Magic-link mail via Brevo transactional API.
+    const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
+    if (!BREVO_API_KEY) {
+      console.error("BREVO_API_KEY ontbreekt");
+      return new Response(JSON.stringify({ ok: false, error: "mail_not_configured" }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const firstName = parsed.data.naam.split(" ")[0];
+    const htmlContent = `<!doctype html>
+<html lang="nl"><head><meta charset="utf-8"><title>Uw DRI-rapport</title></head>
+<body style="margin:0;padding:0;background:#F4F6FB;font-family:'Helvetica Neue',Arial,sans-serif;color:#1A1A2E;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6FB;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;padding:40px;max-width:560px;">
+        <tr><td>
+          <h1 style="font-size:22px;font-weight:700;margin:0 0 16px;color:#1A1A2E;">Hallo ${firstName},</h1>
+          <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">Bedankt voor het invullen van de Delivery Readiness Index&trade;.</p>
+          <p style="font-size:15px;line-height:1.6;margin:0 0 24px;">Klik op onderstaande knop om uw persoonlijke rapport te downloaden:</p>
+          <p style="margin:0 0 24px;">
+            <a href="${downloadUrl}" style="display:inline-block;background:#315EFF;color:#ffffff;text-decoration:none;font-weight:600;padding:14px 28px;border-radius:12px;font-size:15px;">Download mijn rapport</a>
+          </p>
+          <p style="font-size:13px;line-height:1.5;color:#6B7384;margin:0 0 8px;">Deze link is ${TOKEN_TTL_DAYS} dagen geldig. Werkt de knop niet? Kopieer deze URL in uw browser:</p>
+          <p style="font-size:12px;line-height:1.5;color:#6B7384;word-break:break-all;margin:0 0 32px;">${downloadUrl}</p>
+          <hr style="border:none;border-top:1px solid #E2E8F0;margin:24px 0;">
+          <p style="font-size:12px;line-height:1.5;color:#6B7384;margin:0;">Vragen? Antwoord gewoon op deze e-mail.<br>&mdash; Karen Van der Aa, First Floor &times; Dibiz</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+
+    const mailRes = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": BREVO_API_KEY,
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
+      body: JSON.stringify({
+        sender: { name: "Karen Van der Aa", email: "karen.vanderaa@firstfloorcareers.be" },
+        to: [{ email: parsed.data.email, name: parsed.data.naam }],
+        replyTo: { email: "karen.vanderaa@firstfloorcareers.be", name: "Karen Van der Aa" },
+        subject: "Uw DRI-rapport staat klaar",
+        htmlContent,
+      }),
     });
-    if (mailErr) {
-      console.error("mail send error", mailErr);
-      // Token blijft staan zodat user opnieuw kan vragen.
+
+    if (!mailRes.ok) {
+      const errText = await mailRes.text();
+      console.error("Brevo mail error", mailRes.status, errText);
       return new Response(JSON.stringify({ ok: false, error: "mail_failed" }), {
         status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

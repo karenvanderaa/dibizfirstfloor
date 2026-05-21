@@ -370,7 +370,18 @@ function QuestionScreen({
 }
 
 // =================== RESULTS ===================
-function ResultsPage({ contact, answers }: { contact: Contact; answers: number[] }) {
+type MailStatus = "sending" | "sent" | "error";
+function ResultsPage({
+  contact,
+  answers,
+  mailStatus,
+  onResend,
+}: {
+  contact: Contact;
+  answers: number[];
+  mailStatus: MailStatus;
+  onResend: () => void;
+}) {
   const dimScores = useMemo(
     () =>
       dimensions.map((_, i) => {
@@ -591,13 +602,43 @@ function ResultsPage({ contact, answers }: { contact: Contact; answers: number[]
             >
               <Calendar className="h-4 w-4" /> Plan een gesprek
             </a>
-            <button
-              onClick={() => generateDRIPdf({ contact, dimScores, overall })}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-4 font-heading text-sm font-semibold text-white transition hover:bg-white/10"
-            >
-              <Download className="h-4 w-4" /> Download rapport als PDF
-            </button>
-          </div>
+            <div className="inline-flex max-w-md flex-col items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-6 py-5 text-left">
+              <div className="flex items-center gap-2 text-[#6CC1BF]">
+                <Mail className="h-4 w-4" />
+                <span className="font-heading text-xs font-bold uppercase tracking-wider">Uw rapport</span>
+              </div>
+              {mailStatus === "sending" && (
+                <p className="text-sm text-white/80">
+                  We sturen een beveiligde downloadlink naar <span className="font-semibold text-white">{contact.email}</span>…
+                </p>
+              )}
+              {mailStatus === "sent" && (
+                <>
+                  <p className="text-sm text-white/80">
+                    We hebben een beveiligde downloadlink gestuurd naar <span className="font-semibold text-white">{contact.email}</span>. Check ook uw spam-map.
+                  </p>
+                  <button
+                    onClick={onResend}
+                    className="text-xs font-semibold text-[#6CC1BF] underline-offset-4 hover:underline"
+                  >
+                    Niets ontvangen? Stuur opnieuw
+                  </button>
+                </>
+              )}
+              {mailStatus === "error" && (
+                <>
+                  <p className="text-sm text-white/80">
+                    Het versturen van uw rapport faalde. Probeer het opnieuw.
+                  </p>
+                  <button
+                    onClick={onResend}
+                    className="inline-flex items-center gap-2 rounded-lg bg-[#6CC1BF] px-4 py-2 font-heading text-xs font-semibold text-[#1A1A2E] hover:bg-[#7dd0ce]"
+                  >
+                    Opnieuw versturen
+                  </button>
+                </>
+              )}
+            </div>
           <div className="mx-auto mt-12 grid max-w-xl gap-4 text-left sm:grid-cols-2">
             <a href="mailto:karen@firstfloortalent.be" className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
               <div className="text-xs font-bold uppercase tracking-wider text-[#6CC1BF]">Karen</div>

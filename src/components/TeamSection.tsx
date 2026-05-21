@@ -1,13 +1,6 @@
 import ellenImg from "@/assets/ellen.jpeg";
 import karenImg from "@/assets/karen.png";
 
-const coreTeam = [
-  { initials: "WS", name: "Wendy", role: "HR director, sales & operations expert" },
-  { initials: "SS", name: "Sofie", role: "CFO met business & people ervaring" },
-  { initials: "T", name: "Thomas", role: "Founder na exit, AI expert" },
-  { initials: "I", name: "Ingrid", role: "Data & market analyst" },
-];
-
 const TeamSection = () => {
   return (
     <section id="team" className="bg-background py-12 md:py-16 scroll-mt-16">

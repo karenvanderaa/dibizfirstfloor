@@ -13,6 +13,16 @@ const SOFT_BG: [number, number, number] = [244, 246, 251];
 const BLUE_SOFT: [number, number, number] = [232, 238, 255];
 const MINT_SOFT: [number, number, number] = [221, 243, 242];
 
+const readinessColor = (idx: number): [number, number, number] => {
+  const hex = levelColors[idx] ?? levelColors[0];
+  const clean = hex.replace("#", "");
+  return [
+    parseInt(clean.slice(0, 2), 16),
+    parseInt(clean.slice(2, 4), 16),
+    parseInt(clean.slice(4, 6), 16),
+  ];
+};
+
 export function generateDRIPdf(opts: {
   contact: Contact;
   dimScores: number[];
@@ -34,9 +44,15 @@ export function generateDRIPdf(opts: {
   };
 
   let pageNum = 0;
-  const addFooter = () => {
+  const addFooter = (version = false) => {
     setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
-    doc.text(`Delivery Readiness Index™ · First Floor × Dibiz · ${contact.organisatie}`, M, H - 24);
+    doc.text(
+      version
+        ? "Delivery Readiness Index™ · First Floor × Dibiz · Versie 1.0 · 2026"
+        : `Delivery Readiness Index™ · First Floor × Dibiz · ${contact.organisatie}`,
+      M,
+      H - 24
+    );
     doc.text(`${pageNum}`, W - M, H - 24, { align: "right" });
   };
   const newPage = () => { doc.addPage(); pageNum++; splitGradient(0); };

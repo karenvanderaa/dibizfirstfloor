@@ -244,7 +244,7 @@ const DRISection = () => {
     doc.setFontSize(9);
     doc.setTextColor("#666666");
     const explainer = doc.splitTextToSize(
-      "De Delivery Readiness Index meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit, op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
+      "De Delivery Readiness Index™ meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit, op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
       contentW
     );
     doc.text(explainer, margin, y2);

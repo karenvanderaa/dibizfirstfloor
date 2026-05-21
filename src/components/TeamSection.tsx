@@ -59,22 +59,6 @@ const TeamSection = () => {
           </div>
         </div>
 
-        {/* Laag 2: Team van senior experten */}
-        <p className="section-label mb-6">KERNTEAM — STRUCTUREEL BETROKKEN</p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-          {coreTeam.map((m, i) => (
-            <div key={i} className="bg-white rounded-lg p-5 border border-border shadow-sm flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-ff-light-blue text-ff-blue flex items-center justify-center font-heading font-bold text-sm shrink-0">
-                {m.initials}
-              </div>
-              <div>
-                <h4 className="font-heading font-semibold text-foreground text-sm mb-1">{m.name}</h4>
-                <p className="text-muted-foreground text-xs leading-relaxed">{m.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
         {/* Laag 3: Netwerk */}
         <p className="section-label mb-4">UITGEBREID NETWERK, INGESCHAKELD PER BEHOEFTE</p>
         <div className="bg-ff-light-mint border border-ff-mint/20 rounded-lg p-6 md:p-7">

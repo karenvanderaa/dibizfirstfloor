@@ -28,7 +28,7 @@ const TeamSection = () => {
               <h3 className="font-heading font-bold text-foreground text-lg">Ellen Poppe</h3>
               <p className="text-ff-mint text-sm font-medium mb-3">Lead business, processen & technologie</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                Vertaalt businessnoden naar werkbare processen, tooling en IT-architectuur. Bouwt de brug tussen wat een organisatie wil en wat de technologie kan.
+                Vertaalt businessnoden naar werkbare processen, tooling en IT-architectuur. Bouwt de brug tussen wat een organisatie wil en wat de technologie kan. Mét ervaring in people & performance.
               </p>
               <a href="mailto:ellen@dibiz.be" className="inline-flex items-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150">
                 📧 ellen@dibiz.be

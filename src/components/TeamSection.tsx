@@ -1,13 +1,6 @@
 import ellenImg from "@/assets/ellen.jpeg";
 import karenImg from "@/assets/karen.png";
 
-const coreTeam = [
-  { initials: "WS", name: "Wendy", role: "HR director, sales & operations expert" },
-  { initials: "SS", name: "Sofie", role: "CFO met business & people ervaring" },
-  { initials: "T", name: "Thomas", role: "Founder na exit, AI expert" },
-  { initials: "I", name: "Ingrid", role: "Data & market analyst" },
-];
-
 const TeamSection = () => {
   return (
     <section id="team" className="bg-background py-12 md:py-16 scroll-mt-16">
@@ -64,22 +57,6 @@ const TeamSection = () => {
               </a>
             </div>
           </div>
-        </div>
-
-        {/* Laag 2: Team van senior experten */}
-        <p className="section-label mb-6">KERNTEAM — STRUCTUREEL BETROKKEN</p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-          {coreTeam.map((m, i) => (
-            <div key={i} className="bg-white rounded-lg p-5 border border-border shadow-sm flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-ff-light-blue text-ff-blue flex items-center justify-center font-heading font-bold text-sm shrink-0">
-                {m.initials}
-              </div>
-              <div>
-                <h4 className="font-heading font-semibold text-foreground text-sm mb-1">{m.name}</h4>
-                <p className="text-muted-foreground text-xs leading-relaxed">{m.role}</p>
-              </div>
-            </div>
-          ))}
         </div>
 
         {/* Laag 3: Netwerk */}

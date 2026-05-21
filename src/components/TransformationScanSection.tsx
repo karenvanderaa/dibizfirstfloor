@@ -24,28 +24,30 @@ const TransformationScanSection = () => {
               De Transformatie Scan
             </h2>
             <p className="text-lg italic text-foreground mb-6 max-w-xl">
-              Klopt uw aanbod bij wat de markt vraagt, en is uw organisatie ingericht om dat ook waar te maken?
+              Is uw organisatie ingericht om uw strategie ook daadwerkelijk uit te voeren?
             </p>
             <p className="text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              In 4–5 weken brengen wij in kaart of uw aanbod de waarde levert die u belooft, en of uw organisatie
-              ingericht is om dat waar te maken. Geen rapport dat in een lade verdwijnt, een concrete roadmap voor de
-              volgende 12 maanden.
+              In 4–5 weken brengen wij in kaart of uw organisatie de uitvoeringskracht heeft die uw strategie vraagt. Zowel op vlak van people, proces, tooling en structuur. Resultaat? Een pragmatische roadmap voor de volgende 12 maanden.
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+            <div className="grid sm:grid-cols-2 gap-4 mb-6">
               <div className="bg-ff-light-mint rounded-lg p-5 border border-ff-mint/20">
                 <p className="font-heading font-semibold text-sm text-ff-mint mb-2">Dibiz-lens</p>
                 <p className="text-sm leading-relaxed text-foreground">
-                  Klopt uw aanbod bij wat de markt vraagt? Is het onderscheidend, uitvoerbaar en schaalbaar?
+                  Kloppen uw processen, tooling, automatisatie en IT-architectuur bij wat de organisatie moet kunnen?
                 </p>
               </div>
               <div className="bg-ff-light-blue rounded-lg p-5 border border-ff-blue/20">
                 <p className="font-heading font-semibold text-sm text-ff-blue mb-2">First Floor-lens</p>
                 <p className="text-sm leading-relaxed text-foreground">
-                  Klopt de organisatie bij de ambitie? Hebben de juiste mensen de juiste rollen en competenties?
+                  Kloppen uw structuur, rollen, competenties en leiderschap bij de ambitie?
                 </p>
               </div>
             </div>
+
+            <p className="text-foreground text-sm md:text-base leading-relaxed mb-8 max-w-xl">
+              Samen bepalen deze twee brillen de executiekracht van uw organisatie. Dat is uw operating model.
+            </p>
 
             <div className="flex flex-wrap gap-2">
               {deliverables.map((d, i) => (

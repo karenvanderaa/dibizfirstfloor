@@ -23,15 +23,15 @@ const OvertuigingSection = () => {
         <p className="section-label mb-6">ONZE OVERTUIGING</p>
 
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 max-w-3xl leading-snug">
-          Wij zijn specialisten. Mét een generalistische systeemblik en aanpak.
+          Geen generalisten. Wel specialisten die elkaar versterken.
         </h2>
 
         <div className="max-w-2xl mb-14">
           <p className="text-foreground text-lg md:text-xl leading-relaxed mb-2">
-            Wij zijn systeemdenkers- en doeners.
+            Wij zijn systeemdenkers en doeners.
           </p>
           <p className="text-ff-mint text-lg md:text-xl italic leading-relaxed">
-            Want aanbod, organisatie en digitale structuur bouw je niet los van elkaar. Toch niet als je wil dat het werkt.
+            Want strategie, executie en organisatie bouw je niet los van elkaar. Toch niet als je wil dat het werkt.
           </p>
         </div>
 

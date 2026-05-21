@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, PolarRadiusAxis } from "recharts";
-import { ArrowLeft, ArrowRight, Calendar, Download, Mail, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, Mail, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import {
@@ -14,7 +14,7 @@ import {
   levelColors,
   overallSummary,
 } from "@/data/dri";
-import { generateDRIPdf, type Contact } from "@/utils/driPdf";
+import { type Contact } from "@/utils/driPdf";
 import { validateLeadFields } from "@/lib/leadValidation";
 
 const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";

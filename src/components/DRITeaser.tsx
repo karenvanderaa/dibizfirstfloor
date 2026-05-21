@@ -31,7 +31,7 @@ const DRITeaser = () => {
               to="/dri"
               className="inline-flex items-center gap-2 bg-ff-blue text-white font-heading font-semibold px-8 py-3.5 rounded-md hover:brightness-110 active:scale-[0.97] transition-all duration-150 shadow-lg shadow-ff-blue/20"
             >
-              Start de Delivery Readiness Index
+              Start de Delivery Readiness Index™
               <span aria-hidden="true">→</span>
             </Link>
           </div>

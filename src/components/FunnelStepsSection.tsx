@@ -1,4 +1,4 @@
-const CALENDLY_URL = "https://calendly.com/ff-dibiz";
+const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
 interface Step {
   title: string;

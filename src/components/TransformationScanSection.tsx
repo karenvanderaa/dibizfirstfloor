@@ -1,6 +1,6 @@
 import teamHallwayImg from "@/assets/team-hallway.jpg";
 
-const CALENDLY_URL = "https://calendly.com/ff-dibiz";
+const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
 const deliverables = [
   "Service design",

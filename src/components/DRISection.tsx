@@ -16,7 +16,7 @@ import {
 } from "@/data/dri";
 import { generateDRIPdf, type Contact } from "@/utils/driPdf";
 
-const CALENDLY_URL = "https://calendly.com/ff-dibiz";
+const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
 type Step = "landing" | "about" | "contact" | "questions" | "results";
 

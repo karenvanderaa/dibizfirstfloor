@@ -1,7 +1,7 @@
 import ellenImg from "@/assets/ellen.jpeg";
 import karenImg from "@/assets/karen.png";
 
-const CALENDLY_URL = "https://calendly.com/ff-dibiz";
+const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
 const ContactSection = () => {
   return (

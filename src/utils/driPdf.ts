@@ -9,10 +9,13 @@ const INK: [number, number, number] = [26, 26, 46];
 const DARK: [number, number, number] = [45, 55, 72];
 const MUTED: [number, number, number] = [107, 115, 132];
 const RULE: [number, number, number] = [226, 232, 240];
+const SOFT_BG: [number, number, number] = [244, 246, 251];
+const BLUE_SOFT: [number, number, number] = [232, 238, 255];
+const MINT_SOFT: [number, number, number] = [221, 243, 242];
 
 export function generateDRIPdf(opts: {
   contact: Contact;
-  dimScores: number[]; // length 6, in dimension order
+  dimScores: number[];
   overall: number;
 }) {
   const { contact, dimScores, overall } = opts;
@@ -25,118 +28,237 @@ export function generateDRIPdf(opts: {
   const setText = (c: [number, number, number]) => doc.setTextColor(c[0], c[1], c[2]);
   const setDraw = (c: [number, number, number]) => doc.setDrawColor(c[0], c[1], c[2]);
 
-  const splitGradient = (y: number) => {
-    setFill(BLUE); doc.rect(0, y, W / 2, 4, "F");
-    setFill(MINT); doc.rect(W / 2, y, W / 2, 4, "F");
+  const splitGradient = (y: number, height = 4) => {
+    setFill(BLUE); doc.rect(0, y, W / 2, height, "F");
+    setFill(MINT); doc.rect(W / 2, y, W / 2, height, "F");
   };
 
-  // ---- COVER ----
+  let pageNum = 0;
+  const addFooter = () => {
+    setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
+    doc.text(`Delivery Readiness Index™ · First Floor × Dibiz · ${contact.organisatie}`, M, H - 24);
+    doc.text(`${pageNum}`, W - M, H - 24, { align: "right" });
+  };
+  const newPage = () => { doc.addPage(); pageNum++; splitGradient(0); };
+
+  // ============ COVER ============
+  pageNum = 1;
   setFill(INK); doc.rect(0, 0, W, H, "F");
-  splitGradient(120);
+  splitGradient(120, 5);
   setText([255, 255, 255]);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(11);
   doc.text("DELIVERY READINESS INDEX™", M, 90);
-  doc.setFontSize(36);
-  doc.text("Rapport", M, 200);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(16);
+  doc.setFontSize(48);
+  doc.text("Rapport", M, 210);
+
+  doc.setFont("helvetica", "normal"); doc.setFontSize(18);
   setText([200, 210, 230]);
-  doc.text(contact.organisatie || "—", M, 240);
-  doc.setFontSize(11);
-  doc.text(new Date().toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" }), M, 264);
+  doc.text(contact.organisatie || "—", M, 250);
+  doc.setFontSize(12);
+  doc.text(
+    new Date().toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" }),
+    M, 275
+  );
 
-  // Score block on cover
-  setFill([255, 255, 255]); doc.roundedRect(M, 320, W - 2 * M, 130, 10, 10, "F");
-  setText(INK);
-  doc.setFontSize(11); doc.setFont("helvetica", "bold");
-  doc.text("DRI-SCORE", M + 24, 350);
-  doc.setFontSize(56);
-  doc.text(`${overall.toFixed(1)}`, M + 24, 415);
+  // Score card on cover
+  setFill([255, 255, 255]); doc.roundedRect(M, 340, W - 2 * M, 150, 12, 12, "F");
+  setText(INK); doc.setFontSize(10); doc.setFont("helvetica", "bold");
+  doc.text("DRI-SCORE", M + 28, 372);
+  doc.setFontSize(64);
+  doc.text(`${overall.toFixed(1)}`, M + 28, 445);
   doc.setFont("helvetica", "normal"); doc.setFontSize(14);
-  setText(MUTED); doc.text("/ 5.0", M + 24 + doc.getTextWidth(`${overall.toFixed(1)}`) + 8, 415);
+  setText(MUTED);
+  doc.text("/ 5.0", M + 28 + doc.getTextWidth(`${overall.toFixed(1)}`) + 10, 445);
+
   const b = bandIndex(overall);
-  setFill(levelColors[b] as unknown as [number, number, number]);
   const lbl = levelLabels[b];
+  setFill(levelColors[b] as unknown as [number, number, number]);
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);
-  const lblW = doc.getTextWidth(lbl) + 24;
-  doc.roundedRect(W - M - 24 - lblW, 335, lblW, 26, 13, 13, "F");
-  setText([255, 255, 255]); doc.text(lbl, W - M - 24 - lblW + 12, 352);
+  const lblW = doc.getTextWidth(lbl) + 28;
+  doc.roundedRect(W - M - 28 - lblW, 358, lblW, 28, 14, 14, "F");
+  setText([255, 255, 255]);
+  doc.text(lbl, W - M - 28 - lblW + 14, 376);
 
-  setText([180, 195, 220]);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(10);
-  doc.text("Opgesteld door First Floor × Dibiz", M, H - 60);
-  doc.text(`Voor ${contact.naam} · ${contact.functie}`, M, H - 44);
+  setText([200, 210, 230]); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  doc.text(`Voor ${contact.naam} · ${contact.functie}`, M + 28, 470);
 
-  // ---- PAGE 2: Executive summary ----
-  doc.addPage();
-  splitGradient(0);
-  setText(INK);
+  setText([170, 185, 210]);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+  doc.text("Opgesteld door First Floor × Dibiz", M, H - 70);
+  doc.setFontSize(9);
+  doc.text("Wij bouwen de organisatie van de toekomst met u.", M, H - 52);
+
+  // ============ PAGE 2: OVER DEZE SCAN ============
+  newPage();
+  setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("OVER DEZE SCAN", M, 56);
+  setText(INK); doc.setFontSize(26);
+  doc.text("Wat is de Delivery Readiness Index™?", M, 90);
+
+  let y = 115;
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
+  const intro = "De Delivery Readiness Index (DRI) meet in 24 vragen hoe klaar uw organisatie is om een transformatie niet alleen te starten, maar ook daadwerkelijk te laten landen. Niet de intentie telt, maar het vermogen om strategie om te zetten in werkend resultaat.";
+  const introLines = doc.splitTextToSize(intro, W - 2 * M);
+  doc.text(introLines, M, y); y += introLines.length * 14 + 10;
+
+  const intro2 = "De kernlogica is eenvoudig: strategie waarmaken vraagt executie. Executie vraagt de juiste organisatie. En de juiste organisatie vandaag is de organisatie van de toekomst — waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken.";
+  const intro2Lines = doc.splitTextToSize(intro2, W - 2 * M);
+  doc.text(intro2Lines, M, y); y += intro2Lines.length * 14 + 22;
+
+  // Wetenschappelijke basis
+  setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(14);
+  doc.text("Wetenschappelijke basis", M, y); y += 18;
+
+  const sources = [
+    { t: "Weiner's Theory of Organizational Readiness for Change (2009)", b: "Het meest geciteerde model in de implementatiewetenschap. Onderscheidt change commitment en change efficacy. Het bijbehorende meetinstrument ORIC is gevalideerd met betrouwbaarheidscoëfficiënten boven 0.89." },
+    { t: "Digitale transformatie-readiness literatuur", b: "Recente frameworks van DASA, IDC en academisch onderzoek (MDPI 2024) identificeren consistent dezelfde dimensies: strategie, leiderschap, cultuur, operating model, technologie/tooling en talent." },
+    { t: "Scaling Leadership (Anderson & Adams, 2019)", b: "Het onderscheid tussen creative en reactive leiderschap, het Canceling Effect en de Development Gap. Deze concepten zijn verweven in de leiderschaps- en cultuurdimensies van de scan." },
+  ];
+  sources.forEach((s) => {
+    setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(10.5);
+    doc.text(s.t, M, y); y += 14;
+    setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+    const ls = doc.splitTextToSize(s.b, W - 2 * M);
+    doc.text(ls, M, y); y += ls.length * 13 + 10;
+  });
+  setText(MUTED); doc.setFont("helvetica", "italic"); doc.setFontSize(9.5);
+  doc.text("Aanvullend zijn de TMA-competenties (53 gevalideerde competenties) gebruikt om gedragsindicatoren per dimensie te verankeren.", M, y, { maxWidth: W - 2 * M });
+  y += 28;
+
+  // Structuur
+  setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(14);
+  doc.text("Structuur", M, y); y += 16;
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  const struct = "De scan bestaat uit 6 dimensies, elk met 4 stellingen. Respondenten scoren elke stelling op een 5-punts Likertschaal (1 = helemaal niet akkoord, 5 = helemaal akkoord). Ontworpen voor invulling door directieleden, managementteamleden en HR-leiders — de mensen die transformatie moeten dragen.";
+  const sl = doc.splitTextToSize(struct, W - 2 * M);
+  doc.text(sl, M, y);
+  addFooter();
+
+  // ============ PAGE 3: EXECUTIVE SUMMARY ============
+  newPage();
+  setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("EXECUTIVE SUMMARY", M, 56);
+  setText(INK); doc.setFontSize(26);
+  doc.text("Uw resultaat", M, 90);
+
+  // Big score block
+  setFill(INK); doc.roundedRect(M, 115, W - 2 * M, 130, 12, 12, "F");
+  setText([255, 255, 255]); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("DRI-SCORE", M + 24, 145);
+  doc.setFontSize(54);
+  doc.text(overall.toFixed(1), M + 24, 210);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(13);
+  setText([170, 180, 200]);
+  doc.text("/ 5.0", M + 24 + doc.getTextWidth(overall.toFixed(1)) + 8, 210);
+
+  setFill(levelColors[b] as unknown as [number, number, number]);
   doc.setFont("helvetica", "bold"); doc.setFontSize(11);
-  doc.text("EXECUTIVE SUMMARY", M, 60);
-  doc.setFontSize(24);
-  doc.text("De rode draad", M, 95);
+  const lblW2 = doc.getTextWidth(lbl) + 24;
+  doc.roundedRect(W - M - 24 - lblW2, 138, lblW2, 26, 13, 13, "F");
+  setText([255, 255, 255]); doc.text(lbl, W - M - 24 - lblW2 + 12, 156);
 
-  // sorted lowest dims
+  setText([200, 210, 230]); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+  doc.text("READINESS-NIVEAU", W - M - 24 - lblW2, 130);
+
+  // Kernboodschap
   const indexed = dimScores.map((s, i) => ({ s, i }));
   const sorted = [...indexed].sort((a, b) => a.s - b.s);
   const lowestNames = sorted.map((x) => dimensions[x.i].name);
   const summary = overallSummary(overall, lowestNames);
 
-  setText(DARK);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(11);
-  const summaryLines = doc.splitTextToSize(summary, W - 2 * M);
-  doc.text(summaryLines, M, 125);
+  y = 275;
+  setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("KERNBOODSCHAP", M, y); y += 16;
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+  const sumLines = doc.splitTextToSize(summary, W - 2 * M);
+  doc.text(sumLines, M, y); y += sumLines.length * 14 + 24;
 
-  // Scores table
-  let y = 125 + summaryLines.length * 14 + 30;
+  // Scores per dimensie tabel
   setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(14);
-  doc.text("Scores per dimensie", M, y);
-  y += 20;
+  doc.text("Scores per dimensie", M, y); y += 18;
 
   dimensions.forEach((d, i) => {
     const score = dimScores[i];
     const bb = bandIndex(score);
-    setFill([244, 246, 251]); doc.roundedRect(M, y, W - 2 * M, 56, 8, 8, "F");
+    setFill(SOFT_BG); doc.roundedRect(M, y, W - 2 * M, 52, 8, 8, "F");
     setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
-    doc.text(`${d.id}. ${d.name}`, M + 16, y + 22);
-    setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(9);
-    doc.text(d.kernvraag, M + 16, y + 38);
+    doc.text(`${d.id}.  ${d.name}`, M + 16, y + 22);
 
-    // Bar
     const barX = M + 16;
-    const barY = y + 46;
+    const barY = y + 38;
     const barW = W - 2 * M - 200;
     setFill([226, 232, 240]); doc.rect(barX, barY, barW, 4, "F");
     setFill(levelColors[bb] as unknown as [number, number, number]);
     doc.rect(barX, barY, (barW * score) / 5, 4, "F");
 
-    // Score
-    setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(16);
-    doc.text(score.toFixed(1), W - M - 80, y + 28);
+    setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(15);
+    doc.text(score.toFixed(1), W - M - 90, y + 24);
     setText(levelColors[bb] as unknown as [number, number, number]);
     doc.setFontSize(8); doc.setFont("helvetica", "bold");
-    doc.text(levelLabels[bb].toUpperCase(), W - M - 80, y + 44);
+    doc.text(levelLabels[bb].toUpperCase(), W - M - 90, y + 40);
 
-    y += 64;
+    y += 60;
   });
+  addFooter();
 
-  // ---- Per-dimension pages ----
+  // ============ PAGE 4: DE RODE DRAAD ============
+  newPage();
+  setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("PRIORITEITEN", M, 56);
+  setText(INK); doc.setFontSize(26);
+  doc.text("De rode draad", M, 90);
+
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+  const rdIntro = "Deze drie dimensies zijn het meest urgent en hebben samen de grootste impact op het transformatievermogen van uw organisatie.";
+  doc.text(doc.splitTextToSize(rdIntro, W - 2 * M), M, 115);
+
+  y = 160;
+  const top3 = sorted.slice(0, 3);
+  top3.forEach((x, idx) => {
+    const d = dimensions[x.i];
+    const cardH = 140;
+    setFill([255, 255, 255]);
+    setDraw(RULE); doc.setLineWidth(0.5);
+    doc.roundedRect(M, y, W - 2 * M, cardH, 10, 10, "FD");
+    setFill(idx === 0 ? BLUE : idx === 1 ? MINT : MUTED);
+    doc.roundedRect(M, y, 6, cardH, 3, 3, "F");
+
+    setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+    doc.text(`PRIORITEIT ${idx + 1}`, M + 20, y + 22);
+    setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(14);
+    doc.text(d.name, M + 20, y + 42);
+    setText(MUTED); doc.setFont("helvetica", "italic"); doc.setFontSize(10);
+    doc.text(`Score: ${x.s.toFixed(1)} / 5.0  ·  ${levelLabels[bandIndex(x.s)]}`, M + 20, y + 58);
+
+    setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+    const rl = doc.splitTextToSize(risks[d.id], W - 2 * M - 40);
+    doc.text(rl, M + 20, y + 78);
+
+    setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+    doc.text("EERSTE STAP", M + 20, y + 78 + rl.length * 12 + 10);
+    setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+    const fs = doc.splitTextToSize(firstSteps[d.id], W - 2 * M - 40);
+    doc.text(fs, M + 20, y + 78 + rl.length * 12 + 24);
+
+    y += cardH + 14;
+  });
+  addFooter();
+
+  // ============ DIMENSIE PAGINA'S ============
   dimensions.forEach((d, i) => {
-    doc.addPage();
-    splitGradient(0);
+    newPage();
     const score = dimScores[i];
     const bb = bandIndex(score);
 
     setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
-    doc.text(`DIMENSIE ${d.id} VAN 6`, M, 60);
+    doc.text(`DIMENSIE ${d.id} VAN 6`, M, 56);
     setText(INK); doc.setFontSize(22);
     const titleLines = doc.splitTextToSize(d.name, W - 2 * M);
-    doc.text(titleLines, M, 90);
-    let yy = 90 + titleLines.length * 22 + 6;
+    doc.text(titleLines, M, 86);
+    let yy = 86 + titleLines.length * 22 + 4;
     setText(MUTED); doc.setFont("helvetica", "italic"); doc.setFontSize(11);
     doc.text(`Kernvraag: ${d.kernvraag}`, M, yy);
-    yy += 26;
+    yy += 24;
 
     // Score card
     setFill(INK); doc.roundedRect(M, yy, W - 2 * M, 80, 10, 10, "F");
@@ -145,17 +267,17 @@ export function generateDRIPdf(opts: {
     doc.setFontSize(10); doc.setFont("helvetica", "normal");
     setText([170, 180, 200]); doc.text("/ 5.0", M + 24 + doc.getTextWidth(score.toFixed(1)) + 6, yy + 52);
     setFill(levelColors[bb] as unknown as [number, number, number]);
-    const lbl2 = levelLabels[bb];
+    const lbl3 = levelLabels[bb];
     doc.setFont("helvetica", "bold"); doc.setFontSize(10);
-    const lblW2 = doc.getTextWidth(lbl2) + 20;
-    doc.roundedRect(W - M - 16 - lblW2, yy + 28, lblW2, 22, 11, 11, "F");
-    setText([255, 255, 255]); doc.text(lbl2, W - M - 16 - lblW2 + 10, yy + 43);
+    const lblW3 = doc.getTextWidth(lbl3) + 20;
+    doc.roundedRect(W - M - 16 - lblW3, yy + 28, lblW3, 22, 11, 11, "F");
+    setText([255, 255, 255]); doc.text(lbl3, W - M - 16 - lblW3 + 10, yy + 43);
     yy += 100;
 
     const section = (title: string, body: string) => {
       setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
       doc.text(title.toUpperCase(), M, yy);
-      yy += 16;
+      yy += 14;
       setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
       const lines = doc.splitTextToSize(body, W - 2 * M);
       doc.text(lines, M, yy);
@@ -166,39 +288,109 @@ export function generateDRIPdf(opts: {
     section("Risico voor de transformatie", risks[d.id]);
     section("Aanbevolen eerste stap", firstSteps[d.id]);
 
-    // Badge
-    setDraw(RULE); doc.line(M, yy, W - M, yy); yy += 18;
+    // Wat wij hierin doen
+    setDraw(RULE); doc.setLineWidth(0.5); doc.line(M, yy, W - M, yy); yy += 16;
     setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
-    doc.text("WAT FIRST FLOOR × DIBIZ HIERIN DOET", M, yy); yy += 14;
-    setFill([232, 238, 255]);
-    const badgeW = doc.getTextWidth(d.badge) + 22;
-    doc.roundedRect(M, yy - 2, badgeW, 22, 11, 11, "F");
+    doc.text("WAT FIRST FLOOR × DIBIZ HIERIN DOET", M, yy); yy += 16;
+    setFill(BLUE_SOFT);
+    const sW = doc.getTextWidth(d.service) + 24;
+    doc.roundedRect(M, yy - 2, Math.min(sW, W - 2 * M), 24, 12, 12, "F");
     setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
-    doc.text(d.badge, M + 11, yy + 13);
-
-    // Footer
-    setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
-    doc.text(`Delivery Readiness Index™ · ${contact.organisatie}`, M, H - 28);
-    doc.text(`${i + 3}`, W - M, H - 28, { align: "right" });
+    doc.text(d.service, M + 12, yy + 14, { maxWidth: W - 2 * M - 24 });
+    addFooter();
   });
 
-  // ---- Final CTA page ----
-  doc.addPage();
-  setFill(INK); doc.rect(0, 0, W, H, "F");
-  splitGradient(0);
-  setText([255, 255, 255]);
-  doc.setFont("helvetica", "bold"); doc.setFontSize(28);
-  doc.text("Klaar voor het gesprek?", M, 200);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(13);
-  setText([200, 210, 230]);
-  const cta = "Dit rapport is een startpunt. De échte waarde ontstaat in het gesprek over wat u ermee gaat doen. First Floor × Dibiz helpt u de organisatie van de toekomst te bouwen — waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken.";
-  doc.text(doc.splitTextToSize(cta, W - 2 * M), M, 240);
-  setText([255, 255, 255]); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
-  doc.text("karen@firstfloortalent.be", M, 380);
-  doc.text("First Floor × Dibiz", M, H - 60);
-  setText([170, 185, 210]); doc.setFont("helvetica", "normal"); doc.setFontSize(9);
-  doc.text("Wij bouwen de organisatie van de toekomst met u.", M, H - 44);
+  // ============ HOE FF×DIBIZ KAN HELPEN ============
+  newPage();
+  setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("ONZE AANPAK", M, 56);
+  setText(INK); doc.setFontSize(26);
+  doc.text("Hoe First Floor × Dibiz kan helpen", M, 90);
 
-  const filename = `DRI-Rapport-${contact.organisatie.replace(/\s+/g, "-")}.pdf`;
-  doc.save(filename);
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+  const helpIntro = "Strategie waarmaken vraagt executie. Executie vraagt de juiste organisatie. En de juiste organisatie vandaag is de organisatie van de toekomst — waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken. Wij bouwen die organisatie met u.";
+  doc.text(doc.splitTextToSize(helpIntro, W - 2 * M), M, 115);
+
+  y = 185;
+  const services = [
+    { t: "Ontwerpen", b: "Structuur, rollen, processen, governance, IT-architectuur", d: "Dimensies 1, 4, 5", c: BLUE_SOFT, tc: BLUE },
+    { t: "Bouwen", b: "Leiderschap, teamwerking, skill based organisatie", d: "Dimensies 2, 3, 6", c: MINT_SOFT, tc: [16, 122, 120] as [number, number, number] },
+    { t: "Verankeren", b: "Adoptie, procesborging, overdracht, exitcriteria", d: "Dimensies 4, 5, 6", c: SOFT_BG, tc: INK },
+  ];
+  services.forEach((s) => {
+    setFill(s.c); doc.roundedRect(M, y, W - 2 * M, 84, 10, 10, "F");
+    setText(s.tc); doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+    doc.text(s.t, M + 20, y + 28);
+    setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10.5);
+    doc.text(s.b, M + 20, y + 50, { maxWidth: W - 2 * M - 200 });
+    setText(s.tc); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+    doc.text(s.d, W - M - 20, y + 28, { align: "right" });
+    y += 96;
+  });
+
+  // Volgende stap
+  y += 12;
+  setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+  doc.text("Volgende stap", M, y); y += 18;
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(11);
+  doc.text("Wilt u deze resultaten bespreken en vertalen naar concrete actie? Neem contact op voor een vrijblijvend gesprek.", M, y, { maxWidth: W - 2 * M });
+  y += 36;
+  setText(BLUE); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+  doc.text("Karen", M, y); setText(DARK); doc.setFont("helvetica", "normal");
+  doc.text("  ·  karen@firstfloortalent.be", M + doc.getTextWidth("Karen"), y);
+  y += 18;
+  setText(BLUE); doc.setFont("helvetica", "bold");
+  doc.text("Ellen", M, y); setText(DARK); doc.setFont("helvetica", "normal");
+  doc.text("  ·  ellen@dibiz.com", M + doc.getTextWidth("Ellen"), y);
+  addFooter();
+
+  // ============ WETENSCHAPPELIJKE VERANTWOORDING ============
+  newPage();
+  setText(MUTED); doc.setFont("helvetica", "bold"); doc.setFontSize(10);
+  doc.text("APPENDIX", M, 56);
+  setText(INK); doc.setFontSize(24);
+  doc.text("Wetenschappelijke verantwoording", M, 88);
+
+  y = 120;
+  setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(13);
+  doc.text("Gebruikte bronnen", M, y); y += 18;
+  const refs = [
+    "Weiner, B. J. (2009). A theory of organizational readiness for change. Implementation Science, 4, 67.",
+    "Shea, C. M. et al. (2014). Organizational readiness for implementing change: a psychometric assessment of a new measure (ORIC). Implementation Science, 9, 7.",
+    "Anderson, R. J. & Adams, W. A. (2019). Scaling Leadership. Wiley.",
+    "Jo, Y. & Hong, A. J. (2023). Development and Validation of a Readiness for Organizational Change Scale. SAGE Open, 13(4).",
+    "Kotter, J. P. (2012). Leading Change (2nd ed.). Harvard Business Review Press.",
+    "Cohen, W. M. & Levinthal, D. A. (1990). Absorptive Capacity. Administrative Science Quarterly, 35(1), 128–152.",
+    "Galbraith, J. R. (2014). Designing Organizations. Jossey-Bass.",
+    "IDC (2026). Futurescape for the AI-enabled Future of Work.",
+    "DASA (2024). Digital Readiness Assessment — 7 core dimensions.",
+    "TMA Competentiemodel. 53 gevalideerde competenties met gedragsankers op 4 niveaus.",
+  ];
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(9.5);
+  refs.forEach((r) => {
+    const ll = doc.splitTextToSize("•  " + r, W - 2 * M);
+    doc.text(ll, M, y);
+    y += ll.length * 12 + 4;
+  });
+
+  y += 12;
+  setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(12);
+  doc.text("Constructvaliditeit", M, y); y += 14;
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  const cv = "De 6 dimensies zijn afgeleid uit een synthese van bovenstaande bronnen. Elke dimensie is opgebouwd uit items die aansluiten bij gevalideerde constructen (change commitment, change efficacy, absorptive capacity, procesvolwassenheid, decision rights).";
+  const cvl = doc.splitTextToSize(cv, W - 2 * M);
+  doc.text(cvl, M, y); y += cvl.length * 13 + 14;
+
+  setText(INK); doc.setFont("helvetica", "bold"); doc.setFontSize(12);
+  doc.text("Beoogd gebruik", M, y); y += 14;
+  setText(DARK); doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  const bg = "De DRI is ontworpen als diagnostisch instrument voor commerciële inzet door First Floor × Dibiz. Het is géén klinisch of academisch meetinstrument. De scores zijn indicatief en dienen als startpunt voor een verdiepend gesprek, niet als absoluut oordeel.";
+  doc.text(doc.splitTextToSize(bg, W - 2 * M), M, y);
+
+  setText(MUTED); doc.setFont("helvetica", "normal"); doc.setFontSize(8);
+  doc.text("Delivery Readiness Index™ · First Floor × Dibiz · Versie 1.0 · 2026", M, H - 40);
+  addFooter();
+
+  const safeOrg = (contact.organisatie || "rapport").replace(/[^a-zA-Z0-9]+/g, "-");
+  doc.save(`DRI-Rapport-${safeOrg}.pdf`);
 }

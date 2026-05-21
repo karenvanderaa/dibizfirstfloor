@@ -244,7 +244,7 @@ const DRISection = () => {
     doc.setFontSize(9);
     doc.setTextColor("#666666");
     const explainer = doc.splitTextToSize(
-      "De Delivery Readiness Index meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit, op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
+      "De Delivery Readiness Index™ meet de alignment tussen uw dienstverlening en uw organisatiecapaciteit, op vier dimensies die samen bepalen of u kunt leveren wat u belooft.",
       contentW
     );
     doc.text(explainer, margin, y2);
@@ -305,7 +305,7 @@ const DRISection = () => {
     doc.setFontSize(10);
     doc.setTextColor("#333333");
     const nextStepIntro = doc.splitTextToSize(
-      "De Delivery Readiness Index geeft u een eerste beeld. De Transformatie Scan gaat dieper: in 4–5 weken brengen First Floor en Dibiz samen in kaart waar de kloof precies zit, wat de oorzaak is, en hoe u die aanpakt. Resultaat: een concrete roadmap voor de volgende 12 maanden.",
+      "De Delivery Readiness Index™ geeft u een eerste beeld. De Transformatie Scan gaat dieper: in 4–5 weken brengen First Floor en Dibiz samen in kaart waar de kloof precies zit, wat de oorzaak is, en hoe u die aanpakt. Resultaat: een concrete roadmap voor de volgende 12 maanden.",
       contentW
     );
     doc.text(nextStepIntro, margin, 42);

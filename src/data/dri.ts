@@ -78,6 +78,7 @@ export const dimensions: Dimension[] = [
     name: "Mensen, skills & samenwerking",
     kernvraag: "Zijn de juiste competenties aanwezig voor de toekomst?",
     badge: "Bouwen aan mensen",
+    service: "Bouwen aan mensen — Skill based organisatie, Talent & ontwikkeling",
     questions: [
       "We weten welke skills en competenties we nodig hebben om onze strategie waar te maken — en waar de grootste gaps zitten.",
       "Er wordt structureel geïnvesteerd in de ontwikkeling van medewerkers — niet alleen via trainingen, maar ook via coaching, feedback en on-the-job learning.",

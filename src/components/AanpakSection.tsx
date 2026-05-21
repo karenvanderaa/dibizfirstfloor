@@ -92,7 +92,7 @@ const PhaseCard = ({ phase }: { phase: Phase }) => (
 
 const AanpakSection = () => {
   return (
-    <section id="aanpak" className="bg-background py-16 md:py-24 scroll-mt-16">
+    <section id="aanpak" className="bg-background py-12 md:py-16 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-4">ONZE AANPAK</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 whitespace-nowrap">

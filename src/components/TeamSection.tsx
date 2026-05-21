@@ -10,7 +10,7 @@ const coreTeam = [
 
 const TeamSection = () => {
   return (
-    <section id="team" className="bg-background py-16 md:py-24 scroll-mt-16">
+    <section id="team" className="bg-background py-12 md:py-16 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-6">WIE WIJ ZIJN</p>
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-12 leading-snug whitespace-nowrap">

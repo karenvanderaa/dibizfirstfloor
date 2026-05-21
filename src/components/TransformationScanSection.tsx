@@ -14,7 +14,7 @@ const deliverables = [
 
 const TransformationScanSection = () => {
   return (
-    <section id="scan" className="bg-background py-16 md:py-24 scroll-mt-16">
+    <section id="scan" className="bg-background py-12 md:py-16 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-10">DE EERSTE STAP</p>
 

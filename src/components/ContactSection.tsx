@@ -5,7 +5,7 @@ const CALENDLY_URL = "https://calendly.com/ff-dibiz";
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="bg-ff-light py-16 md:py-24 scroll-mt-16">
+    <section id="contact" className="bg-ff-light py-12 md:py-16 scroll-mt-16">
       <div className="container">
         {/* Personal CTA band */}
         <div className="bg-ff-blue rounded-xl p-8 md:p-12 mb-16">

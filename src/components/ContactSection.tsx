@@ -52,7 +52,7 @@ const ContactSection = () => {
               ✓
             </div>
             <h4 className="font-heading font-bold text-foreground text-lg mb-1">Doe de Delivery Readiness Index™ scan</h4>
-            <p className="text-muted-foreground text-sm mb-5">In 5 minuten, gratis</p>
+            <p className="text-muted-foreground text-sm mb-5">In 10 minuten, gratis</p>
             <a
               href="/dri"
               className="mt-auto inline-flex items-center justify-center gap-2 bg-ff-mint/10 text-ff-mint font-heading font-semibold text-sm px-5 py-3 rounded-md hover:bg-ff-mint/20 active:scale-[0.97] transition-all duration-150"

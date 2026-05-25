@@ -26,7 +26,7 @@ const DRITeaser = () => {
               organisatie er niet op is ingericht. <em>(McKinsey, 2023)</em>
             </p>
             <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-              De Delivery Readiness Index™ meet in 24 vragen over 6 dimensies hoe klaar uw organisatie werkelijk is — van strategische helderheid en leiderschap tot operating model, tooling en skills. Wetenschappelijk verankerd in o.a. Weiner's Organizational Readiness for Change, Scaling Leadership (Anderson &amp; Adams) en de TMA-competenties.
+              De Delivery Readiness Index™ meet in 24 vragen over 6 dimensies hoe klaar uw organisatie werkelijk is, van strategische helderheid en leiderschap tot operating model, tooling en skills. Wetenschappelijk verankerd in o.a. Weiner's Organizational Readiness for Change, Scaling Leadership (Anderson &amp; Adams) en de TMA-competenties.
             </p>
             <p className="text-muted-foreground text-sm leading-relaxed mb-5">
               ±10 minuten. Direct een visueel rapport met uw scores per dimensie en concrete aanbevelingen.

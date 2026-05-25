@@ -105,17 +105,17 @@ const AanpakSection = () => {
         </p>
 
         <motion.div
-          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          whileInView={{ opacity: 1, y: 1, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-border p-4 md:p-6 mb-12"
+          className="max-w-xl mx-auto mb-10"
         >
           <img
             src={operatingModelImg}
             alt="Het Executiekracht-model: van strategie via people, proces, structuur en tools naar resultaat"
             loading="lazy"
-            className="w-full h-auto"
+            className="w-full h-auto rounded-lg"
           />
         </motion.div>
 

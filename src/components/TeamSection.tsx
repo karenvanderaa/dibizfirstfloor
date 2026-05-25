@@ -65,6 +65,27 @@ const TeamSection = () => {
           </div>
         </div>
 
+        {/* Laag 2: Kernteam */}
+        <p className="section-label mb-4">KERNTEAM, STRUCTUREEL BETROKKEN</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+          {[
+            { initials: "WS", name: "Wendy Simonet", role: "HR director, sales & operations expert" },
+            { initials: "SS", name: "Sofie Smets", role: "CFO met business & people ervaring" },
+            { initials: "T", name: "Thomas", role: "Founder na exit, AI expert" },
+            { initials: "I", name: "Ingrid", role: "Data & market analyst" },
+          ].map((m, i) => (
+            <div key={i} className="bg-white rounded-lg border border-border p-5 shadow-sm flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-ff-light-blue text-ff-blue font-heading font-bold flex items-center justify-center shrink-0">
+                {m.initials}
+              </div>
+              <div>
+                <p className="font-heading font-semibold text-foreground text-sm">{m.name}</p>
+                <p className="text-muted-foreground text-xs leading-relaxed mt-1">{m.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Laag 3: Netwerk */}
         <p className="section-label mb-4">UITGEBREID NETWERK, INGESCHAKELD PER BEHOEFTE</p>
         <div className="bg-ff-light-mint border border-ff-mint/20 rounded-lg p-6 md:p-7">

@@ -2,18 +2,22 @@ const cards = [
   {
     title: "Structuren ingericht voor wat u vroeger was.",
     desc: "Rollen en processen die niet meer kloppen met wat de organisatie vandaag en in de toekomst moet kunnen.",
+    cost: "Gevolg: trage besluitvorming, dubbel werk, en talent dat vertrekt omdat het geen richting ziet.",
   },
   {
     title: "Tooling en automatisatie die niet de gehoopte efficiëntie opleveren.",
     desc: "Systemen die niemand gebruikt en de druk rond AI zonder te weten hoe of waar.",
+    cost: "Gevolg: €50K-€200K aan licenties die niet renderen. Processen die manueel blijven terwijl de concurrent automatiseert.",
   },
   {
     title: "Leiderschap zonder de juiste hefbomen.",
     desc: "Directie wil transformeren. Middenkader trekt de oude lijn door.",
+    cost: "Gevolg: strategische initiatieven die na 6 maanden stilletjes doodbloeden.",
   },
   {
     title: "Na elke verandering: terugval naar het oude.",
     desc: "Adoptie blijft beperkt. De winst van het project verdwijnt.",
+    cost: "Gevolg: het volledige transformatiebudget verdampt. Twee jaar later begint u opnieuw.",
   },
 ];
 
@@ -28,9 +32,12 @@ const ProblemSection = () => {
           Uw strategie klopt. Maar de uitvoering hapert. Herkenbaar?
         </p>
 
-        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-8 leading-snug">
+        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 leading-snug">
           Uw strategie staat. Uw organisatie volgt niet.
         </h2>
+        <p className="text-muted-foreground text-sm italic mb-8 max-w-2xl">
+          Herkenbaar als u een kantoor van 50-300 professionals leidt en voelt dat de organisatie niet meebeweegt met de ambitie.
+        </p>
 
         <div className="grid sm:grid-cols-2 gap-5">
           {cards.map((c, i) => (
@@ -46,6 +53,7 @@ const ProblemSection = () => {
                 {c.title}
               </p>
               <p className="text-muted-foreground text-sm leading-relaxed">{c.desc}</p>
+              <p className="text-ff-blue text-xs font-medium mt-2">{c.cost}</p>
             </div>
           ))}
         </div>

@@ -14,7 +14,7 @@ interface Step {
 const steps: Step[] = [
   {
     title: "Doe de Delivery Readiness Index™",
-    tijd: "5 minuten",
+    tijd: "10 minuten",
     prijs: "gratis",
     wat: "Krijg een eerste inzicht in waar uw organisatie staat.",
     cta: "Start de DRI",

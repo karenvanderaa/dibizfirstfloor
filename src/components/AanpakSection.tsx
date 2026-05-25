@@ -95,11 +95,11 @@ const AanpakSection = () => {
     <section id="aanpak" className="bg-background py-12 md:py-16 scroll-mt-16">
       <div className="container">
         <p className="section-label mb-4">ONZE AANPAK</p>
-        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3 whitespace-nowrap">
-          Van ontwerp tot bouwen tot verankering.
+        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3">
+          Het Executiekracht-model: diagnose, ontwerp, verankering.
         </h2>
         <p className="text-muted-foreground mb-12 max-w-2xl leading-relaxed">
-          Zowel van people, proces en tools tot één geheel ten dienste van uw strategie.
+          People, proces, tooling en structuur, geïntegreerd tot één geheel ten dienste van uw strategie.
         </p>
 
         <div className="grid md:grid-cols-3 gap-6 items-stretch">

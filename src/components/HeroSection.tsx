@@ -57,10 +57,24 @@ const HeroSection = () => {
             <motion.p
               variants={fadeUp}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 max-w-md"
+              className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 max-w-md"
             >
               Strategie waarmaken vraagt executie. Executie vraagt de juiste organisatie. Wij bouwen die organisatie met u, waar mensen, processen, tooling, automatisatie en AI agents naadloos samenwerken.
             </motion.p>
+
+            {/* Resultatenblok */}
+            <motion.div
+              variants={fadeUp}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white border border-border rounded-lg p-4 mb-8 max-w-lg"
+            >
+              <p className="section-label mb-2">NA ONS TRAJECT</p>
+              <ul className="space-y-1 text-sm text-foreground">
+                <li>· Helderheid in rollen en beslissingslijnen</li>
+                <li>· 20-30% efficiëntiewinst door afgestemde processen en tooling</li>
+                <li>· Adoptie boven 80% bij nieuwe werkwijzen</li>
+              </ul>
+            </motion.div>
 
             {/* Checklist */}
             <motion.ul

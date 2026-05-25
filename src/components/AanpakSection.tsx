@@ -1,4 +1,6 @@
+import { motion } from "framer-motion";
 import teamMeetingImg from "@/assets/team-meeting.jpg";
+import operatingModelImg from "@/assets/operating-model.png";
 
 interface Phase {
   num: string;
@@ -101,6 +103,21 @@ const AanpakSection = () => {
         <p className="text-muted-foreground mb-12 max-w-2xl leading-relaxed">
           People, proces, tooling en structuur, geïntegreerd tot één geheel ten dienste van uw strategie.
         </p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-border p-4 md:p-6 mb-12"
+        >
+          <img
+            src={operatingModelImg}
+            alt="Het Executiekracht-model: van strategie via people, proces, structuur en tools naar resultaat"
+            loading="lazy"
+            className="w-full h-auto"
+          />
+        </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6 items-stretch">
           {phases.map((p) => (

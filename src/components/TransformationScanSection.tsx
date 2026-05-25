@@ -3,7 +3,6 @@ import teamHallwayImg from "@/assets/team-hallway.jpg";
 const CALENDLY_URL = "https://calendly.com/karenvda/letstalk";
 
 const deliverables = [
-  "Service design",
   "Organisational design",
   "Strategisch vertrekpunt",
   "Rollenkaart huidig vs. gewenst",
@@ -26,9 +25,28 @@ const TransformationScanSection = () => {
             <p className="text-lg italic text-foreground mb-6 max-w-xl">
               Is uw organisatie ingericht om uw strategie ook daadwerkelijk uit te voeren?
             </p>
-            <p className="text-muted-foreground mb-8 max-w-xl leading-relaxed">
+            <p className="text-muted-foreground mb-6 max-w-xl leading-relaxed">
               In 4–5 weken brengen wij in kaart of uw organisatie de uitvoeringskracht heeft die uw strategie vraagt. Zowel op vlak van people, proces, tooling en structuur. Resultaat? Een pragmatische roadmap voor de volgende 12 maanden.
             </p>
+
+            <div className="bg-ff-light rounded-lg p-5 border border-border mb-8 max-w-xl">
+              <p className="section-label mb-3">WAT U IN HANDEN KRIJGT</p>
+              <ul className="space-y-2">
+                <li className="flex items-start gap-2 text-sm text-foreground">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-mint shrink-0" />
+                  Een helder beeld van waar uw organisatie hapert en wat het u kost
+                </li>
+                <li className="flex items-start gap-2 text-sm text-foreground">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-mint shrink-0" />
+                  De drie interventies met de meeste impact, geprioriteerd
+                </li>
+                <li className="flex items-start gap-2 text-sm text-foreground">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ff-mint shrink-0" />
+                  Een concreet plan om ze uit te voeren
+                </li>
+              </ul>
+            </div>
+
 
             <div className="grid sm:grid-cols-2 gap-4 mb-6">
               <div className="bg-ff-light-mint rounded-lg p-5 border border-ff-mint/20">

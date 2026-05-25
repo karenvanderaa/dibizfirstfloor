@@ -196,6 +196,17 @@ const OvertuigingSection = () => {
             </div>
           ))}
         </div>
+
+        {/* Point of view */}
+        <div className="mt-12 rounded-2xl bg-ff-dark text-white p-8 md:p-10 border-l-4 border-ff-mint">
+          <p className="section-label text-ff-mint mb-4">ONS PERSPECTIEF</p>
+          <p className="font-heading font-bold text-xl md:text-2xl leading-snug mb-4">
+            Over twee jaar staan er niet alleen mensen in uw organigram. Er staan ook AI agents. De vraag is niet óf dat gebeurt, maar wie hun rol ontwerpt.
+          </p>
+          <p className="text-ff-mint font-heading font-semibold text-base md:text-lg">
+            Wij doen dat. Samen met u.
+          </p>
+        </div>
       </div>
     </section>
   );

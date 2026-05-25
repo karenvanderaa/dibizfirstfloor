@@ -96,28 +96,50 @@ const AanpakSection = () => {
   return (
     <section id="aanpak" className="bg-background py-12 md:py-16 scroll-mt-16">
       <div className="container">
-        <p className="section-label mb-4">ONZE AANPAK</p>
-        <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-3">
-          Het Executiekracht-model: diagnose, ontwerp, verankering.
-        </h2>
-        <p className="text-muted-foreground mb-12 max-w-2xl leading-relaxed">
-          People, proces, tooling en structuur, geïntegreerd tot één geheel ten dienste van uw strategie.
-        </p>
+        {/* Editorial intro: copy left, visual right */}
+        <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center mb-14 md:mb-20">
+          <div className="md:col-span-6 lg:col-span-7">
+            <p className="section-label mb-4">ONZE AANPAK</p>
+            <h2 className="font-heading font-bold text-2xl md:text-3xl text-foreground mb-4 leading-tight">
+              Het Executiekracht-model: diagnose, ontwerp, verankering.
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-6 max-w-xl">
+              People, proces, tooling en structuur, geïntegreerd tot één geheel ten dienste van uw strategie.
+            </p>
+            <div className="hidden md:flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <span className="h-px w-10 bg-ff-blue" />
+              Eén model, drie fases, één resultaat
+            </div>
+          </div>
 
-        <motion.div
-          initial={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          whileInView={{ opacity: 1, y: 1, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-xl mx-auto mb-10"
-        >
-          <img
-            src={operatingModelImg}
-            alt="Het Executiekracht-model: van strategie via people, proces, structuur en tools naar resultaat"
-            loading="lazy"
-            className="w-full h-auto rounded-lg"
-          />
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="md:col-span-6 lg:col-span-5 relative"
+          >
+            {/* Decorative backdrop */}
+            <div
+              aria-hidden="true"
+              className="absolute -inset-4 md:-inset-6 rounded-2xl bg-gradient-to-br from-ff-blue/5 via-transparent to-ff-mint/10"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-ff-blue/40 rounded-tl-2xl"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute -bottom-3 -right-3 w-16 h-16 border-b-2 border-r-2 border-ff-mint/60 rounded-br-2xl"
+            />
+            <img
+              src={operatingModelImg}
+              alt="Het Executiekracht-model: van strategie via people, proces, structuur en tools naar resultaat"
+              loading="lazy"
+              className="relative w-full h-auto max-w-sm md:max-w-none mx-auto"
+            />
+          </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-3 gap-6 items-stretch">
           {phases.map((p) => (

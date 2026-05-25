@@ -1,65 +1,30 @@
-# Visual toevoegen aan "Onze Overtuiging"
+## Doel
+De geüploade operating model-visual (infographic) integreren in `AanpakSection`, direct onder de subtitel en voor de 3 fase-kaarten.
 
-## Wat blijft
+## Context
+- De visual is een portrait-infographic die het Executiekracht-model toont: Strategie → Executiekracht → Resultaat, met de pijlers People, Proces, Structuur, Tools & automatisatie, en AI agents.
+- De gebruiker koos: **AanpakSection** als plaatsing, **geen bijschrift**.
 
-- Section label, titel ("Geen generalisten…"), intro-paragraaf en de 3 kaartjes (Holistisch / Pragmatisch / Verankerd) blijven exact zoals nu.
+## Stappen
 
-## Wat erbij komt (tussen intro en de 3 kaartjes)
+1. **Asset kopiëren**
+   - Kopieer de upload `user-uploads://ChatGPT_Image_May_21_2026_06_36_35_PM.png` naar `src/assets/operating-model.png`.
 
-Een geanimeerde Venn-compositie in pure React + SVG (geen image, blijft scherp, themable, responsive):
+2. **AanpakSection.tsx aanpassen**
+   - Voeg import toe: `import operatingModelImg from "@/assets/operating-model.png"`
+   - Importeer `motion` en `useInView` uit `framer-motion` (consistent met andere secties zoals HeroSection).
+   - Wrap de sectie in een `motion.div` met `useInView` trigger voor scroll-animatie.
+   - Plaats de visual na de subtitel (`<p className="text-muted-foreground ...">`) en voor de fase-kaarten grid, in een gestileerde container:
+     - `max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-border p-4 md:p-6 mb-12`
+     - `<img>` met `loading="lazy"` en alt: `"Het Executiekracht-model: van strategie via people, proces, structuur en tools naar resultaat"`
+   - Wrap de image in een `motion.div` met `fadeUp` variant (opacity 0→1, y 16→1, blur 4→0) zoals gebruikt in HeroSection.
 
-```text
- [ First Floor ]   ↘     ↙   [ Dibiz ]
-  Wie doet wat?     ╲   ╱     Hoe loopt het werk?
-  Kloppen rollen?    ╲ ╱      Kloppen processen?
-  Skills aanwezig?    O       Helpt tooling echt?
-  Leiderschap mee?   /│\      Waar past automatisatie?
-                    / │ \
-                       ▼
-           [ Daar waar 1 + 1 = 3 ]
-       AI agents zijn de nieuwe teamleden.
+3. **Controle**
+   - Preview de pagina en scroll naar AanpakSection.
+   - Verifieer dat de visual correct geladen wordt, gecentreerd staat, en de animatie soepel werkt.
+   - Check responsive gedrag op mobiel (max-w-3xl blijft binnen container).
 
-         De organisatie van de toekomst
-   Mensen, processen, tooling, AI agents — één team
-```
-
-- **Links**: zacht paars-blauw kaartje (`bg-ff-light-blue`) met de 4 First Floor-vragen.
-- **Rechts**: zacht mint kaartje (`bg-ff-light-mint`) met de 4 Dibiz-vragen.
-- **Midden**: cirkel in warm crème (`#F5EFE0`) met kernbelofte *"Uw organisatie voert uit wat uw strategie belooft"* + 2 ondersteunende regels (rollen/processen/tooling/skills + AI agents).
-- **Twee gebogen SVG-pijlen** (blauw + mint) van de zijkaartjes naar de cirkel — desktop only.
-- **Pill onder de cirkel**: *"Daar waar 1 + 1 = 3"* + subregel over AI agents.
-- **Afsluitende claim**: *"De organisatie van de toekomst"* + ondertitel.
-
-## Tekst-tweaks (subtiel, voor scherpte)
-
-- "Zijn de juiste skills aanwezig?" → **"Skills aanwezig?"** (consistent met de korte vraagvorm van de andere bullets) — *check: oké of liever 1-op-1 uit screenshot?*
-- Rest 1-op-1 uit het screenshot.
-
-> Standaard houd ik alles 1-op-1 uit het screenshot, tenzij je hierboven groen licht geeft op die ene tweak.
-
-## Animatie (Framer Motion)
-
-Triggert wanneer de visual in beeld komt (`whileInView`, `once: true`):
-
-1. First Floor kaart → fade-up van links (delay 0s)
-2. Dibiz kaart → fade-up van rechts (delay 0.12s)
-3. Centrale cirkel → fade-up + scale-in (delay 0.24s)
-4. Pijlen → SVG `pathLength` van 0 → 1 (delay 0.5s, duur 0.9s)
-5. "1+1=3" pill → fade-up (delay 0.36s)
-6. Afsluitende claim → fade-up (delay 0.48s)
-
-Easing: `[0.22, 1, 0.36, 1]` (soft cubic) — past bij rest van de site.
-
-## Responsive gedrag
-
-- **Desktop (≥ md)**: 3 kolommen `[kaart] [cirkel] [kaart]` met de twee SVG-pijlen er overheen.
-- **Mobiel**: alles stackt verticaal — First Floor → cirkel → Dibiz → 1+1=3 pill → claim. Pijlen worden verborgen (`hidden md:block`); de visuele flow wordt door de stack zelf gedragen.
-- Cirkel: 260px op mobiel, 320px op desktop.
-
-## Technische details
-
-- Eén bestand aanpassen: `src/components/OvertuigingSection.tsx`.
-- Geen nieuwe dependencies (Framer Motion zit al in `package.json`).
-- Kleuren via bestaande tokens: `ff-light-blue`, `ff-light-mint`, `ff-blue`, `ff-mint`, `foreground`, `muted-foreground`. Crème cirkel via inline hex (`#F5EFE0` / border `#E8DFC9`) omdat er nog geen sand-token is — kan later naar `--ff-sand` worden gepromoveerd.
-- SVG-pijlen: `viewBox="0 0 1000 360"` met `preserveAspectRatio="none"`, twee `<motion.path>` met `pathLength` animatie en arrow-marker defs in dezelfde mint/blauw.
-- Geen layout-impact buiten de section.
+## Niet in scope
+- Geen tekstwijzigingen aan bestaande koppen of fase-kaarten.
+- Geen wijzigingen aan andere secties.
+- Geen bijschrift of caption onder de visual.

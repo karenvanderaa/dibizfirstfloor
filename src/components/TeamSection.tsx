@@ -56,7 +56,7 @@ const TeamSection = () => {
                 Vertaalt strategie naar interne structuur, rollen, skills en leiderschap. Bouwt de brug tussen wat een organisatie wil en wat haar mensen kunnen. Mét ervaring in process & IT.
               </p>
               <p className="text-foreground/70 text-xs italic leading-relaxed mt-2 mb-4">
-                Recent: bij een kantoor van 120 professionals het operating model, de rollenstructuur en het leiderschapsmodel herontworpen. Resultaat: duidelijke beslissingslijnen en adoptie van nieuwe werkwijzen boven 80%.
+                Recent: bij een dienstverlener van 120 professionals het operating model, de rollenstructuur en het leiderschapsmodel herontworpen. Resultaat: duidelijke beslissingslijnen en adoptie van nieuwe werkwijzen boven 80%.
               </p>
               <a href="mailto:karen@firstfloortalent.be" className="inline-flex items-center gap-2 bg-ff-blue/10 text-ff-blue font-heading font-semibold text-sm px-5 py-2.5 rounded-md hover:bg-ff-blue/20 active:scale-[0.97] transition-all duration-150">
                 📧 karen@firstfloortalent.be

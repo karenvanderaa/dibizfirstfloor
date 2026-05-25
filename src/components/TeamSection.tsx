@@ -69,8 +69,8 @@ const TeamSection = () => {
         <p className="section-label mb-4">KERNTEAM, STRUCTUREEL BETROKKEN</p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
           {[
-            { initials: "WS", name: "Wendy Simonet", role: "HR director, sales & operations expert" },
-            { initials: "SS", name: "Sofie Smets", role: "CFO met business & people ervaring" },
+            { initials: "WS", name: "Wendy ", role: "HR director, sales & operations expert" },
+            { initials: "SS", name: "Sofie", role: "CFO met business & people ervaring" },
             { initials: "T", name: "Thomas", role: "Founder na exit, AI expert" },
             { initials: "I", name: "Ingrid", role: "Data & market analyst" },
           ].map((m, i) => (

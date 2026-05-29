@@ -9,7 +9,7 @@ type State =
   | { kind: "loading" }
   | { kind: "generating" }
   | { kind: "done"; contact: Contact }
-  | { kind: "error"; message: string };
+  | { kind: "error"; title?: string; message: string };
 
 export default function RapportDownload() {
   const [params] = useSearchParams();
@@ -42,11 +42,23 @@ export default function RapportDownload() {
         setState({ kind: "generating" });
         const contact: Contact = data.contact;
         const scan: ScanData = data.scanData;
-        await generateDRIPdf({ contact, dimScores: scan.dimScores, overall: scan.overall });
+        try {
+          await generateDRIPdf({ contact, dimScores: scan.dimScores, overall: scan.overall });
+        } catch (pdfError) {
+          console.error("PDF generation failed", pdfError);
+          if (!cancelled) {
+            setState({
+              kind: "error",
+              title: "PDF kon niet worden aangemaakt",
+              message: "Uw downloadlink is geldig, maar het rapport kon niet gegenereerd worden. Probeer opnieuw of vraag een nieuwe link aan.",
+            });
+          }
+          return;
+        }
         if (!cancelled) setState({ kind: "done", contact });
       } catch (e) {
         console.error(e);
-        if (!cancelled) setState({ kind: "error", message: "Er ging iets mis. Probeer het later opnieuw." });
+        if (!cancelled) setState({ kind: "error", title: "Rapport niet bereikbaar", message: "Er ging iets mis. Probeer het later opnieuw." });
       }
     })();
     return () => { cancelled = true; };
@@ -87,7 +99,7 @@ export default function RapportDownload() {
           {state.kind === "error" && (
             <>
               <AlertCircle className="mx-auto h-12 w-12 text-[#E85D3A]" />
-              <h1 className="mt-6 font-heading text-2xl font-bold text-[#1A1A2E]">Link niet geldig</h1>
+              <h1 className="mt-6 font-heading text-2xl font-bold text-[#1A1A2E]">{state.title ?? "Link niet geldig"}</h1>
               <p className="mt-3 text-sm text-[#6B7384]">{state.message}</p>
               <Link
                 to="/dri"

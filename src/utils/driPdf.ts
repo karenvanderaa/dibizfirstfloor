@@ -1,7 +1,4 @@
 import jsPDF from "jspdf";
-import fontRegularUrl from "@/assets/fonts/LiberationSans-Regular.ttf?url";
-import fontBoldUrl from "@/assets/fonts/LiberationSans-Bold.ttf?url";
-import fontItalicUrl from "@/assets/fonts/LiberationSans-Italic.ttf?url";
 import { dimensions, interpretations, risks, firstSteps, bandIndex, levelLabels, levelColors, overallSummary } from "@/data/dri";
 
 export type Contact = { naam: string; email: string; organisatie: string; functie: string };
@@ -15,33 +12,9 @@ const RULE: [number, number, number] = [226, 232, 240];
 const SOFT_BG: [number, number, number] = [244, 246, 251];
 const BLUE_SOFT: [number, number, number] = [232, 238, 255];
 const MINT_SOFT: [number, number, number] = [221, 243, 242];
-const PDF_FONT = "LiberationSans";
+const PDF_FONT = "helvetica";
 
-let pdfFontsLoaded: Promise<[string, string, string]> | null = null;
-
-const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
-  let binary = "";
-  const bytes = new Uint8Array(buffer);
-  const chunkSize = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-  }
-  return btoa(binary);
-};
-
-const loadPdfFonts = async (doc: jsPDF) => {
-  pdfFontsLoaded ??= Promise.all([fontRegularUrl, fontBoldUrl, fontItalicUrl].map(async (url) => {
-    const response = await fetch(url);
-    return arrayBufferToBase64(await response.arrayBuffer());
-  })) as Promise<[string, string, string]>;
-
-  const [regular, bold, italic] = await pdfFontsLoaded;
-  doc.addFileToVFS("LiberationSans-Regular.ttf", regular);
-  doc.addFileToVFS("LiberationSans-Bold.ttf", bold);
-  doc.addFileToVFS("LiberationSans-Italic.ttf", italic);
-  doc.addFont("LiberationSans-Regular.ttf", PDF_FONT, "normal");
-  doc.addFont("LiberationSans-Bold.ttf", PDF_FONT, "bold");
-  doc.addFont("LiberationSans-Italic.ttf", PDF_FONT, "italic");
+const loadPdfFonts = (doc: jsPDF) => {
   doc.setFont(PDF_FONT, "normal");
 };
 

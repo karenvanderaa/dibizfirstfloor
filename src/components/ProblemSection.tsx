@@ -36,7 +36,7 @@ const ProblemSection = () => {
           Uw strategie staat. Uw organisatie volgt niet.
         </h2>
         <p className="text-muted-foreground text-sm italic mb-8 max-w-2xl">
-          Herkenbaar als u een kantoor van 50-300 professionals leidt en voelt dat de organisatie niet meebeweegt met de ambitie.
+          Herkenbaar als u een bedrijf leidt en voelt dat de organisatie niet meebeweegt met de ambitie of technologie
         </p>
 
         <div className="grid sm:grid-cols-2 gap-5">

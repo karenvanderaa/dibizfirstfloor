@@ -1,7 +1,7 @@
 const scenarios = [
   {
     label: "BEDRIJF IN TRANSITIE",
-    title: "U bent managing partner van een bedrijf met 50-250 professionals.",
+    title: "U bent bedrijfsleider van een bedrijf dat AI structureel wil integreren",
     desc: "AI verandert wat uw klanten van u verwachten. Uw organisatie is nog ingericht voor het werk van vijf jaar geleden. U weet dat het moet veranderen, maar niet waar te beginnen.",
     accent: "hsl(var(--ff-blue))",
   },
